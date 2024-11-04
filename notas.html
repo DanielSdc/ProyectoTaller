@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilosMain.css">
+    <link rel="stylesheet" href="notas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Rental & Control - Inicio</title>
+</head>
+<body>
+    <section class="contenedor">
+
+        <header class="header">
+            <a href="mainlogeado.html"><img src="img/logo.png" alt="logo" class="logo"></a>
+            <div class="header-derecha">
+                <a href="index.html"><input type="button" value="Cerrar Sesión" class="LogOut"></a>
+                <a href="setting.html"><img src="img/conf.png" alt="conf" class="conf"></a>
+                <span class="nombreUsuario">Usuario</span>
+                <a href="#"><img src="img/usuario.webp" alt="usuario" class="usuario"></a>
+            </div>
+
+        </header>
+
+
+        <article class="navegador">
+            <a href="inmuebles.html" class="my-2 gold"><i class="fas fa-home me-2"></i> Inmuebles</a><p></p>
+            <a href="rentas.html" class="my-2 gold"><i class="fas fa-file-invoice-dollar me-2"></i> Rentas</a><p></p>
+            <a href="notas.html" class="my-2 gold"><i class="fas fa-sticky-note me-2"></i> Notas</a><p></p>
+            <a href="#" class="my-2 gold"><i class="fas fa-envelope me-2"></i> Contactanos</a><p></p>
+        </article>
+
+        <article class="contenido">
+            <!-- Contenedor específico para notas -->
+            <div class="notas-container">
+                <h2>Notas</h2>
+
+                <!-- Notas individuales -->
+                <div class="nota">
+                    <textarea readonly>Contenido de la nota 1</textarea>
+                    <div class="nota-buttons">
+                        <button class="btnEditar">Editar</button>
+                        <button class="btnEliminar">Eliminar</button>
+                    </div>
+                </div>
+
+                <div class="nota">
+                    <textarea readonly>Contenido de la nota 2</textarea>
+                    <div class="nota-buttons">
+                        <button class="btnEditar">Editar</button>
+                        <button class="btnEliminar">Eliminar</button>
+                    </div>
+                </div>
+
+                <div class="nota">
+                    <textarea readonly>Contenido de la nota 3</textarea>
+                    <div class="nota-buttons">
+                        <button class="btnEditar">Editar</button>
+                        <button class="btnEliminar">Eliminar</button>
+                    </div>
+                </div>
+
+                <!-- Agregar nueva nota -->
+                <div class="nota-agregar">
+                    <textarea placeholder="Escribe una nueva nota..."></textarea>
+                    <button class="btnAgregar">Agregar</button>
+                </div>
+            </div>
+        </article>
+    </section>
+</body>
+</html>

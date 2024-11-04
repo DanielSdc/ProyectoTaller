@@ -1,0 +1,239 @@
+body {
+    background: white;
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: 0px; 
+
+    overflow-x: hidden;
+}
+
+.contenedor {
+    display: grid;
+    grid-template-columns: 18% 1fr;
+    grid-template-rows: 80px auto;
+    grid-template-areas: 
+        "header header"
+        "navegador contenido";
+    width: 100vw; 
+    height: 100vh; 
+    max-width: 100%;
+}
+
+.header {
+    grid-area: header;
+    background: black;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.header-derecha{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-left: auto; 
+    margin-right: 20px;
+}
+
+.navegador {
+    grid-area: navegador;
+    background: #343a40;
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+}
+
+
+
+.contenido {
+    grid-area: contenido;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto; 
+    grid-template-areas: 
+        "casas casas casas"
+        "grafica grafica fechasproximas";
+    gap: 20px;
+    background:  white;
+    height: 550px;
+    padding: 10px;
+    border-radius: 15px;
+
+}
+
+
+.usuario {
+    width: 55px; 
+    height: 35px;
+    cursor: pointer;
+}
+
+.conf{
+    width: 20px; 
+    height: 20px;
+    cursor: pointer;
+}
+
+.logo {
+    width: 150px;
+    margin-left: 80px;
+}
+
+.btnNav, .btnContacto{
+    font-size: 1.1em;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0px 10px;
+    height: 80px;
+    cursor: pointer;
+    color: #d4c469;
+    width: 70%;
+    text-align: start;
+    margin-left: 40px;
+
+}
+
+.btnNav:hover{
+    background: #bbaa4b;
+    box-shadow: 0 0 10px;
+}
+
+.btnContacto:hover{
+    background: #bbaa4b;
+    box-shadow: 0 0 10px;
+}
+
+
+
+.LogOut {
+    background-color: #DAAD29;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+    font-size: 1em;
+    width: 120px;
+}
+
+.nombreUsuario {
+    color: #d4c469;
+    font-size: 1em;
+    font-weight: bold;
+    margin-right: -20px;
+}
+
+.casas{
+    grid-area: casas;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    background: #cccbcb;
+    padding: 30px;
+    width: 90%;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+
+.casa1{
+    width: 200px;
+    vertical-align: top;
+}
+.casa2{
+    width: 250px;
+    vertical-align: top;
+}
+.casa3{
+    width: 180px;
+    vertical-align: top;
+}
+
+.flecha1, .flecha2{
+    width: 100px;
+    height: 150px;
+    
+}
+
+.casas img:nth-child(1){
+    align-self: center;
+}
+
+.casas img:nth-child(5){
+    align-self: center;
+}
+
+
+.grafica {
+    grid-area: grafica;
+    background: #f1db99;
+    width: 70%;
+    max-width: 100%;
+    padding: 10px; 
+    border-radius: 15px;
+    text-align: center;
+}
+
+.graficaImg{
+    width: 90%;
+}
+
+.FechasProximas {
+    grid-area: fechasproximas;
+    background: #eee2ab;
+    color: white;
+    max-width: 100%;
+    color: black;
+    padding: 30px; 
+    border-radius: 15px;
+}
+
+
+.tituloGrafica{
+    font-size: 2em;
+}
+
+.fechaProx{
+    font-size: 1.5em;
+    margin-bottom: 50px;
+    margin-left: 70px;
+    font-weight: bold;
+    margin-top: 20px;
+
+}
+
+.letraFecha{
+    font-size: 1.3em;
+    padding: 15px;
+}
+
+.navegador a {
+    display: flex;
+    align-items: center;
+    font-size: 1.1em;
+    color: #d4c469;
+    text-decoration: none;
+    padding: 15px 10px;
+    margin-left: 40px;
+    width: 70%;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.navegador a:hover {
+    background: #bbaa4b;
+    box-shadow: 0 0 10px;
+}
+
+
+
+
+
+
+
+
