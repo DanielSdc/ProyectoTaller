@@ -13,8 +13,13 @@ body {
     width: 120px;
 }
 
+.usuarioH{
+    font-weight: bold;
+}
 .navbar-text {
     font-weight: bold;
+    color: #d4c469;
+    
 }
 
 .gold{
@@ -129,6 +134,7 @@ aside a i {
 
 .tituloGrafica {
     font-size: 2em;
+    color: black;
 }
 
 /* Fechas Próximas */
