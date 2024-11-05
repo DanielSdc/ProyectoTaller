@@ -1,0 +1,188 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; 
+}
+
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+#logo {
+    margin-left: 75px;
+    width: 120px;
+}
+
+.navbar-text {
+    font-weight: bold;
+}
+
+.gold{
+    color: #d4c469;
+}
+
+.LogOut {
+    background-color: #DAAD29;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Sidebar */
+aside {
+    background-color: #343a40;
+    color: #ffffff;
+    padding-top: 20px;
+}
+
+aside a {
+    color: #ffffff;
+    font-size: 1.1em;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+aside a:hover {
+    background-color: #bbaa4b;
+    color: white;
+}
+
+aside a i {
+    margin-right: 8px;
+}
+
+/* Contenido */
+.contenido {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 340px;
+    grid-template-areas: 
+        "casas casas casas"
+        "grafica grafica fechasproximas";
+    gap: 20px;
+    background: white;
+    height: 550px;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+/* Casas */
+.casas {
+    grid-area: casas;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    background: #cccbcb;
+    padding: 30px;
+    width: 90%;
+    max-width: 100%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.casa1 {
+    width: 200px;
+    vertical-align: top;
+}
+
+.casa2 {
+    width: 250px;
+    vertical-align: top;
+}
+
+.casa3 {
+    width: 180px;
+    vertical-align: top;
+}
+
+.flecha1, .flecha2 {
+    width: 100px;
+    height: 150px;
+}
+
+.casas img:nth-child(1),
+.casas img:nth-child(5) {
+    align-self: center;
+}
+
+/* Gráfica */
+.grafica {
+    grid-area: grafica;
+    background: #f1db99;
+    width: 70%;
+    max-width: 100%;
+    padding: 10px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.graficaImg {
+    width: 90%;
+}
+
+.tituloGrafica {
+    font-size: 2em;
+}
+
+/* Fechas Próximas */
+.FechasProximas {
+    grid-area: fechasproximas;
+    background: #eee2ab;
+    color: black;
+    max-width: 100%;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.fechaProx {
+    font-size: 1.5em;
+    margin-bottom: 50px;
+    margin-left: 70px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.letraFecha {
+    font-size: 1.3em;
+    padding: 15px;
+}
+
+
+
+
+main h2 {
+    font-size: 1.75em;
+    color: #343a40;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    aside {
+        display: none;
+    }
+
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+}
