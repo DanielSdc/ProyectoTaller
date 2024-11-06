@@ -36,23 +36,44 @@
             </aside>
 
             <!-- Main Content -->
-            <main class="col-md-9 col-lg-10 p-4">
-                <section class="contenedor">
-                    <article class="contenido">
-                        <article class="casas">
-                            <img src="../img/flechaIzq.png" alt="flechaIzq" class="flecha1">
-                            <img src="../img/casa1.jpg" alt="casa1" class="casa1">
-                            <img src="../img/casa2.jpg" alt="casa2" class="casa2">
-                            <img src="../img/casa3.jpg" alt="casa3" class="casa3">
-                            <img src="../img/flechaDer.png" alt="flechaDer" class="flecha2">
-                        </article>
-
-                        <article class="grafica">
+            <main class="col-md-8 col-lg-10 p-2">
+                <section id="Intro" class="text-center box" style="overflow: hidden;">
+                    <div class="container p-0 mb-3">
+                        <div id="carouselEx" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner rounded-4">
+                                <div class="carousel-item active">
+                                    <div class="d-flex flex-wrap justify-conten-center">
+                                        <img src="../img/casa1.jpg" class="d-block w-33 rounded-4 p-1 img-fluid" alt="Imagen 1">
+                                        <img src="../img/casa2.jpg" class="d-block w-33 rounded-4 p-1 img-fluid" alt="Imagen 2">
+                                        <img src="../img/casa3.jpg" class="d-block w-33 rounded-4 p-1" alt="Imagen 3">
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="d-flex">
+                                        <img src="../img/casa4.png" class="d-block w-33 rounded-4 p-1 img-fluid" alt="Imagen 4">
+                                        <img src="../img/casa5.png" class="d-block w-33 rounded-4 p-1 img-fluid" alt="Imagen 5">
+                                        <img src="../img/casa1.jpg" class="d-block w-33 rounded-4 p-1 img-fluid" alt="Imagen 6">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEx" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselEx" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <section class="container p-0 mb-2">
+                    <article class="row">
+                        <article class="col-12 col-md-6 grafica m-3">
                             <h2 class="tituloGrafica">Gráfica Ingresos</h2>
                             <img src="../img/grafica.jpg" alt="grafica" class="graficaImg"><br>
                         </article>
-
-                        <article class="FechasProximas">
+                        <article class="col-12 col-md-5 FechasProximas m-3">
                             <span class="fechaProx">FECHAS PRÓXIMAS</span>
                             <ul>
                                 <li class="letraFecha">COBRO CASA 1 EN 3 DÍAS</li>
