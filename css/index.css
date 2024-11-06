@@ -1,155 +1,162 @@
+/* VARIABLES */
 html {
-  --color-gold: #d4c469;
+    --color-gold: #d4c469;
 }
 
+/* BODY */
 body {
-  margin: 0;
-  padding-top: 65px;
+    margin: 0;
+    padding-top: 65px;
 }
-.blockquote-footer{
-  padding: 25px;
-}
+
+/* NAVBAR */
 .navbar-custom {
-  background-color: black;
+    background-color: black;
 }
 
 .navbar-brand img:nth-child(1) {
-  height: 40px;
+    height: 40px;
 }
 
 .navbar-brand img:nth-child(2) {
-  height: 20px;
-}
-
-#introduction{
-  background-image: url('../img/real_estate.gif');
-  background-size: 100% 150%;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  position: relative;
-  color: white;
-  margin-top: 0px !important;
-}
-
-#introduction::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
-
-#introduction h1, #introduction p, #introduction img {
-  position: relative;
-  z-index: 1;
+    height: 20px;
 }
 
 .nav-link {
-  color: white !important;
+    color: white !important;
 }
 
 .nav-link:hover {
-  color: var(--color-gold) !important;
+    color: var(--color-gold) !important;
 }
 
 .btn-login {
-  margin-left: auto;
+    margin-left: auto;
 }
 
+/* HEADER (INTRODUCTION) */
+
+.logo-large {
+    width: 250px;
+    margin: 20px 0;
+}
+
+#introduction {
+    background-image: url('../img/real_estate.gif');
+    background-size: 100% 150%;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+    margin-top: 0px !important;
+}
+
+#introduction::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+#introduction h1, #introduction p, #introduction img {
+    position: relative;
+    z-index: 1;
+}
+
+/* SECTIONS (GENERAL) */
 section {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 40px 20px;
-  margin: 20px 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  scroll-margin-top: 65px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 40px 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    scroll-margin-top: 65px;
 }
 
 h2 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
+/* FOOTER */
 footer {
-  background-color: black;
-  color: white;
-  padding: 20px 0;
-  text-align: center;
+    background-color: black;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer .copyright {
+    margin-top: 20px;
+    color: var(--color-gold);
 }
 
 footer a:hover {
-  color: var(--color-gold);
+    color: var(--color-gold);
 }
 
 .social-icons a {
-  color: white;
-  margin: 0 10px;
-  text-decoration: none;
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
 }
 
-.gold-text {
-  color: var(--color-gold);
-  font-size: 24px;
-  font-weight: bold;
-}
-
+/* CARDS (PLANS) */
 .card {
-  height: 100%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
 }
 
 .card:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .price {
-  margin-top: 20px;
-  font-size: 1.5rem;
-  color: #28a745;
-  font-weight: bold;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #28a745;
+    font-weight: bold;
 }
 
 .card-text {
-  font-size: 1rem;
-  margin-bottom: 15px;
+    font-size: 1rem;
+    margin-bottom: 15px;
 }
 
 .card-footer {
-  background-color: #d8d8d860;
-  color: white;
-  text-align: center;
-  border-radius: 0 0 10px 10px;
-  padding: 10px 0;
+    background-color: #d8d8d860;
+    color: white;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 0;
 }
 
+/* RATINGS */
 .rating i {
-  color: #FFD700;
+    color: #FFD700;
 }
 
+/* FEATURED IMAGES */
 .feature-image {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
 }
 
 .feature-icon {
-  width: 1.5em;
-  margin-right: 10px;
-}
-
-.logo-large {
-  width: 250px;
-  margin: 20px 0;
+    width: 1.5em;
+    margin-right: 10px;
 }
