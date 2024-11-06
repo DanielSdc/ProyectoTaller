@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(135deg, #6e7a9e, #4e5d6d);
+    background: linear-gradient(135deg, #3d455b, #4e5d6d);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -46,28 +46,28 @@ body {
 }
 
 .input-group-text {
-    background-color: #f0f0f0;
+    background-color: #d9d8d8;
     border-right: none;
     border-left: none;
     display: flex;
-    align-items: center; /* Centra el icono verticalmente */
-    justify-content: center; /* Centra el icono horizontalmente */
-    height: 45px; /* Asegúrate de que tenga la misma altura que el input */
-    padding: 0 12px; /* Ajuste de padding para que el icono esté centrado */
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    padding: 0 12px;
 }
 
 .input-group input {
     border-radius: 25px;
-    padding-left: 10px; /* Espacio para el icono */
-    padding-right: 15px; /* Ajuste de padding para el borde derecho */
-    height: 45px; /* Ajusta la altura para que coincida con el span */
+    padding-left: 10px;
+    padding-right: 15px;
+    height: 45px;
     border-left: none;
-    font-size: 16px; /* Ajusta el tamaño de fuente del input */
-    line-height: 1.5; /* Asegura que el texto se alinee correctamente */
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .input-group-text i {
-    font-size: 16px; /* Tamaño adecuado para el icono */
+    font-size: 16px;
     color: #4e5d6d;
 }
 
