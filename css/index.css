@@ -1,17 +1,22 @@
 /* VARIABLES */
 html {
-    --color-gold: #d4c469;
+    --color-gold: #D4C469;
+    --color-black: BLACK;
+    --color-white: WHITE;
+    --color-green: #28A745;
+    --color-yellow: #FFD700;
 }
 
 /* BODY */
 body {
-    margin: 0;
+    margin: 0px;
     padding-top: 65px;
+    font-size: 16px;
 }
 
 /* NAVBAR */
 .navbar-custom {
-    background-color: black;
+    background-color: var(--color-black);
 }
 
 .navbar-brand img:nth-child(1) {
@@ -23,7 +28,7 @@ body {
 }
 
 .nav-link {
-    color: white !important;
+    color: var(--color-white) !important;
 }
 
 .nav-link:hover {
@@ -34,11 +39,10 @@ body {
     margin-left: auto;
 }
 
-/* HEADER (INTRODUCTION) */
-
+/* SECTION (INTRODUCTION) */
 .logo-large {
     width: 250px;
-    margin: 20px 0;
+    margin: 20px;
 }
 
 #introduction {
@@ -47,7 +51,7 @@ body {
     background-position: center bottom;
     background-repeat: no-repeat;
     position: relative;
-    color: white;
+    color: var(--color-white);
     margin-top: 0px !important;
 }
 
@@ -83,9 +87,9 @@ h2 {
 
 /* FOOTER */
 footer {
-    background-color: black;
-    color: white;
-    padding: 20px 0;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding: 20px 0px;
     text-align: center;
 }
 
@@ -99,8 +103,8 @@ footer a:hover {
 }
 
 .social-icons a {
-    color: white;
-    margin: 0 10px;
+    color: var(--color-white);
+    margin: 0px 10px;
     text-decoration: none;
 }
 
@@ -109,7 +113,7 @@ footer a:hover {
     height: 100%;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 }
 
@@ -127,7 +131,7 @@ footer a:hover {
 .price {
     margin-top: 20px;
     font-size: 1.5rem;
-    color: #28a745;
+    color: var(--color-green);
     font-weight: bold;
 }
 
@@ -146,7 +150,7 @@ footer a:hover {
 
 /* RATINGS */
 .rating i {
-    color: #FFD700;
+    color: var(--color-yellow);
 }
 
 /* FEATURED IMAGES */
