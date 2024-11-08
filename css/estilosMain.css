@@ -52,16 +52,39 @@ aside a {
     border-radius: 5px;
     text-decoration: none;
     display: flex;
-    align-items: center;
 }
 
-aside a:hover {
-    background-color: #bbaa4b;
+/* Fechas Próximas */
+.FechasProximas {
+    background-color: #343a40 !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fechaProx {
+    font-weight: bold;
+    color: #d4c469 !important;
+}
+
+.letraFecha {
     color: white;
+    border: 1px solid #ddd;
+    transition: transform 0.3s, background-color 0.3s;
 }
 
-aside a i {
-    margin-right: 8px;
+.letraFecha:hover {
+    transform: scale(1.05);
+    background-color: #e9ecef;
+}
+
+.hover-animate {
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.hover-animate:hover {
+    transform: scale(1.05);
+    background-color: #e9ecef;
 }
 
 /* Gráfica */
@@ -87,11 +110,12 @@ aside a i {
 /* Fechas Próximas */
 .FechasProximas {
     grid-area: fechasproximas;
-    background: #eee2ab;
+    background: #f8f9fa;
     color: black;
     max-width: 100%;
     padding: 30px;
-    border-radius: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .fechaProx {
     font-size: 1.5em;
@@ -99,11 +123,20 @@ aside a i {
     margin-left: 70px;
     font-weight: bold;
     margin-top: 20px;
+    color: #343a40;
 }
 
 .letraFecha {
     font-size: 1.3em;
     padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.letraFecha:hover {
+    transform: scale(1.05);
+    background-color: #e9ecef;
 }
 
 main h2 {
@@ -116,6 +149,15 @@ main h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+}
+
+.hover-animate {
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.hover-animate:hover {
+    transform: scale(1.05);
+    background-color: #e9ecef;
 }
 
 /* Responsive */
