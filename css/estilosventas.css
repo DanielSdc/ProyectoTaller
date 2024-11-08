@@ -155,24 +155,3 @@ main h2 {
     padding: 10px;
   }
 }
-
-/* Mapa */
-.map-section {
-  margin-top: 2rem;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.map-title {
-  font-size: 1.5em;
-  color: #343a40;
-  margin-bottom: 1rem;
-  padding-left: 0.5rem;
-}
-#map {
-  height: 400px;
-  width: 100%;
-  border-radius: 8px;
-}
