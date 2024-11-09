@@ -3,13 +3,14 @@ html {
     --color-gold: #D4C469;
     --color-black: BLACK;
     --color-white: WHITE;
-    --color-green: #28A745;
-    --color-yellow: #FFD700;
+    --color-blue: #1D7DE3;
+    --color-dark-blue: #055A91;
+    --color-dark-grey: rgb(41, 41, 41);
 }
 
 /* BODY */
 body {
-    background: linear-gradient(135deg, #a3b3c7, #cfd7e2);
+    background: linear-gradient(135deg, var(--color-black), #686a6e);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -25,19 +26,20 @@ body {
     max-width: 900px;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     flex-wrap: wrap;
+    background: var(--color-dark-grey);
 }
 
 /* LEFT SECTION */
 .login-image {
     flex: 1;
-    background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     position: relative;
+    color: var(--color-white);
 }
 
 .login-image img {
@@ -50,7 +52,6 @@ body {
 .login-form {
     flex: 1;
     padding: 40px;
-    background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* TITLE */
@@ -61,7 +62,7 @@ body {
 
 .welcome-message p {
     font-size: 1.125em;
-    color: #333;
+    color: var(--color-white);
     font-family: 'Arial', sans-serif;
     margin: 5px 0;
 }
@@ -69,97 +70,96 @@ body {
 .welcome-message h1 {
     font-weight: bold;
     font-size: 1.875em;
-    color: #007bff;
+    color: var(--color-gold);
 }
 
 /* INPUT FIELDS */
 .input-group-text {
-    background-color: #d9d8d8;
+    background-color: var(--color-dark-grey);
     border-right: none;
     border-left: none;
-    border: 1px solid rgba(117, 117, 117, 0.5);
+    border: 1px solid var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;
     height: 45px;
     padding: 0 12px;
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 5px rgba(0, 0, 0, 0.5);
     animation: slideUp 0.5s ease-out;
 }
 
 .input-group-text i {
-    color: #4e5d6d;
+    color: var(--color-white);
 }
 
 .input-group input {
     border-radius: 25px;
     padding-left: 10px;
     padding-right: 15px;
-    border: 1px solid rgba(117, 117, 117, 0.5);
+    border: 1px solid var(--color-white);
     height: 45px;
     border-left: none;
     line-height: 1.5;
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 5px rgba(0, 0, 0, 0.5);
 }
 
 .input-group:focus-within .input-group-text {
-    border-color: #007bff; 
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+    border-color: var(--color-gold); 
+    box-shadow: 0 0 5px var(--color-gold); 
 }
 
 .input-group input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+    border-color: var(--color-gold);
+    box-shadow: 0 0 5px var(--color-gold); 
     outline: none; 
+    background: var(--color-dark-grey);
 }
 
 .form-control {
     border-radius: 25px;
     padding: 15px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    background: var(--color-dark-grey);
+    border: 1px solid var(--color-white);
     transition: all 0.3s ease;
     animation: slideUp 0.5s ease-out;
+    color: var(--color-white);
 }
 
 .form-control:focus {
-    border-color: #4e5d6d;
-    box-shadow: 0 0 5px rgba(78, 93, 109, 0.7);
+    border-color: var(--color-white);
     outline: none;
+    color: var(--color-white);
+}
+
+.form-control::placeholder {
+    color: var(--color-white);
 }
 
 /* BUTTON LOGIN */
 .btn-login {
-    background-color: #007bff;
-    color: white;
-    border-radius: 25px;
+    border-radius: 10px;
     padding: 15px;
     width: 100%;
-    border: none;
     transition: all 0.3s ease;
     margin-top: 20px;
 }
 
-.btn-login:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-/* FORGOT PASSWORD */
-.forgot-password {
+/* LINKS */
+.links {
     text-align: center;
     margin-top: 15px;
 }
 
-.forgot-password a {
-    color: #1d7de3;
+.links a {
+    color: var(--color-blue);
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s;
 }
 
-.forgot-password a:hover {
-    color: #0a5a91;
+.links a:hover {
+    color: var(--color-dark-blue);
     text-decoration: underline;
 }
 
