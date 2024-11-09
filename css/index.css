@@ -41,6 +41,10 @@ body {
     margin-left: auto;
 }
 
+.header-column {
+    flex: 1;
+}
+
 /* SECTION (INTRODUCTION) */
 .logo-large {
     width: 250px;
@@ -175,4 +179,39 @@ footer a:hover {
 .feature-icon {
     width: 1.5em;
     margin-right: 15px;
+}
+
+/* FOR SCREENS SMALLER THAN 992px */
+@media (max-width: 991px) {
+    .order-1 {
+        order: 1 !important;
+    }
+    .order-2 {
+        order: 4 !important;
+    }
+    .order-3 {
+        order: 2 !important;
+    }
+    .order-4 {
+        order: 3 !important;
+    }
+
+    .container-fluid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .navbar-nav .nav-item {
+        text-align: center;
+    }
+
+    .navbar-toggler{
+        margin-top: 15px;
+    }
+
+    #introduction {
+        margin-top: 115px !important;
+    }
 }

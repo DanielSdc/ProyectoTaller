@@ -166,9 +166,13 @@ body {
 /* MEDIA QUERIES FOR RESPONSIVENESS */
 /* FOR SCREENS SMALLER THAN 768px */
 @media (max-width: 768px) {
+    body {
+        background: linear-gradient(180deg, var(--color-black), #686a6e);
+    }
+
     .login-container {
         flex-direction: column;
-        max-width: 100%;
+        max-width: 90%;
     }
 
     .login-form {
@@ -199,6 +203,10 @@ body {
 
 /* FOR SCREENS SMALLER THAN 480px */
 @media (max-width: 480px) {
+    body {
+        background: linear-gradient(180deg, var(--color-black), #686a6e);
+    }
+
     .login-image {
         height: 100px;
     }
