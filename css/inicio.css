@@ -1,0 +1,51 @@
+.carousel-inner {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 300px;
+}
+
+.grafica {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.graficaImg {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.fechaProx {
+    color: #333;
+    font-weight: bold;
+}
+
+.FechasProximas {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hover-animate:hover {
+    background-color: #dcdcdc;
+    transition: background-color 0.3s ease;
+}
+
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer p {
+    margin: 0;
+}
