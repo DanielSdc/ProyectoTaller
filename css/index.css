@@ -168,7 +168,9 @@ footer a:hover {
 .rating i {
     color: var(--color-yellow);
 }
-
+.blockquote-footer {
+    padding: 20px;
+}
 /* FEATURED IMAGES */
 .feature-image {
     width: 100%;
