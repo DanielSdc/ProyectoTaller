@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/main.css">
 
     <!-- STYLE PAGE -->
-    <link rel="stylesheet" href="../css/inicio.css">
+    <link rel="stylesheet" href="../css/config.css">
 </head>
 
 <body>
@@ -100,65 +100,64 @@
 
             <!-- CONTENT: PAGE -->
             <section id="mainContent">
-                <section id="Intro" class="text-center box" style="overflow: hidden;">
-                    <div class="container p-0 mb-3">
-                        <div id="carouselEx" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner rounded-4">
-                                <div class="carousel-item active">
-                                    <div class="row justify-content-center">
-                                        <div class="col-4">
-                                            <img src="../img/casa1.jpg" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen 1">
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="../img/casa2.jpg" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen 2">
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="../img/casa3.jpg" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen 3">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                    <div class="row justify-content-center">
-                                        <div class="col-4">
-                                            <img src="../img/casa4.png" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen 4">
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="../img/casa5.png" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen 5">
-                                        </div>
-                                        <div class="col-4">
-                                            <img src="../img/casa1.jpg" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen 6">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEx" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselEx" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                <article class="config-content">
+                    <div class="settings-section">
+                        <div class="settings-option">
+                            <label for="modoOscuro">Modo Oscuro</label>
+                            <input class="form-check-input" type="checkbox" id="modoOscuro">
                         </div>
+        
+                        <div class="settings-option">
+                            <label for="nuevoNombre">Cambiar Nombre de Usuario</label>
+                            <input type="text" class="form-control" id="nuevoNombre" placeholder="Escribe el nuevo nombre">
+                        </div>
+        
+                        <div class="settings-option">
+                            <label for="nuevaContrasena">Nueva Contraseña</label>
+                            <input type="password" class="form-control" id="nuevaContrasena" placeholder="Escribe la nueva contraseña">
+                            <label for="confirmarContrasena" class="mt-2">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="confirmarContrasena" placeholder="Confirma la nueva contraseña">
+                        </div>
+        
+                        <div class="settings-option">
+                            <label for="temaColor">Tema de Color</label>
+                            <select id="temaColor" class="form-select">
+                                <option value="default">Claro</option>
+                                <option value="dark">Oscuro</option>
+                                <option value="blue">Azul</option>
+                                <option value="green">Verde</option>
+                            </select>
+                        </div>
+        
+                        <div class="settings-option">
+                            <label for="idioma">Idioma</label>
+                            <select id="idioma" class="form-select">
+                                <option value="es">Español</option>
+                                <option value="en">Inglés</option>
+                                <option value="fr">Francés</option>
+                            </select>
+                        </div>
+        
+                        <div class="settings-option">
+                            <label>Privacidad</label>
+                            <div>
+                                <input class="form-check-input" type="checkbox" id="historial">
+                                <label for="historial">Permitir Historial de Actividades</label>
+                            </div>
+                            <div>
+                                <input class="form-check-input" type="checkbox" id="ubicacion">
+                                <label for="ubicacion">Compartir Ubicación</label>
+                            </div>
+                        </div>
+        
+                        <div class="settings-option">
+                            <label for="notificaciones">Notificaciones</label>
+                            <input class="form-check-input" type="checkbox" id="notificaciones">
+                        </div>
+        
+                        <button class="btnGuardar">Guardar Cambios</button>
                     </div>
-                </section>
-            
-                <section class="container p-0 mb-2">
-                    <article class="row">
-                        <article class="col-12 col-md-6 grafica m-3">
-                            <h2 class="tituloGrafica">Gráfica Ingresos</h2>
-                            <img src="../img/grafica.jpg" alt="grafica" class="graficaImg"><br>
-                        </article>
-                        <article class="col-12 col-md-5 FechasProximas m-3 p-3 rounded shadow">
-                            <span class="fechaProx h4 d-block mb-3 text-center">FECHAS PRÓXIMAS</span>
-                            <ul class="list-unstyled">
-                                <li class="py-2 px-3 mb-2 rounded hover-animate">COBRO CASA 1 EN 3 DÍAS</li>
-                                <li class="py-2 px-3 mb-2 rounded hover-animate">PLAZO RENTA CASA 2 EN 2 DÍAS</li>
-                                <li class="py-2 px-3 mb-2 rounded hover-animate">PREDIAL CASA 3 HOY</li>
-                            </ul>
-                        </article>
-                    </article>
-                </section>
+                </article>
             </section>
 
             <!-- FOOTER: COPYRIGHT -->
