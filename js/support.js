@@ -61,6 +61,21 @@ function choosePlan(action) {
         radio.checked = false;  // Desmarcar todos los radios de planes
     });
 
+    // Cambiar el estilo de los botones de "Contratar" y "Actualizar"
+    const contratarButton = document.querySelector('.btn-primary');
+    const actualizarButton = document.querySelector('.btn-secondary');
+
+    // Eliminar la clase 'active' de ambos botones
+    contratarButton.classList.remove('active');
+    actualizarButton.classList.remove('active');
+
+    // Añadir la clase 'active' al botón seleccionado
+    if (action === 'contratar') {
+        contratarButton.classList.add('active');
+    } else if (action === 'actualizar') {
+        actualizarButton.classList.add('active');
+    }
+
     // Cuando se elige un plan, mostrar el plan elegido y el formulario común
     planRadios.forEach((radio) => {
         radio.addEventListener('change', function () {
@@ -111,6 +126,40 @@ function validateForm() {
         document.getElementById('submitBtn').disabled = true;
     }
 }
+
+// Limpiar el formulario cuando el modal se cierra
+$('#supportModal').on('hidden.bs.modal', function () {
+    // Resetear el formulario (campos de entrada)
+    const planRadios = document.querySelectorAll('input[name="plan"]');
+    planRadios.forEach((radio) => {
+        radio.checked = false;  // Desmarcar todos los radios de planes
+    });
+
+    // Restablecer los campos de texto
+    const selectedOptionText = document.getElementById('selectedOptionText');
+    selectedOptionText.value = '';
+
+    // Restablecer el select de tipo de soporte
+    document.getElementById('supportOption').selectedIndex = 0;
+
+    // Limpiar el campo de texto del plan seleccionado
+    const selectedOption = document.getElementById('selectedOption');
+    selectedOption.classList.add('d-none');  // Ocultar campo de selección del plan
+
+    // Limpiar el formulario común
+    const commonFields = document.getElementById('commonFields');
+    commonFields.classList.add('d-none');
+
+    // Limpiar el formulario de asistencia técnica
+    const helpType = document.getElementById('helpType');
+    helpType.selectedIndex = 0;  // Asegurarse de que el "select" de tipo de ayuda esté vacío
+
+    // Eliminar cualquier clase 'active' de los botones
+    const contratarButton = document.querySelector('.btn-primary');
+    const actualizarButton = document.querySelector('.btn-secondary');
+    contratarButton.classList.remove('active');
+    actualizarButton.classList.remove('active');
+});
 
 // Validar en tiempo real
 document.querySelectorAll('input,textarea').forEach(input => {

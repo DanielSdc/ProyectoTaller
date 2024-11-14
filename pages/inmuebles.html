@@ -91,7 +91,7 @@
                             <h6 class="card-title">Ponte en contacto con nosotros</h6>
                             <p class="card-text">Si tienes alguna duda o necesitas más información, no dudes en
                                 escribirnos o llamarnos.</p>
-                            <a href="#" class="btn btn-outline-light btn-sm">Soporte</a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#supportModal" class="btn btn-outline-light btn-sm">Soporte</a>
                         </div>
                     </div>
                 </section>
@@ -212,16 +212,147 @@
         </div>
     </div>
     
+    <!-- MODAL: SUPPORT -->
+    <div class="modal fade" id="supportModal" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- MODAL: HEADER -->
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Formulario de Soporte</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- MODAL: BODY -->
+                <div class="modal-body">
+
+                    <!-- SELECT TYPE SUPPORT -->
+                    <div class="mb-3">
+                        <label for="supportOption" class="form-label">Selecciona el tipo de soporte</label>
+                        <select class="form-select" id="supportOption" onchange="toggleForm()">
+                            <option value="" disabled selected>Elige una opción</option>
+                            <option value="plan">Planes</option>
+                            <option value="asistencia">Asistencia Técnica</option>
+                        </select>
+                    </div>
+
+                    <!-- FORM: PLANS -->
+                    <div id="plansForm" class="d-none">
+                        <h5>Información del Plan</h5>
+                        <p>Por favor, ingresa tus datos para contratar o actualizar tu plan. Nos pondremos en contacto
+                            contigo por teléfono o correo para completar el proceso.</p>
+
+                        <!-- OPTIONS -->
+                        <button class="btn btn-primary w-100" onclick="choosePlan('contratar')">Contratar un Plan</button>
+                        <button class="btn btn-secondary w-100 mt-2" onclick="choosePlan('actualizar')">Actualizar Plan</button>                        
+
+                        <!-- OPTIONS -->
+                        <div id="planOptions" class="d-none mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="plan" id="proPlan" value="pro">
+                                <label class="form-check-label" for="proPlan">
+                                    Plan Pro - $29.99/mes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="plan" id="premiumPlan"
+                                    value="premium">
+                                <label class="form-check-label" for="premiumPlan">
+                                    Plan Premium - $49.99/mes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="plan" id="diamondPlan"
+                                    value="diamond">
+                                <label class="form-check-label" for="diamondPlan">
+                                    Plan Diamante - $99.99/mes
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECHNICAL ASSISTANCE -->
+                    <div id="supportForm" class="d-none">
+                        <h5>Formulario de Asistencia Técnica</h5>
+                        <p>Por favor, ingresa tus datos para que podamos ayudarte. Nos pondremos en contacto contigo por
+                            teléfono o correo.</p>
+
+                        <!-- TYPE OF HELP -->
+                        <div class="mb-3">
+                            <label for="helpType" class="form-label">Tipo de ayuda que necesitas</label>
+                            <select class="form-select" id="helpType">
+                                <option value="" disabled selected>Selecciona un tipo de ayuda</option>
+                                <option value="general">Consulta general</option>
+                                <option value="tecnico">Asistencia técnica</option>
+                                <option value="facturacion">Problemas de facturación</option>
+                                <option value="cuenta">Problemas con la cuenta</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <!-- INPUT FIELDS -->
+                    <div id="commonFields" class="d-none">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="userName" placeholder="Tu nombre completo"
+                                required>
+                            <div class="invalid-feedback" id="nameError">Por favor, ingresa tu nombre completo.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="userPhone" placeholder="Tu número de teléfono"
+                                required pattern="^[+]?[0-9]{10,15}$">
+                            <div class="invalid-feedback" id="phoneError">Por favor, ingresa un número de teléfono
+                                válido
+                                (ejemplo: +1234567890).</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="userEmail" placeholder="Tu correo electrónico"
+                                required>
+                            <div class="invalid-feedback" id="emailError">Por favor, ingresa un correo electrónico
+                                válido.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userMessage" class="form-label">Descripción de la consulta</label>
+                            <textarea class="form-control" id="userMessage" rows="4"
+                                placeholder="Describe tu consulta o solicitud" required></textarea>
+                            <div class="invalid-feedback" id="messageError">Por favor, ingresa una descripción de tu
+                                consulta.</div>
+                        </div>
+
+                        <!-- SHOW SUPPORT SELECTED -->
+                        <div id="selectedOption" class="d-none mb-3">
+                            <label for="selectedOptionText" class="form-label">Opción seleccionada</label>
+                            <textarea class="form-control" id="selectedOptionText" rows="2" disabled></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- MODAL: FOOTER -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" id="submitBtn"
+                        onclick="validateForm()">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- SCRIPTS JAVASCRIPT -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/39d6703737.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <!-- JS PAGE -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../js/tabla.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="../js/tabla.js"></script>
+    <script src="../js/support.js"></script>
 </body>
 
 </html>

@@ -37,8 +37,7 @@
     color: #333;
 }
 
-.form-control,
-.form-select {
+.input-configuracion {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;

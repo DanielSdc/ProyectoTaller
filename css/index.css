@@ -171,6 +171,7 @@ footer a:hover {
 .blockquote-footer {
     padding: 20px;
 }
+
 /* FEATURED IMAGES */
 .feature-image {
     width: 100%;
@@ -181,6 +182,13 @@ footer a:hover {
 .feature-icon {
     width: 1.5em;
     margin-right: 15px;
+}
+
+/* MODAL SUPPORT */
+.btn.active {
+    background-color: var(--color-green);
+    border-color: var(--color-green);
+    color: var(--color-white);
 }
 
 /* FOR SCREENS SMALLER THAN 992px */
