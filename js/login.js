@@ -14,6 +14,8 @@ import { auth, signInWithEmailAndPassword } from '../firebaseconfig.js';
         const user = userCredential.user;
         console.log('Usuario autenticado:', user);
         // Redirigir o realizar alguna acción
+        window.location.href = '../pages/main.html';
+        
       })
       .catch((error) => {
         const errorCode = error.code;
