@@ -136,6 +136,13 @@ body {
     color: var(--color-white);
 }
 
+#error-message {
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
 /* BUTTON LOGIN */
 .btn-login {
     border-radius: 10px;
