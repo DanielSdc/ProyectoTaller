@@ -4,15 +4,27 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
     event.preventDefault();
 
     // Obtener los valores de los campos de usuario y contraseña
-    const user = document.getElementById('user').value;
+    const userEmail = document.getElementById('user').value;
     const password = document.getElementById('password').value;
 
-    // Limpiar mensaje de error previo (si existe)
-    const errorMessage = document.getElementById('error-message');
-    errorMessage.classList.add('d-none');
+    // Validar el formato del correo electrónico
+    if (!isValidEmail(userEmail)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Correo electrónico inválido',
+            text: 'Por favor ingresa un correo electrónico válido.',
+            customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-text',
+                confirmButton: 'swal-btn'
+            }
+        });
+        return;
+    }
 
     // Intentar iniciar sesión
-    signInWithEmailAndPassword(auth, user, password)
+    signInWithEmailAndPassword(auth, userEmail, password)
         .then((userCredential) => {
             // Inicio de sesión exitoso
             const user = userCredential.user;
@@ -25,8 +37,23 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             const errorMessage = error.message;
             console.error('Error al iniciar sesión:', errorCode, errorMessage);
 
-            // Mostrar el mensaje de error
-            const errorMessageElement = document.getElementById('error-message');
-            errorMessageElement.classList.remove('d-none'); // Hacer visible el mensaje
+            // Mostrar el mensaje genérico de SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Algo salió mal al intentar iniciar sesión.',
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    content: 'swal-text',
+                    confirmButton: 'swal-btn'
+                }
+            });
         });
 });
+
+// Función para validar el formato del correo electrónico
+function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+}

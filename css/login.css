@@ -11,7 +11,7 @@ html {
 /* BODY */
 body {
     background: linear-gradient(135deg, var(--color-black), #686a6e);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -168,6 +168,39 @@ body {
 .links a:hover {
     color: var(--color-dark-blue);
     text-decoration: underline;
+}
+
+/* SWEET ALERT */
+.swal-popup {
+    background-color: var(--color-dark-grey);
+    color: var(--color-white);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.swal-title {
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.swal-text {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.swal-btn {
+    border-radius: 10px;
+    padding: 15px;
+    background-color: var(--color-dark-grey);
+    padding: 10px 30px;
+    border: 1px solid white;
+    transition: all 0.3s ease;
+}
+
+.swal-btn:hover {
+    background-color: var(--color-white);
+    color: var(--color-black);
 }
 
 /* MEDIA QUERIES FOR RESPONSIVENESS */
