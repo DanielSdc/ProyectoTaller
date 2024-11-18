@@ -34,22 +34,26 @@
             </div>
 
             <!-- FORM LOGIN -->
-            <form action="#" method="POST" id="loginForm" class="flex-grow-1 d-flex flex-column justify-content-center">
-
+            <form action="#" method="POST" id="loginForm"
+                class="flex-grow-1 d-flex flex-column justify-content-center needs-validation" novalidate>
+                
                 <!-- INPUT: USER -->
                 <div class="mb-4">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fa fa-envelope fa-sm"></i></span>
+                        <span class="input-group-text" id="span-user"><i class="fa fa-envelope fa-sm"></i></span>
                         <input type="text" class="form-control" id="user" placeholder="Correo Electrónico" required />
+                    </div>
+                    <div class="invalid-feedback d-none" id="userError">Por favor, ingresa un correo electrónico válido.
                     </div>
                 </div>
 
                 <!-- INPUT: PASSWORD -->
                 <div class="mb-4">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fa fa-lock fa-sm"></i></span>
+                        <span class="input-group-text" id="span-password"><i class="fa fa-lock fa-sm"></i></span>
                         <input type="password" class="form-control" id="password" placeholder="Contraseña" required />
                     </div>
+                    <div class="invalid-feedback d-none" id="passwordError">Por favor, ingresa tu contraseña.</div>
                 </div>
 
                 <!-- BUTTON: LOGIN -->
@@ -58,12 +62,6 @@
                 </button>
             </form>
 
-            <!-- LINKS -->
-            <div class="links text-center mt-3">
-                <a href="../pages/password_recovery.html">¿Olvidaste tu contraseña?</a>
-                <br/>
-                <a href="../index.html">Regresar a la página principal</a>
-            </div>
         </div>
     </div>
 

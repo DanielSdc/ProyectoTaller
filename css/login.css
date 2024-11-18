@@ -104,14 +104,14 @@ body {
 }
 
 .input-group:focus-within .input-group-text {
-    border-color: var(--color-gold); 
-    box-shadow: 0 0 5px var(--color-gold); 
+    border-color: var(--color-gold);
+    box-shadow: 0 0 5px var(--color-gold);
 }
 
 .input-group input:focus {
     border-color: var(--color-gold);
-    box-shadow: 0 0 5px var(--color-gold); 
-    outline: none; 
+    box-shadow: 0 0 5px var(--color-gold);
+    outline: none;
     background: var(--color-dark-grey);
 }
 
@@ -136,11 +136,17 @@ body {
     color: var(--color-white);
 }
 
-#error-message {
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: bold;
+.invalid-feedback {
+    display: block;
+}
+
+.is-invalid-span {
+    border-color: #dc3545;
+}
+
+.input-group:focus-within .input-group-text.is-invalid-span {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 5px #dc3545 !important;
 }
 
 /* BUTTON LOGIN */
@@ -223,7 +229,8 @@ body {
         display: none;
     }
 
-    .form-control, .btn-login {
+    .form-control,
+    .btn-login {
         font-size: 1.125em;
         padding: 12px;
     }
@@ -255,7 +262,8 @@ body {
         padding: 20px;
     }
 
-    .form-control, .btn-login {
+    .form-control,
+    .btn-login {
         font-size: 1em;
         padding: 10px;
     }
@@ -265,17 +273,29 @@ body {
     }
 
     .welcome-message p {
-        font-size: 0.875em; 
+        font-size: 0.875em;
     }
 }
 
 /* ANIMATIONS */
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
