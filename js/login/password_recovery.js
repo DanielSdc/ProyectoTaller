@@ -1,5 +1,11 @@
 import { auth, sendPasswordResetEmail } from '../firebaseconfig.js';
 
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('email').classList.remove('is-invalid');
+
+    document.getElementById('span-email').classList.remove('is-invalid-span');
+});
+
 // Obtener el formulario de recuperación y agregar el evento de submit
 document.getElementById('recoveryForm').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -7,20 +13,25 @@ document.getElementById('recoveryForm').addEventListener('submit', function (eve
     // Obtener el correo electrónico introducido por el usuario
     const email = document.getElementById('email').value;
 
-    // Validar el formato del correo electrónico
+    // Limpiar errores previos
+    document.getElementById('emailError').classList.add('d-none');
+
+    document.getElementById('email').classList.remove('is-invalid');
+
+    document.getElementById('span-email').classList.remove('is-invalid-span');
+
+    let valid = true;
+
+    // Validar el correo electrónico
     if (!isValidEmail(email)) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Correo electrónico inválido',
-            text: 'Por favor ingresa un correo electrónico válido.',
-            customClass: {
-                popup: 'swal-popup',
-                title: 'swal-title',
-                content: 'swal-text',
-                confirmButton: 'swal-btn'
-            }
-        });
-        return;
+        document.getElementById('email').classList.add('is-invalid');
+        document.getElementById('span-email').classList.add('is-invalid-span');
+        document.getElementById('emailError').classList.remove('d-none'); // Mostrar mensaje de error
+        valid = false;
+    }
+
+    if (!valid) {
+        return; // Si no es válido, no intentamos hacer login
     }
 
     // Intentar enviar el enlace de recuperación
@@ -57,6 +68,6 @@ document.getElementById('recoveryForm').addEventListener('submit', function (eve
 
 // Función para validar el formato del correo electrónico
 function isValidEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA0-9]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
 }
