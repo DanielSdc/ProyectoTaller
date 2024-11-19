@@ -4,6 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('email').classList.remove('is-invalid');
 
     document.getElementById('span-email').classList.remove('is-invalid-span');
+
+        // Validación en tiempo real al escribir en el campo de correo electrónico
+        document.getElementById('email').addEventListener('input', () => {
+            const userEmail = document.getElementById('email').value;
+            if (!isValidEmail(userEmail)) {
+                document.getElementById('email').classList.add('is-invalid');
+                document.getElementById('span-email').classList.add('is-invalid-span');
+                document.getElementById('emailError').classList.remove('d-none');
+            } else {
+                document.getElementById('email').classList.remove('is-invalid');
+                document.getElementById('span-email').classList.remove('is-invalid-span');
+                document.getElementById('emailError').classList.add('d-none');
+            }
+        });
 });
 
 // Obtener el formulario de recuperación y agregar el evento de submit

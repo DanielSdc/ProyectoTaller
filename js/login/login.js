@@ -3,9 +3,37 @@ import { auth, signInWithEmailAndPassword } from '../firebaseconfig.js';
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('user').classList.remove('is-invalid');
     document.getElementById('password').classList.remove('is-invalid');
-
+    
     document.getElementById('span-user').classList.remove('is-invalid-span');
     document.getElementById('span-password').classList.remove('is-invalid-span');
+
+    // Validación en tiempo real al escribir en el campo de correo electrónico
+    document.getElementById('user').addEventListener('input', () => {
+        const userEmail = document.getElementById('user').value;
+        if (!isValidEmail(userEmail)) {
+            document.getElementById('user').classList.add('is-invalid');
+            document.getElementById('span-user').classList.add('is-invalid-span');
+            document.getElementById('userError').classList.remove('d-none');
+        } else {
+            document.getElementById('user').classList.remove('is-invalid');
+            document.getElementById('span-user').classList.remove('is-invalid-span');
+            document.getElementById('userError').classList.add('d-none');
+        }
+    });
+
+    // Validación en tiempo real al escribir en el campo de contraseña
+    document.getElementById('password').addEventListener('input', () => {
+        const password = document.getElementById('password').value;
+        if (password.trim() === "") {
+            document.getElementById('password').classList.add('is-invalid');
+            document.getElementById('span-password').classList.add('is-invalid-span');
+            document.getElementById('passwordError').classList.remove('d-none');
+        } else {
+            document.getElementById('password').classList.remove('is-invalid');
+            document.getElementById('span-password').classList.remove('is-invalid-span');
+            document.getElementById('passwordError').classList.add('d-none');
+        }
+    });
 });
 
 document.getElementById('loginForm').addEventListener('submit', function (event) {
