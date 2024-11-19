@@ -32,7 +32,7 @@
 
             <!-- COLUMN 2: USER -->
             <div class="user-section">
-                <span class="navbar-text">Usuario</span>
+                <span id="user-email" class="navbar-text">Usuario</span>
                 <div class="dropdown">
                     <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user nab"></i>
@@ -318,6 +318,16 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="../js/tablaventas.js"></script>
     <script src="../js/support.js"></script>
+
+    <script>
+        // Obtén el correo del usuario desde localStorage
+        const userEmail = localStorage.getItem('userEmail');
+
+        // Actualiza el contenido del elemento con el ID 'user-email'
+        if (userEmail) {
+            document.getElementById('user-email').textContent = userEmail;
+        }
+    </script>
 </body>
 
 </html>
