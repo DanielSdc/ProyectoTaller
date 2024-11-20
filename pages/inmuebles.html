@@ -200,6 +200,53 @@
         </div>
     </div>    
 
+    <!-- Modal para editar inmueble -->
+    <div class="modal fade" id="editInmuebleModal" tabindex="-1" aria-labelledby="editInmuebleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editInmuebleModalLabel">Editar Inmueble</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editInmuebleForm" enctype="multipart/form-data">
+                        <input type="hidden" id="editInmuebleId" />
+                        <div class="mb-3">
+                            <label for="editNombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editNombre" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editUbicacion" class="form-label">Ubicación</label>
+                            <input type="text" class="form-control" id="editUbicacion" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTamano" class="form-label">Tamaño</label>
+                            <input type="number" class="form-control" id="editTamano" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCuartos" class="form-label">Cuartos</label>
+                            <input type="number" class="form-control" id="editCuartos" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBanos" class="form-label">Baños</label>
+                            <input type="number" class="form-control" id="editBanos" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editValor" class="form-label">Valor</label>
+                            <input type="number" class="form-control" id="editValor" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editFotos" class="form-label">Fotos</label>
+                            <input type="file" class="form-control" id="editFotos" />
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Imagenes -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
