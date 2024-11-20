@@ -20,22 +20,29 @@ if (userEmail) {
 
 // Función para obtener el usuario autenticado
 function obtenerUsuarioActual() {
-  return auth.currentUser;
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      unsubscribe();
+      if (user) {
+        resolve(user);
+      } else {
+        reject(new Error("No hay un usuario autenticado."));
+      }
+    });
+  });
 }
 
 // Función para guardar una nota
-async function guardarNota(titulo, contenido) {
-  const usuario = obtenerUsuarioActual();
+async function guardarNota(contenido) {
+  const usuario = await obtenerUsuarioActual();
 
   if (!usuario) {
     console.error("No hay un usuario autenticado.");
     alert("Debes iniciar sesión para guardar notas.");
     return;
   }
-
   try {
     const docRef = await addDoc(collection(db, "notas"), {
-      titulo: titulo,
       contenido: contenido,
       usuarioId: usuario.uid, // ID del usuario autenticado
       fechaCreacion: new Date(), // Timestamp
@@ -51,7 +58,7 @@ async function guardarNota(titulo, contenido) {
 
 // Función para obtener notas del usuario autenticado
 async function obtenerNotas() {
-  const usuario = obtenerUsuarioActual();
+  const usuario = await obtenerUsuarioActual();
 
   if (!usuario) {
     console.error("No hay un usuario autenticado.");
@@ -158,7 +165,5 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
   }
 });
 
-
-
 // Cargar notas al inicializar la página
-window.addEventListener("DOMContentLoaded", cargarNotas);
+document.addEventListener("DOMContentLoaded", cargarNotas);
