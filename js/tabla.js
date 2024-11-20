@@ -1,8 +1,10 @@
 // Importa la configuración de Firebase
-import { app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged } from './firebaseconfig.js';
+import { app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc } from './firebaseconfig.js';
+
+let table;
 
 $(document).ready(function () {
-  const table = $("#inmueblesTable").DataTable();
+  table = $("#inmueblesTable").DataTable();
 
   // Cargar inmuebles del usuario
   onAuthStateChanged(auth, async (user) => {
@@ -24,9 +26,22 @@ $(document).ready(function () {
           data.banos,
           `$${data.valor}`,
           data.fotos,
-          `<button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Editar</button>
-           <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Eliminar</button>`,
+          `<button class="btn btn-sm btn-warning btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i> Editar</button>
+           <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
         ]).draw(false);
+      });
+
+      // Agregar eventos a los botones de eliminar y editar
+      $("#inmueblesTable tbody").on("click", ".btn-delete", async function () {
+        const id = $(this).data("id");
+        await eliminarInmueble(id);
+        table.row($(this).parents('tr')).remove().draw();
+      });
+
+      $("#inmueblesTable tbody").on("click", ".btn-edit", async function () {
+        const id = $(this).data("id");
+        const inmueble = await obtenerInmueble(id);
+        abrirModalEditar(inmueble);
       });
     }
   });
@@ -65,8 +80,8 @@ $(document).ready(function () {
           banos,
           `$${valor}`,
           fotos,
-          `<button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Editar</button>
-           <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Eliminar</button>`,
+          `<button class="btn btn-sm btn-warning btn-edit"><i class="fas fa-edit"></i> Editar</button>
+           <button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i> Eliminar</button>`,
         ]).draw(false);
 
         $("#inmuebleForm")[0].reset();
@@ -79,6 +94,93 @@ $(document).ready(function () {
       alert("Debes iniciar sesión para agregar inmuebles.");
     }
   });
+});
+
+// Función para eliminar un inmueble
+async function eliminarInmueble(id) {
+  try {
+    await deleteDoc(doc(db, "inmuebles", id));
+    console.log(`Inmueble con ID ${id} eliminado.`);
+    alert("Inmueble eliminado exitosamente.");
+  } catch (error) {
+    console.error("Error al eliminar el inmueble:", error);
+    alert("Hubo un error al eliminar el inmueble.");
+  }
+}
+
+// Función para obtener un inmueble
+async function obtenerInmueble(id) {
+  try {
+    const docRef = doc(db, "inmuebles", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.error("Error al obtener el inmueble:", error);
+  }
+}
+
+// Función para abrir el modal de edición
+function abrirModalEditar(inmueble) {
+  $("#editInmuebleModal").modal("show");
+  $("#editInmuebleId").val(inmueble.id);
+  $("#editNombre").val(inmueble.nombre);
+  $("#editUbicacion").val(inmueble.ubicacion);
+  $("#editTamano").val(inmueble.tamano);
+  $("#editCuartos").val(inmueble.cuartos);
+  $("#editBanos").val(inmueble.banos);
+  $("#editValor").val(inmueble.valor);
+  $("#editFotos").val(inmueble.fotos);
+}
+
+// Función para actualizar un inmueble
+$("#editInmuebleForm").on("submit", async function (event) {
+  event.preventDefault();
+
+  const id = $("#editInmuebleId").val();
+  const nombre = $("#editNombre").val();
+  const ubicacion = $("#editUbicacion").val();
+  const tamano = $("#editTamano").val();
+  const cuartos = $("#editCuartos").val();
+  const banos = $("#editBanos").val();
+  const valor = $("#editValor").val();
+  const fotos = $("#editFotos").val();
+
+  try {
+    const docRef = doc(db, "inmuebles", id);
+    await updateDoc(docRef, {
+      nombre,
+      ubicacion,
+      tamano,
+      cuartos,
+      banos,
+      valor,
+      fotos
+    });
+
+    // Actualizar la fila en la tabla
+    const row = $(`#inmueblesTable button[data-id='${id}']`).parents('tr');
+    table.row(row).data([
+      nombre,
+      ubicacion,
+      `${tamano} m2`,
+      cuartos,
+      banos,
+      `$${valor}`,
+      fotos,
+      `<button class="btn btn-sm btn-warning btn-edit" data-id="${id}"><i class="fas fa-edit"></i> Editar</button>
+       <button class="btn btn-sm btn-danger btn-delete" data-id="${id}"><i class="fas fa-trash"></i> Eliminar</button>`
+    ]).draw(false);
+
+    $("#editInmuebleModal").modal("hide");
+    alert("Inmueble actualizado exitosamente.");
+  } catch (error) {
+    console.error("Error al actualizar el inmueble:", error);
+    alert("Hubo un error al actualizar el inmueble.");
+  }
 });
 
 // Mapa
