@@ -1,7 +1,37 @@
+// Importa la configuración de Firebase
+import { app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged } from './firebaseconfig.js';
+
 $(document).ready(function () {
   const table = $("#inmueblesTable").DataTable();
 
-  $("#inmuebleForm").on("submit", function (event) {
+  // Cargar inmuebles del usuario
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const q = query(
+        collection(db, "inmuebles"),
+        where("usuarioId", "==", user.uid),
+        orderBy("fechaCreacion", "desc")
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        table.row.add([
+          data.nombre,
+          data.ubicacion,
+          `${data.tamano} m2`,
+          data.cuartos,
+          data.banos,
+          `$${data.valor}`,
+          data.fotos,
+          `<button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Editar</button>
+           <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Eliminar</button>`,
+        ]).draw(false);
+      });
+    }
+  });
+
+  $("#inmuebleForm").on("submit", async function (event) {
     event.preventDefault();
 
     const nombre = $("#nombre").val();
@@ -12,22 +42,42 @@ $(document).ready(function () {
     const valor = $("#valor").val();
     const fotos = $("#fotos").val();
 
-    table.row
-      .add([
-        nombre,
-        ubicacion,
-        `${tamano} m2`,
-        cuartos,
-        banos,
-        `$${valor}`,
-        fotos,
-        `<button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Editar</button>
-             <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Eliminar</button>`,
-      ])
-      .draw(false);
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        await addDoc(collection(db, "inmuebles"), {
+          usuarioId: user.uid,
+          nombre,
+          ubicacion,
+          tamano,
+          cuartos,
+          banos,
+          valor,
+          fotos,
+          fechaCreacion: new Date()
+        });
 
-    $("#inmuebleForm")[0].reset();
-    $("#addInmuebleModal").modal("hide");
+        table.row.add([
+          nombre,
+          ubicacion,
+          `${tamano} m2`,
+          cuartos,
+          banos,
+          `$${valor}`,
+          fotos,
+          `<button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Editar</button>
+           <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Eliminar</button>`,
+        ]).draw(false);
+
+        $("#inmuebleForm")[0].reset();
+        $("#addInmuebleModal").modal("hide");
+      } catch (error) {
+        console.error("Error al agregar inmueble:", error);
+        alert("Hubo un error al agregar el inmueble.");
+      }
+    } else {
+      alert("Debes iniciar sesión para agregar inmuebles.");
+    }
   });
 });
 
