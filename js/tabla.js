@@ -133,7 +133,7 @@ function abrirModalEditar(inmueble) {
   $("#editCuartos").val(inmueble.cuartos);
   $("#editBanos").val(inmueble.banos);
   $("#editValor").val(inmueble.valor);
-  $("#editFotos").val(inmueble.fotos);
+  $("#editFotos").val("");
 }
 
 // Función para actualizar un inmueble
