@@ -314,6 +314,48 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de edición -->
+    <div class="modal fade" id="editInmuebleModal" tabindex="-1" aria-labelledby="editInmuebleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editInmuebleModalLabel">Editar Renta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form id="editInmuebleForm">
+                <input type="hidden" id="editInmuebleId">
+                <div class="mb-3">
+                <label for="editInmueble" class="form-label">Inmueble</label>
+                <select class="form-control" id="editInmueble" required></select>
+                </div>
+                <div class="mb-3">
+                <label for="editArrendatario" class="form-label">Arrendatario</label>
+                <input type="text" class="form-control" id="editArrendatario" required>
+                </div>
+                <div class="mb-3">
+                <label for="editContacto" class="form-label">Contacto</label>
+                <input type="text" class="form-control" id="editContacto" required>
+                </div>
+                <div class="mb-3">
+                <label for="editFechacobro" class="form-label">Fecha de Cobro</label>
+                <input type="date" class="form-control" id="editFechacobro" required>
+                </div>
+                <div class="mb-3">
+                <label for="editPago" class="form-label">Pago</label>
+                <input type="number" class="form-control" id="editPago" required>
+                </div>
+                <div class="mb-3">
+                <label for="editFincontrato" class="form-label">Fin de Contrato</label>
+                <input type="date" class="form-control" id="editFincontrato" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
     
     <!-- SCRIPTS JAVASCRIPT -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
