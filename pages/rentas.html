@@ -32,6 +32,10 @@
                 <span class="navbar-text plan align-self-end">Premium</span>
             </div>
 
+            <button id="toggle-sidebar" class="btn btn-outline-light d-lg-none ms-auto">
+                <i class="fas fa-bars"></i> 
+            </button>
+
             <!-- COLUMN 2: USER -->
             <div class="user-section">
                 <span id="user-email" class="navbar-text">Usuario</span>
@@ -372,6 +376,32 @@
         // Actualiza el contenido del elemento con el ID 'user-email'
         if (userEmail) {
             document.getElementById('user-email').textContent = userEmail;
+        }
+    </script>
+
+    <script>
+        // Alternar la visibilidad de la sidebar
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar.style.display === 'none' || sidebar.style.display === '') {
+                sidebar.style.display = 'block';
+            } else {
+                sidebar.style.display = 'none';
+            }
+        });
+
+        // Mostrar la sidebar automáticamente en pantallas grandes
+        window.addEventListener('resize', function() {
+            var sidebar = document.getElementById('sidebar');
+            var toggleButton = document.getElementById('toggle-sidebar');
+            if (window.innerWidth >= 992) {
+                sidebar.style.display = 'block';
+            }
+        });
+
+        // Mostrar la sidebar al cargar la página si la pantalla es grande
+        if (window.innerWidth >= 992) {
+            document.getElementById('sidebar').style.display = 'block';
         }
     </script>
 </body>
