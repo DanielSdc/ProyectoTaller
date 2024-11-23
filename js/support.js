@@ -1,3 +1,62 @@
+// Inicializar emailjs
+(function () {
+    emailjs.init("0XQwJNyAAjiXpBsKf");
+})();
+
+// Función para enviar el correo
+function sendEmail() {
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Verificar si el botón está habilitado
+    if (submitBtn.disabled) {
+        return;
+    }
+
+    // Obtener los valores del formulario
+    const userName = document.getElementById('userName').value;
+    const userPhone = document.getElementById('userPhone').value;
+    const userEmail = document.getElementById('userEmail').value;
+    const userMessage = document.getElementById('userMessage').value;
+    const helpType = document.getElementById('selectedOptionText').value;
+
+    // Preparar los parámetros para emailjs
+    const templateParams = {
+        user_name: userName,
+        user_phone: userPhone,
+        user_email: userEmail,
+        help_type: helpType,
+        user_message: userMessage,
+    };
+
+    // Enviar el correo
+    emailjs.send('service_puopivp', 'template_srxe9ai', templateParams)
+        .then((response) => {
+            console.log("Correo enviado exitosamente:", response.status, response.text);
+            Swal.fire({
+                title: 'Enviado',
+                text: 'Tu formulario se ha enviado correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                // Cerrar el modal
+                $('#supportModal').modal('hide');
+            });
+        })
+        .catch((error) => {
+            console.error("Error al enviar el correo:", error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al enviar el formulario.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+}
+
+// Agregar el evento de envío al botón
+document.getElementById('submitBtn').addEventListener('click', sendEmail);
+
+
 // Función para mostrar el formulario correcto según la opción seleccionada
 function toggleForm() {
     const supportOption = document.getElementById('supportOption').value;
@@ -119,6 +178,14 @@ function validateForm() {
         }
     });
 
+       // Validar el formato del correo electrónico
+       if (!isValidEmail(email.value)) {
+        email.classList.add('is-invalid');
+        formValid = false;
+    } else {
+        email.classList.remove('is-invalid');
+    }
+    
     // Si todos los campos son válidos, habilitar el botón de envío
     if (formValid) {
         document.getElementById('submitBtn').disabled = false;
@@ -168,3 +235,12 @@ document.querySelectorAll('input,textarea').forEach(input => {
 
 // Habilitar el botón de envío cuando el formulario esté completo
 window.addEventListener('load', validateForm);
+
+// Agregar el evento de envío al botón
+document.getElementById('submitBtn').addEventListener('click', sendEmail);
+
+// Función para validar el formato del correo electrónico
+function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+}
