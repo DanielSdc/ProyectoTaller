@@ -9,7 +9,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyDGAuLOFW11Wdq5O60tgUq45npXR8vu4kw",
     authDomain: "rentalcontrol-7f879.firebaseapp.com",
     projectId: "rentalcontrol-7f879",
-    storageBucket: "rentalcontrol-7f879.appspot.com",
+    storageBucket: "rentalcontrol-7f879.firebasestorage.app",
     messagingSenderId: "1082078335810",
     appId: "1:1082078335810:web:a641ba8a19400274946edb",
     measurementId: "G-LPQLDEVKJV"
