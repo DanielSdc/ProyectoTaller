@@ -40,17 +40,37 @@ $(document).ready(function () {
     "../img/casa1.jpg", "../img/casa2.jpg", "../img/casa3.jpg",
     "../img/casa4.png", "../img/casa5.png", "../img/casa1.jpg"
   ];
-
+  
   const gallery = document.querySelector(".image-gallery");
   images.forEach((imageSrc) => {
     const img = document.createElement("img");
     img.src = imageSrc;
     img.classList.add("gallery-image");
+  
+    // Evento para manejar la carga de la imagen
+    img.addEventListener("load", () => {
+      console.log(`Imagen cargada: ${imageSrc}`);
+    });
+  
+    // Evento para manejar errores en la carga de la imagen
+    img.addEventListener("error", () => {
+      console.error(`Error al cargar la imagen: ${imageSrc}`);
+      img.src = "../img/placeholder.png"; // Imagen de respaldo
+    });
+  
     img.addEventListener("click", () => {
       document.getElementById("modalImage").src = imageSrc;
       new bootstrap.Modal(document.getElementById("imageModal")).show();
     });
+  
     gallery.appendChild(img);
+  
+    // Forzar la actualización del DOM
+    requestAnimationFrame(() => {
+      img.style.display = 'none';
+      img.offsetHeight; // Forzar reflujo
+      img.style.display = '';
+    });
   });
 
   // Cargar inmuebles del usuario
