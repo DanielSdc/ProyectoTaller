@@ -75,8 +75,26 @@ $(document).ready(function () {
       // Agregar eventos a los botones de eliminar y editar
       $("#inmueblesTable tbody").on("click", ".btn-delete", async function () {
         const id = $(this).data("id");
-        await eliminarInmueble(id);
-        table.row($(this).parents('tr')).remove().draw();
+        const result = await Swal.fire({
+          title: '¿Estás seguro?',
+          text: "No podrás revertir esto!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminarlo!',
+          cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+          await eliminarInmueble(id);
+          table.row($(this).parents('tr')).remove().draw();
+          Swal.fire(
+            'Eliminado!',
+            'El inmueble ha sido eliminado.',
+            'success'
+          );
+        }
       });
 
       $("#inmueblesTable tbody").on("click", ".btn-edit", async function () {
@@ -93,10 +111,11 @@ $(document).ready(function () {
     }
   });
 
-  // Manejar el formulario de agregar inmueble
+  // Manejar el formulario de agregar/editar inmueble
   $("#inmuebleForm").on("submit", async function (event) {
     event.preventDefault();
 
+    const id = $("#inmuebleId").val();
     const nombre = $("#nombre").val();
     const ubicacion = $("#ubicacion").val();
     const tamano = $("#tamano").val();
@@ -108,28 +127,64 @@ $(document).ready(function () {
     const user = auth.currentUser;
     if (user) {
       try {
-        const fotoURLs = await Promise.all([...fotos].map(async (foto) => {
-          const fotoRef = ref(storage, `inmuebles/${user.uid}/${foto.name}`);
-          await uploadBytes(fotoRef, foto);
-          return await getDownloadURL(fotoRef);
-        }));
+        let fotoURLs = [];
+        if (fotos.length > 0) {
+          fotoURLs = await Promise.all([...fotos].map(async (foto) => {
+            const fotoRef = ref(storage, `inmuebles/${user.uid}/${foto.name}`);
+            await uploadBytes(fotoRef, foto);
+            return await getDownloadURL(fotoRef);
+          }));
+        }
 
-        await addDoc(collection(db, "inmuebles"), {
-          usuarioId: user.uid,
-          nombre,
-          ubicacion,
-          tamano,
-          cuartos,
-          banos,
-          valor,
-          fotos: fotoURLs,
-          fechaCreacion: new Date()
-        });
+        if (id) {
+          // Editar inmueble
+          const inmuebleDoc = await getDoc(doc(db, "inmuebles", id));
+          if (inmuebleDoc.exists()) {
+            const inmueble = inmuebleDoc.data();
+            fotoURLs = fotoURLs.length > 0 ? fotoURLs : inmueble.fotos || [];
+          }
+
+          await updateDoc(doc(db, "inmuebles", id), {
+            nombre,
+            ubicacion,
+            tamano,
+            cuartos,
+            banos,
+            valor,
+            fotos: fotoURLs,
+            fechaActualizacion: new Date()
+          });
+        } else {
+          // Agregar inmueble
+          await addDoc(collection(db, "inmuebles"), {
+            usuarioId: user.uid,
+            nombre,
+            ubicacion,
+            tamano,
+            cuartos,
+            banos,
+            valor,
+            fotos: fotoURLs,
+            fechaCreacion: new Date()
+          });
+        }
 
         location.reload();
       } catch (error) {
-        console.error("Error adding document: ", error);
+        console.error("Error saving document: ", error);
       }
+    }
+  });
+
+  // Mostrar la foto seleccionada en el input
+  $("#fotos").on("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        $("#currentFoto").attr("src", e.target.result).show();
+      };
+      reader.readAsDataURL(file);
     }
   });
 
@@ -186,6 +241,43 @@ $(document).ready(function () {
       }
     }
   });
+
+  function abrirModalEditar(inmueble) {
+    $("#inmuebleId").val(inmueble.id);
+    $("#nombre").val(inmueble.nombre);
+    $("#ubicacion").val(inmueble.ubicacion);
+    $("#tamano").val(inmueble.tamano);
+    $("#cuartos").val(inmueble.cuartos);
+    $("#banos").val(inmueble.banos);
+    $("#valor").val(inmueble.valor);
+    if (inmueble.fotos && inmueble.fotos.length > 0) {
+      $("#currentFoto").attr("src", inmueble.fotos[0]).show();
+    } else {
+      $("#currentFoto").hide();
+    }
+    $("#inmuebleModalLabel").text("Editar Inmueble");
+    $("#inmuebleModal").modal("show");
+  }
+
+  // Inicializar el modal al abrir
+  $('#inmuebleModal').on('show.bs.modal', function (event) {
+    const button = $(event.relatedTarget);
+    const modal = $(this);
+    if (button.data('bs-target') === '#inmuebleModal') {
+      modal.find('.modal-title').text('Agregar Inmueble');
+      modal.find('#inmuebleForm')[0].reset();
+      modal.find('#currentFoto').attr('src', '').hide();
+      modal.find('#inmuebleId').val('');
+    }
+  });
+
+  // Limpiar el modal al cerrar
+  $('#inmuebleModal').on('hidden.bs.modal', function () {
+    const modal = $(this);
+    modal.find('#inmuebleForm')[0].reset();
+    modal.find('#currentFoto').attr('src', '').hide();
+    modal.find('#inmuebleId').val('');
+  });
 });
 
 async function eliminarInmueble(id) {
@@ -207,22 +299,6 @@ async function obtenerInmueble(id) {
   } catch (error) {
     console.error("Error getting document: ", error);
   }
-}
-
-function abrirModalEditar(inmueble) {
-  $("#editInmuebleId").val(inmueble.id);
-  $("#editNombre").val(inmueble.nombre);
-  $("#editUbicacion").val(inmueble.ubicacion);
-  $("#editTamano").val(inmueble.tamano);
-  $("#editCuartos").val(inmueble.cuartos);
-  $("#editBanos").val(inmueble.banos);
-  $("#editValor").val(inmueble.valor);
-  if (inmueble.fotos && inmueble.fotos.length > 0) {
-    $("#currentEditFoto").attr("src", inmueble.fotos[0]).show();
-  } else {
-    $("#currentEditFoto").hide();
-  }
-  $("#editInmuebleModal").modal("show");
 }
 
 const imagesPerPage = 6;

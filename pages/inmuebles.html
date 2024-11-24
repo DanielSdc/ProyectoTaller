@@ -109,7 +109,7 @@
             <section id="mainContent">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>Inmuebles</h2>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInmuebleModal">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inmuebleModal">
                         <i class="fas fa-plus-circle"></i> Agregar Inmueble
                     </button>
                 </div>
@@ -166,99 +166,65 @@
         </main>
     </div>
 
-    <div class="modal fade" id="addInmuebleModal" tabindex="-1" aria-labelledby="addInmuebleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="inmuebleModal" tabindex="-1" aria-labelledby="inmuebleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addInmuebleModalLabel">
-                        Agregar Inmueble
-                    </h5>
+                    <h5 class="modal-title" id="inmuebleModalLabel">Agregar Inmueble</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="inmuebleForm" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" required />
+                        <input type="hidden" id="inmuebleId" />
+                        <div class="row">
+                            <div class="col-md-4 d-flex flex-column align-items-center">
+                                <div class="mb-3 flex-grow-1 w-100">
+                                    <div class="border form-control d-flex align-items-center justify-content-center">
+                                        <img id="currentFoto" src="" alt="Foto actual" class="img-fluid" />
+                                    </div>
+                                </div>
+                                <div class="mb-3 w-100">
+                                    <label for="fotos" class="form-label">Fotos</label>
+                                    <input type="file" class="form-control" id="fotos" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ubicacion" class="form-label">Ubicación</label>
+                                    <input type="text" class="form-control" id="ubicacion" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tamano" class="form-label">Tamaño</label>
+                                    <input type="number" class="form-control" id="tamano" required />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="cuartos" class="form-label">Cuartos</label>
+                                    <input type="number" class="form-control" id="cuartos" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="banos" class="form-label">Baños</label>
+                                    <input type="number" class="form-control" id="banos" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="valor" class="form-label">Valor</label>
+                                    <input type="number" class="form-control" id="valor" required />
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="ubicacion" class="form-label">Ubicación</label>
-                            <input type="text" class="form-control" id="ubicacion" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="tamano" class="form-label">Tamaño</label>
-                            <input type="number" class="form-control" id="tamano" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="cuartos" class="form-label">Cuartos</label>
-                            <input type="number" class="form-control" id="cuartos" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="banos" class="form-label">Baños</label>
-                            <input type="number" class="form-control" id="banos" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="valor" class="form-label">Valor</label>
-                            <input type="number" class="form-control" id="valor" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="fotos" class="form-label">Fotos</label>
-                            <input type="file" class="form-control" id="fotos" />
-                        </div>
-    
-                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>                    
                     </form>
                 </div>
             </div>
         </div>
     </div>    
-
-    <!-- Modal para editar inmueble -->
-    <div class="modal fade" id="editInmuebleModal" tabindex="-1" aria-labelledby="editInmuebleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editInmuebleModalLabel">Editar Inmueble</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editInmuebleForm" enctype="multipart/form-data">
-                        <input type="hidden" id="editInmuebleId" />
-                        <div class="mb-3">
-                            <label for="editNombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="editNombre" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="editUbicacion" class="form-label">Ubicación</label>
-                            <input type="text" class="form-control" id="editUbicacion" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="editTamano" class="form-label">Tamaño</label>
-                            <input type="number" class="form-control" id="editTamano" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="editCuartos" class="form-label">Cuartos</label>
-                            <input type="number" class="form-control" id="editCuartos" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="editBanos" class="form-label">Baños</label>
-                            <input type="number" class="form-control" id="editBanos" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="editValor" class="form-label">Valor</label>
-                            <input type="number" class="form-control" id="editValor" required />
-                        </div>
-                        <div class="mb-3">
-                            <label for="editFotos" class="form-label">Fotos</label>
-                            <input type="file" class="form-control" id="editFotos" />
-                            <img id="currentEditFoto" src="" alt="Foto actual" style="max-width: 100%; margin-top: 10px;" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal Imagenes -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
