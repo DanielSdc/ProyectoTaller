@@ -143,6 +143,15 @@
                                 <div id="info-casa">
                                     <h3 class="map-title">Fotografías</h3>
                                     <div class="image-gallery"></div>
+                                    <div class="pagination-container mt-3">
+                                        <button class="btn btn-secondary" id="prevImagePage" disabled>
+                                            <i class="fas fa-caret-left"></i> Anterior
+                                        </button>
+                                        <span id="imagePageInfo"></span>
+                                        <button class="btn btn-secondary" id="nextImagePage" disabled>
+                                            Siguiente <i class="fas fa-caret-right"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -242,8 +251,8 @@
                         <div class="mb-3">
                             <label for="editFotos" class="form-label">Fotos</label>
                             <input type="file" class="form-control" id="editFotos" />
+                            <img id="currentEditFoto" src="" alt="Foto actual" style="max-width: 100%; margin-top: 10px;" />
                         </div>
-    
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </form>
                 </div>

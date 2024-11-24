@@ -2,9 +2,14 @@
 import { app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
 
 let table;
+let allFotos = []; // Define allFotos globally
 
 $(document).ready(function () {
-  table = $("#inmueblesTable").DataTable();
+  table = $("#inmueblesTable").DataTable({
+    language: {
+      url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+    },
+  });
 
   // Inicializar el mapa de Leaflet
   const map = L.map('map').setView([24.805, -107.394], 13);
@@ -36,43 +41,6 @@ $(document).ready(function () {
       .addTo(map);
   });
 
-  const images = [
-    "../img/casa1.jpg", "../img/casa2.jpg", "../img/casa3.jpg",
-    "../img/casa4.png", "../img/casa5.png", "../img/casa1.jpg"
-  ];
-  
-  const gallery = document.querySelector(".image-gallery");
-  images.forEach((imageSrc) => {
-    const img = document.createElement("img");
-    img.src = imageSrc;
-    img.classList.add("gallery-image");
-  
-    // Evento para manejar la carga de la imagen
-    img.addEventListener("load", () => {
-      console.log(`Imagen cargada: ${imageSrc}`);
-    });
-  
-    // Evento para manejar errores en la carga de la imagen
-    img.addEventListener("error", () => {
-      console.error(`Error al cargar la imagen: ${imageSrc}`);
-      img.src = "../img/placeholder.png"; // Imagen de respaldo
-    });
-  
-    img.addEventListener("click", () => {
-      document.getElementById("modalImage").src = imageSrc;
-      new bootstrap.Modal(document.getElementById("imageModal")).show();
-    });
-  
-    gallery.appendChild(img);
-  
-    // Forzar la actualización del DOM
-    requestAnimationFrame(() => {
-      img.style.display = 'none';
-      img.offsetHeight; // Forzar reflujo
-      img.style.display = '';
-    });
-  });
-
   // Cargar inmuebles del usuario
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -83,7 +51,7 @@ $(document).ready(function () {
       );
 
       const querySnapshot = await getDocs(q);
-      const allFotos = [];
+      allFotos = []; // Initialize allFotos
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         if (Array.isArray(data.fotos)) {
@@ -186,11 +154,20 @@ $(document).ready(function () {
     const user = auth.currentUser;
     if (user) {
       try {
-        const fotoURLs = await Promise.all([...fotos].map(async (foto) => {
-          const fotoRef = ref(storage, `inmuebles/${user.uid}/${foto.name}`);
-          await uploadBytes(fotoRef, foto);
-          return await getDownloadURL(fotoRef);
-        }));
+        let fotoURLs = [];
+        if (fotos.length > 0) {
+          fotoURLs = await Promise.all([...fotos].map(async (foto) => {
+            const fotoRef = ref(storage, `inmuebles/${user.uid}/${foto.name}`);
+            await uploadBytes(fotoRef, foto);
+            return await getDownloadURL(fotoRef);
+          }));
+        } else {
+          const inmuebleDoc = await getDoc(doc(db, "inmuebles", id));
+          if (inmuebleDoc.exists()) {
+            const inmueble = inmuebleDoc.data();
+            fotoURLs = inmueble.fotos || [];
+          }
+        }
 
         await updateDoc(doc(db, "inmuebles", id), {
           nombre,
@@ -240,14 +217,35 @@ function abrirModalEditar(inmueble) {
   $("#editCuartos").val(inmueble.cuartos);
   $("#editBanos").val(inmueble.banos);
   $("#editValor").val(inmueble.valor);
+  if (inmueble.fotos && inmueble.fotos.length > 0) {
+    $("#currentEditFoto").attr("src", inmueble.fotos[0]).show();
+  } else {
+    $("#currentEditFoto").hide();
+  }
   $("#editInmuebleModal").modal("show");
 }
+
+const imagesPerPage = 6;
+let currentImagePage = 1;
+let totalImages = 0;
 
 function mostrarFotos(fotos) {
   const gallery = document.querySelector(".image-gallery");
   gallery.innerHTML = ''; // Limpiar la galería antes de agregar nuevas fotos
 
-  fotos.forEach((fotoUrl) => {
+  totalImages = fotos.length;
+  const totalPages = Math.ceil(totalImages / imagesPerPage);
+
+  if (totalImages === 0) {
+    gallery.innerHTML = `<div class="alert alert-info" role="alert">No hay fotos disponibles.</div>`;
+    return;
+  }
+
+  const start = (currentImagePage - 1) * imagesPerPage;
+  const end = start + imagesPerPage;
+  const fotosPagina = fotos.slice(start, end);
+
+  fotosPagina.forEach((fotoUrl) => {
     const img = document.createElement("img");
     img.src = fotoUrl;
     img.classList.add("gallery-image");
@@ -259,4 +257,25 @@ function mostrarFotos(fotos) {
 
     gallery.appendChild(img);
   });
+
+  // Actualizar la información de paginación
+  document.getElementById("imagePageInfo").textContent = `Página ${currentImagePage} de ${totalPages}`;
+  document.getElementById("prevImagePage").disabled = currentImagePage === 1;
+  document.getElementById("nextImagePage").disabled = currentImagePage === totalPages;
 }
+
+// Eventos para los botones de paginación de imágenes
+document.getElementById("prevImagePage").addEventListener("click", () => {
+  if (currentImagePage > 1) {
+    currentImagePage--;
+    mostrarFotos(allFotos);
+  }
+});
+
+document.getElementById("nextImagePage").addEventListener("click", () => {
+  const totalPages = Math.ceil(totalImages / imagesPerPage);
+  if (currentImagePage < totalPages) {
+    currentImagePage++;
+    mostrarFotos(allFotos);
+  }
+});

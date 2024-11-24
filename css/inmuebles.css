@@ -84,6 +84,8 @@
     grid-template-columns: repeat(3, 1fr);
     margin-top: 1.25rem;
     gap: 0.625rem;
+    height: 450px; /* Set a fixed height for the image gallery container */
+    overflow-y: auto; /* Add vertical scroll if needed */
 }
 
 .gallery-image {
@@ -114,4 +116,17 @@
 .btn-close {
     z-index: 1050;
     background-color: white;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#imagePageInfo {
+    font-size: 1em;
+    color: #333;
 }
