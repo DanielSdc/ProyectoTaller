@@ -151,8 +151,10 @@
                 <section class="container p-0 mb-2">
                     <article class="row">
                         <article class="col-12 col-md-6 grafica m-3">
-                            <h2 class="tituloGrafica">Gráfica Ingresos</h2>
-                            <img src="../img/grafica.jpg" alt="grafica" class="graficaImg"><br>
+                            <section id="graficaIngresos" class="mt-5">
+                                <h2>Grafica de Ingresos</h2>
+                                <canvas id="ingresosChart"></canvas>
+                            </section>
                         </article>
                         <article class="col-12 col-md-5 FechasProximas m-3 p-3 rounded shadow">
                             <span class="fechaProx h4 d-block mb-3 text-center">FECHAS PRÓXIMAS</span>
@@ -310,6 +312,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
     <script src="../js/support.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../js/main.js"></script>
     <script>
         // Obtén el correo del usuario desde localStorage
         const userEmail = localStorage.getItem('userEmail');
