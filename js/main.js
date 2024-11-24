@@ -72,6 +72,59 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
           }
         });
+
+        // Cargar imágenes del carrusel
+        const carouselImages = document.getElementById('carouselImages');
+        let isFirst = true;
+        let imageGroup = [];
+        inmueblesSnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (Array.isArray(data.fotos) && data.fotos.length > 0) {
+            data.fotos.forEach((fotoUrl) => {
+              imageGroup.push(fotoUrl);
+              if (imageGroup.length === 3) {
+                const div = document.createElement('div');
+                div.classList.add('carousel-item');
+                if (isFirst) {
+                  div.classList.add('active');
+                  isFirst = false;
+                }
+                div.innerHTML = `
+                  <div class="row justify-content-center">
+                    ${imageGroup.map(url => `
+                      <div class="col-4">
+                        <img src="${url}" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen">
+                      </div>
+                    `).join('')}
+                  </div>
+                `;
+                carouselImages.appendChild(div);
+                imageGroup = [];
+              }
+            });
+          }
+        });
+
+        // If there are remaining images that didn't form a complete group of 3
+        if (imageGroup.length > 0) {
+          const div = document.createElement('div');
+          div.classList.add('carousel-item');
+          if (isFirst) {
+            div.classList.add('active');
+            isFirst = false;
+          }
+          div.innerHTML = `
+            <div class="row justify-content-center">
+              ${imageGroup.map(url => `
+                <div class="col-4">
+                  <img src="${url}" class="d-block w-100 rounded-4 p-1 img-fluid" alt="Imagen">
+                </div>
+              `).join('')}
+            </div>
+          `;
+          carouselImages.appendChild(div);
+        }
+
       } catch (error) {
         console.error("Error al cargar reportes:", error);
       }

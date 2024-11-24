@@ -17,6 +17,8 @@
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="../css/inmuebles.css" />
+    <script type="module" src="../js/tabla.js"></script>
+    <script type="module" src="../js/auth.js"></script>
 </head>
 
 <body>
@@ -46,7 +48,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="../index.html">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="#" id="logout">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +103,7 @@
     </aside>
 
         <!-- MAIN CONTENT -->
-        <main class="col-lg-9 col-md-8 main-content">
+        <main class="main-content p-3">
 
             <!-- CONTENT: PAGE -->
             <section id="mainContent">
@@ -409,6 +411,18 @@
         if (userEmail) {
             document.getElementById('user-email').textContent = userEmail;
         }
+
+        // Manejar el cierre de sesión
+        document.getElementById('logout').addEventListener('click', () => {
+            import('../js/firebaseconfig.js').then(({ auth, signOut }) => {
+                signOut(auth).then(() => {
+                    localStorage.removeItem('userEmail');
+                    window.location.href = '../pages/login.html';
+                }).catch((error) => {
+                    console.error('Error al cerrar sesión:', error);
+                });
+            });
+        });
     </script>
     <script>
         // Alternar la visibilidad de la sidebar

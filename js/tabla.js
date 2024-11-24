@@ -83,8 +83,12 @@ $(document).ready(function () {
       );
 
       const querySnapshot = await getDocs(q);
+      const allFotos = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
+        if (Array.isArray(data.fotos)) {
+          allFotos.push(...data.fotos);
+        }
         table.row.add([
           data.nombre,
           data.ubicacion,
@@ -92,11 +96,13 @@ $(document).ready(function () {
           data.cuartos,
           data.banos,
           `$${data.valor}`,
-          Array.isArray(data.fotos) ? data.fotos.map(url => `<img src="${url}" width="50" height="50">`).join(' ') : '',
+          data.fotos.map(url => `<img src="${url}" width="50" height="50">`).join(' '),
           `<button class="btn btn-sm btn-warning btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i> Editar</button>
            <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
         ]).draw(false);
       });
+
+      mostrarFotos(allFotos);
 
       // Agregar eventos a los botones de eliminar y editar
       $("#inmueblesTable tbody").on("click", ".btn-delete", async function () {
@@ -235,4 +241,22 @@ function abrirModalEditar(inmueble) {
   $("#editBanos").val(inmueble.banos);
   $("#editValor").val(inmueble.valor);
   $("#editInmuebleModal").modal("show");
+}
+
+function mostrarFotos(fotos) {
+  const gallery = document.querySelector(".image-gallery");
+  gallery.innerHTML = ''; // Limpiar la galería antes de agregar nuevas fotos
+
+  fotos.forEach((fotoUrl) => {
+    const img = document.createElement("img");
+    img.src = fotoUrl;
+    img.classList.add("gallery-image");
+
+    img.addEventListener("click", () => {
+      document.getElementById("modalImage").src = fotoUrl;
+      new bootstrap.Modal(document.getElementById("imageModal")).show();
+    });
+
+    gallery.appendChild(img);
+  });
 }

@@ -80,6 +80,8 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         .then((userCredential) => {
             const user = userCredential.user;
             console.log('Usuario autenticado:', user);
+            // Save user email to localStorage
+            localStorage.setItem('userEmail', user.email);
             window.location.href = '../pages/main.html';
         })
         .catch((error) => {

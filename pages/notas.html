@@ -16,6 +16,8 @@
 
     <!-- STYLE PAGE -->
     <link rel="stylesheet" href="../css/notas.css" />
+    <script type="module" src="../js/notas.js" defer></script>
+    <script type="module" src="../js/auth.js"></script>
 </head>
 
 <body>
@@ -50,7 +52,7 @@
                             <hr class="dropdown-divider" />
                         </li>
                         <li>
-                            <a class="dropdown-item" href="../index.html">Cerrar sesión</a>
+                            <a class="dropdown-item" href="#" id="logout">Cerrar sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -313,7 +315,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
     <script src="../js/support.js"></script>
     <script type="module" src="../js/notas.js" defer></script>
-
     <script>
         // Obtén el correo del usuario desde localStorage
         const userEmail = localStorage.getItem("userEmail");
@@ -322,6 +323,18 @@
         if (userEmail) {
             document.getElementById("user-email").textContent = userEmail;
         }
+
+        // Manejar el cierre de sesión
+        document.getElementById('logout').addEventListener('click', () => {
+            import('../js/firebaseconfig.js').then(({ auth, signOut }) => {
+                signOut(auth).then(() => {
+                    localStorage.removeItem('userEmail');
+                    window.location.href = '../pages/login.html';
+                }).catch((error) => {
+                    console.error('Error al cerrar sesión:', error);
+                });
+            });
+        });
     </script>
 
     <script>

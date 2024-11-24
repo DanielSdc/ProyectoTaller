@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../css/rentas.css" />
 
     <script type="module" src="../js/tablaventas.js"></script>
+    <script type="module" src="../js/auth.js"></script>
 </head>
 
 <body>
@@ -50,7 +51,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="../index.html">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="#" id="logout">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -423,6 +424,18 @@
         if (userEmail) {
             document.getElementById('user-email').textContent = userEmail;
         }
+
+        // Manejar el cierre de sesión
+        document.getElementById('logout').addEventListener('click', () => {
+            import('../js/firebaseconfig.js').then(({ auth, signOut }) => {
+                signOut(auth).then(() => {
+                    localStorage.removeItem('userEmail');
+                    window.location.href = '../pages/login.html';
+                }).catch((error) => {
+                    console.error('Error al cerrar sesión:', error);
+                });
+            });
+        });
     </script>
 
     <script>
