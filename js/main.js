@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ]);
 
         let totalIncome = 0;
+        const currentYear = new Date().getFullYear();
         reportesSnapshot.forEach((doc) => {
           const data = doc.data();
           const fechaPago = new Date(data.fechapago);
@@ -39,10 +40,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             ingresosPorMes[key] = 0;
           }
           ingresosPorMes[key] += parseFloat(data.pago);
-          totalIncome += parseFloat(data.pago);
+
+          if (anio === currentYear) {
+            totalIncome += parseFloat(data.pago);
+          }
         });
         
-        document.getElementById('totalIncome').textContent = `$${totalIncome.toFixed(2)}`;
+        document.getElementById('totalIncome').textContent = `$${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} MXN`;
 
         document.getElementById('totalProperties').textContent = inmueblesSnapshot.size;
 

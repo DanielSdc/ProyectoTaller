@@ -88,6 +88,15 @@
     overflow-y: auto;
 }
 
+.image-gallery .alert {
+    grid-column: span 3;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .gallery-image {
     width: 100%;
     height: 200px;
