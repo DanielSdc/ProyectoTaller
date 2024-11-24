@@ -12,9 +12,22 @@ document.addEventListener('DOMContentLoaded', async () => {
           collection(db, "reportes"),
           where("usuarioId", "==", user.uid)
         );
+        const inmueblesQuery = query(
+          collection(db, "inmuebles"),
+          where("usuarioId", "==", user.uid)
+        );
+        const rentasQuery = query(
+          collection(db, "rentas"),
+          where("usuarioId", "==", user.uid)
+        );
 
-        const reportesSnapshot = await getDocs(reportesQuery);
+        const [reportesSnapshot, inmueblesSnapshot, rentasSnapshot] = await Promise.all([
+          getDocs(reportesQuery),
+          getDocs(inmueblesQuery),
+          getDocs(rentasQuery)
+        ]);
 
+        let totalIncome = 0;
         reportesSnapshot.forEach((doc) => {
           const data = doc.data();
           const fechaPago = new Date(data.fechapago);
@@ -26,7 +39,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             ingresosPorMes[key] = 0;
           }
           ingresosPorMes[key] += parseFloat(data.pago);
+          totalIncome += parseFloat(data.pago);
         });
+        
+        document.getElementById('totalIncome').textContent = `$${totalIncome.toFixed(2)}`;
+
+        document.getElementById('totalProperties').textContent = inmueblesSnapshot.size;
+
+        document.getElementById('totalRentas').textContent = rentasSnapshot.size;
 
         // Generar la gráfica de ingresos
         const labels = Object.keys(ingresosPorMes).sort();

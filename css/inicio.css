@@ -35,3 +35,27 @@
     background-color: #dcdcdc;
     transition: background-color 0.3s ease;
 }
+
+.card-custom {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-custom:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-custom .card-body {
+    padding: 30px;
+}
+
+.card-custom .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-custom .card-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
