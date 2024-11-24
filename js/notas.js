@@ -140,8 +140,8 @@ async function cargarNotas() {
 // Función para habilitar o deshabilitar el botón de "Agregar Nota"
 function verificarNota() {
   const contenido = document.getElementById("noteContent").value.trim();
-  const submitBtn = document.getElementById("submitBtn");
-
+  const submitBtn = document.getElementById("submitNota");
+  
   if (contenido.length > 0) {
     submitBtn.removeAttribute("disabled"); // Habilitar el botón
   } else {
@@ -153,7 +153,7 @@ function verificarNota() {
 document.getElementById("noteContent").addEventListener("input", verificarNota);
 
 // Evento para agregar una nueva nota
-document.getElementById("submitBtn").addEventListener("click", async () => {
+document.getElementById("submitNota").addEventListener("click", async () => {
   const contenido = document.getElementById("noteContent").value;
   const titulo = contenido.slice(0, 20); // Usar los primeros 20 caracteres como título
   if (contenido) {
