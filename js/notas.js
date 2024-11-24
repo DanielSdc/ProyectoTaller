@@ -8,7 +8,8 @@ import {
     getDocs,
     deleteDoc,
     doc,
-    orderBy
+    orderBy,
+    updateDoc // Import updateDoc
 } from "../js/firebaseconfig.js";
 
 const userEmail = localStorage.getItem('userEmail');
@@ -102,6 +103,24 @@ async function eliminarNota(notaId) {
     }
 }
 
+// Función para actualizar una nota
+async function actualizarNota(notaId, titulo, contenido) {
+    try {
+        const notaRef = doc(db, "notas", notaId);
+        await updateDoc(notaRef, {
+            titulo: titulo,
+            contenido: contenido,
+            fechaActualizacion: new Date() // Timestamp
+        });
+        console.log(`Nota con ID ${notaId} actualizada.`);
+        alert("Nota actualizada exitosamente.");
+        cargarNotas(); // Actualiza la lista de notas
+    } catch (error) {
+        console.error("Error al actualizar la nota:", error);
+        alert("Hubo un error al actualizar la nota.");
+    }
+}
+
 const notesPerPage = 3;
 let currentPage = 1;
 let totalNotes = 0;
@@ -135,6 +154,7 @@ async function cargarNotas() {
       <p>${nota.contenido}</p>
       <small class="text-muted">${new Date(nota.fechaCreacion.seconds * 1000).toLocaleString()}</small>
       <button class="btn btn-sm btn-danger mt-2 eliminar-btn" data-id="${nota.id}">Eliminar</button>
+      <button class="btn btn-sm btn-warning mt-2 editar-btn" data-id="${nota.id}" data-titulo="${nota.titulo}" data-contenido="${nota.contenido}">Editar</button>
     `;
 
         listaNotas.appendChild(notaElemento);
@@ -148,6 +168,23 @@ async function cargarNotas() {
             if (confirmacion) {
                 await eliminarNota(notaId);
             }
+        });
+    });
+
+    // Asignar eventos a los botones de editar
+    document.querySelectorAll(".editar-btn").forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const notaId = event.target.getAttribute("data-id");
+            const titulo = event.target.getAttribute("data-titulo");
+            const contenido = event.target.getAttribute("data-contenido");
+
+            document.getElementById("noteTitle").value = titulo;
+            document.getElementById("noteContent").value = contenido;
+            document.getElementById("submitNota").style.display = "none";
+            document.getElementById("updateNota").style.display = "block";
+            document.getElementById("updateNota").setAttribute("data-id", notaId);
+
+            $('#addNoteModal').modal('show');
         });
     });
 
@@ -205,11 +242,31 @@ document.getElementById("submitNota").addEventListener("click", async () => {
     }
 });
 
+// Evento para actualizar una nota existente
+document.getElementById("updateNota").addEventListener("click", async () => {
+    const notaId = document.getElementById("updateNota").getAttribute("data-id");
+    const titulo = document.getElementById("noteTitle").value.trim();
+    const contenido = document.getElementById("noteContent").value.trim();
+    if (titulo.length > 0 && titulo.length <= 20 && contenido.length > 0 && contenido.length <= 200) {
+        await actualizarNota(notaId, titulo, contenido);
+        document.getElementById("noteTitle").value = "";
+        document.getElementById("noteContent").value = "";
+        document.getElementById("submitNota").style.display = "block";
+        document.getElementById("updateNota").style.display = "none";
+        $('#addNoteModal').modal('hide');
+    } else {
+        alert("Por favor, asegúrate de que el título no tenga más de 20 caracteres y la nota no tenga más de 200 caracteres.");
+    }
+});
+
 // Cargar notas al inicializar la página
 document.addEventListener("DOMContentLoaded", cargarNotas);
 
 $('#addNoteModal').on('shown.bs.modal', function () {
-    document.getElementById("noteTitle").value = "";
-    document.getElementById("noteContent").value = "";
-    document.getElementById("submitNota").setAttribute("disabled", "true");
+    const isEditing = document.getElementById("updateNota").style.display === "block";
+    if (!isEditing) {
+        document.getElementById("noteTitle").value = "";
+        document.getElementById("noteContent").value = "";
+        document.getElementById("submitNota").setAttribute("disabled", "true");
+    }
 });
