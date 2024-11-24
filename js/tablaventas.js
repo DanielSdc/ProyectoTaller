@@ -4,8 +4,16 @@ let table;
 let reportesTable;
 
 $(document).ready(function () {
-  table = $("#inmueblesTable").DataTable();
-  reportesTable = $("#reportesTable").DataTable();
+  table = $("#inmueblesTable").DataTable({
+    language: {
+        url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+    }
+});
+  reportesTable = $("#reportesTable").DataTable({
+    language: {
+        url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+    }
+});
 
   // Cargar inmuebles del usuario
   onAuthStateChanged(auth, async (user) => {
