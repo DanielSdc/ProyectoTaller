@@ -1,9 +1,11 @@
 import { auth, db, collection, addDoc, query, where, getDocs, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc } from './firebaseconfig.js';
 
 let table;
+let reportesTable;
 
 $(document).ready(function () {
   table = $("#inmueblesTable").DataTable();
+  reportesTable = $("#reportesTable").DataTable();
 
   // Cargar inmuebles del usuario
   onAuthStateChanged(auth, async (user) => {
@@ -22,9 +24,27 @@ $(document).ready(function () {
           data.contacto,
           data.fechacobro,
           `$${data.pago}`,
+          data.pagado, // Nuevo campo
           data.fincontrato,
           `<button class="btn btn-sm btn-warning btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i> Editar</button>
            <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
+        ]).draw(false);
+      });
+
+      // Cargar reportes del usuario
+      const reportesQuery = query(
+        collection(db, "reportes"),
+        where("usuarioId", "==", user.uid)
+      );
+
+      const reportesSnapshot = await getDocs(reportesQuery);
+      reportesSnapshot.forEach((doc) => {
+        const data = doc.data();
+        reportesTable.row.add([
+          data.inmueble,
+          data.arrendatario,
+          `$${data.pago}`,
+          data.fechapago
         ]).draw(false);
       });
 
@@ -51,18 +71,20 @@ $(document).ready(function () {
     const contacto = $("#contacto").val();
     const fechacobro = $("#fechacobro").val();
     const pago = $("#pago").val();
+    const pagado = $("#pagado").val(); // Nuevo campo
     const fincontrato = $("#fincontrato").val();
 
     const user = auth.currentUser;
     if (user) {
       try {
-        await addDoc(collection(db, "rentas"), {
+        const docRef = await addDoc(collection(db, "rentas"), {
           usuarioId: user.uid,
           inmueble,
           arrendatario,
           contacto,
           fechacobro,
           pago,
+          pagado, // Nuevo campo
           fincontrato,
           fechaCreacion: new Date()
         });
@@ -73,9 +95,10 @@ $(document).ready(function () {
           contacto,
           fechacobro,
           `$${pago}`,
+          pagado, // Nuevo campo
           fincontrato,
-          `<button class="btn btn-sm btn-warning btn-edit"><i class="fas fa-edit"></i> Editar</button>
-           <button class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i> Eliminar</button>`,
+          `<button class="btn btn-sm btn-warning btn-edit" data-id="${docRef.id}"><i class="fas fa-edit"></i> Editar</button>
+           <button class="btn btn-sm btn-danger btn-delete" data-id="${docRef.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
         ]).draw(false);
 
         $("#inmuebleForm")[0].reset();
@@ -86,6 +109,77 @@ $(document).ready(function () {
       }
     } else {
       alert("Debes iniciar sesión para agregar rentas.");
+    }
+  });
+
+  $("#editInmuebleForm").on("submit", async function (event) {
+    event.preventDefault();
+
+    const id = $("#editInmuebleId").val();
+    const inmueble = $("#editInmueble").val();
+    const arrendatario = $("#editArrendatario").val();
+    const contacto = $("#editContacto").val();
+    const fechacobro = $("#editFechacobro").val();
+    const pago = $("#editPago").val();
+    const pagado = $("#editPagado").val(); // Nuevo campo
+    const fincontrato = $("#editFincontrato").val();
+
+    try {
+      const docRef = doc(db, "rentas", id);
+      await updateDoc(docRef, {
+        inmueble,
+        arrendatario,
+        contacto,
+        fechacobro,
+        pago,
+        pagado, // Nuevo campo
+        fincontrato
+      });
+
+      // Actualizar la fila en la tabla
+      const row = $(`#inmueblesTable button[data-id='${id}']`).parents('tr');
+      table.row(row).data([
+        inmueble,
+        arrendatario,
+        contacto,
+        fechacobro,
+        `$${pago}`,
+        pagado, // Nuevo campo
+        fincontrato,
+        `<button class="btn btn-sm btn-warning btn-edit" data-id="${id}"><i class="fas fa-edit"></i> Editar</button>
+         <button class="btn btn-sm btn-danger btn-delete" data-id="${id}"><i class="fas fa-trash"></i> Eliminar</button>`
+      ]).draw(false);
+
+      // Si el campo "Pagado" es "SI", actualizar la fecha de cobro y agregar a reportes
+      if (pagado === "SI") {
+        const newFechaCobro = new Date(fechacobro);
+        newFechaCobro.setMonth(newFechaCobro.getMonth() + 1);
+        await updateDoc(docRef, {
+          fechacobro: newFechaCobro.toISOString().split('T')[0],
+          pagado: "NO"
+        });
+
+        await addDoc(collection(db, "reportes"), {
+          usuarioId: auth.currentUser.uid,
+          inmueble,
+          arrendatario,
+          pago,
+          fechapago: fechacobro
+        });
+
+        reportesTable.row.add([
+          inmueble,
+          arrendatario,
+          `$${pago}`,
+          fechacobro
+        ]).draw(false);
+      }
+
+      $("#editInmuebleModal").modal("hide");
+      location.reload(); // Recargar la página para reflejar los cambios
+    } catch (error) {
+      console.error("Error al actualizar la renta:", error);
+      alert("Hubo un error al actualizar la renta.");
     }
   });
 });
@@ -155,52 +249,9 @@ async function abrirModalEditar(renta) {
   $("#editContacto").val(renta.contacto);
   $("#editFechacobro").val(renta.fechacobro);
   $("#editPago").val(renta.pago);
+  $("#editPagado").val(renta.pagado); // Nuevo campo
   $("#editFincontrato").val(renta.fincontrato);
-}
-
-// Función para actualizar una renta
-$("#editInmuebleForm").on("submit", async function (event) {
-  event.preventDefault();
-
-  const id = $("#editInmuebleId").val();
-  const inmueble = $("#editInmueble").val();
-  const arrendatario = $("#editArrendatario").val();
-  const contacto = $("#editContacto").val();
-  const fechacobro = $("#editFechacobro").val();
-  const pago = $("#editPago").val();
-  const fincontrato = $("#editFincontrato").val();
-
-  try {
-    const docRef = doc(db, "rentas", id);
-    await updateDoc(docRef, {
-      inmueble,
-      arrendatario,
-      contacto,
-      fechacobro,
-      pago,
-      fincontrato
-    });
-
-    // Actualizar la fila en la tabla
-    const row = $(`#inmueblesTable button[data-id='${id}']`).parents('tr');
-    table.row(row).data([
-      inmueble,
-      arrendatario,
-      contacto,
-      fechacobro,
-      `$${pago}`,
-      fincontrato,
-      `<button class="btn btn-sm btn-warning btn-edit" data-id="${id}"><i class="fas fa-edit"></i> Editar</button>
-       <button class="btn btn-sm btn-danger btn-delete" data-id="${id}"><i class="fas fa-trash"></i> Eliminar</button>`
-    ]).draw(false);
-
-    $("#editInmuebleModal").modal("hide");
-    alert("Renta actualizada exitosamente.");
-  } catch (error) {
-    console.error("Error al actualizar la renta:", error);
-    alert("Hubo un error al actualizar la renta.");
-  }
-});
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
   const inmuebleSelect = document.getElementById('inmueble');
