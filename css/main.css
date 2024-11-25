@@ -48,15 +48,16 @@ body {
     color: var(--color-white);
 }
 
-.navbar i:hover {
-    color: var(--color-gold);
-}
 
 .navbar .navbar-nav {
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.navbar .dropdown a:hover{
+    background: var(--color-gold);
 }
 
 /* SIDEBAR */
@@ -142,6 +143,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: calc(100vh - 60px);
 }
 
 .footer {
@@ -157,6 +159,43 @@ body {
 .footer p {
     margin: 0px;
     font-style: italic;
+}
+
+/* SWEET ALERT */
+.swal-popup {
+    background-color: var(--color-dark-grey);
+    color: var(--color-white);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.swal-title {
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.swal-text {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.swal-btn {
+    border-radius: 10px;
+    padding: 15px;
+    background-color: var(--color-dark-grey);
+    padding: 10px 30px;
+    border: 1px solid white;
+    transition: all 0.3s ease;
+}
+
+.swal-btn:hover {
+    background-color: var(--color-white);
+    color: var(--color-black);
+}
+
+body.swal2-shown {
+    overflow: hidden;
 }
 
 /* Responsive Design */

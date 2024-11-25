@@ -36,7 +36,13 @@ function sendEmail() {
                 title: 'Enviado',
                 text: 'Tu formulario se ha enviado correctamente.',
                 icon: 'success',
-                confirmButtonText: 'Aceptar'
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    content: 'swal-text',
+                    confirmButton: 'swal-btn'
+                }
             }).then(() => {
                 // Cerrar el modal
                 $('#supportModal').modal('hide');
@@ -48,7 +54,13 @@ function sendEmail() {
                 title: 'Error',
                 text: 'Hubo un problema al enviar el formulario.',
                 icon: 'error',
-                confirmButtonText: 'Aceptar'
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    content: 'swal-text',
+                    confirmButton: 'swal-btn'
+                }
             });
         });
 }

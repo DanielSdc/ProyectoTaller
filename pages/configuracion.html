@@ -8,15 +8,14 @@
 
     <link rel="icon" href="../img/logo_icono.webp" type="image/x-icon">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css" rel="stylesheet">
 
     <!-- STYLE PAGE -->
     <link rel="stylesheet" href="../css/configuracion.css">
-    <script src="../js/support.js"></script>
-    <script type="module" src="../js/auth.js"></script>
 </head>
 
 <body>
@@ -39,20 +38,20 @@
                     <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user nab"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end bg-light">
-                        <li><a class="dropdown-item " href="configuracion.html">Configuración</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end bg-dark">
+                        <li><a class="dropdown-item text-light" href="configuracion.html">Configuración</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#" id="logout">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item text-light" href="#" id="logout">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    
+
     <!-- MAIN -->
-    <div class="container-fluid">
+    <div class="container-fluid h-100">
 
         <!-- SIDEBAR -->
         <aside id="sidebar">
@@ -83,15 +82,17 @@
                         <span class="text">Notas</span>
                     </a>
                 </section>
-                
+
                 <!-- SECTION: SUPPORT -->
                 <section class="sidebar-section">
                     <h5 class="sidebar-section-title">CONTACTO</h5>
                     <div class="card bg-dark text-white">
                         <div class="card-body">
                             <h6 class="card-title">Ponte en contacto con nosotros</h6>
-                            <p class="card-text">Si tienes alguna duda o necesitas más información, no dudes en escribirnos o llamarnos.</p>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#supportModal" class="btn btn-outline-light btn-sm">Soporte</a>
+                            <p class="card-text">Si tienes alguna duda o necesitas más información, no dudes en
+                                escribirnos o llamarnos.</p>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#supportModal"
+                                class="btn btn-outline-light btn-sm">Soporte</a>
                         </div>
                     </div>
                 </section>
@@ -103,65 +104,71 @@
 
             <!-- CONTENT: PAGE -->
             <section id="mainContent">
-                <article class="config-content">
-                    <div class="settings-section">
-                        <div class="settings-option">
-                            <label for="modoOscuro">Modo Oscuro</label>
-                            <input class="form-check-input" type="checkbox" id="modoOscuro">
-                        </div>
-        
-                        <div class="settings-option">
-                            <label for="nuevoNombre">Cambiar Nombre de Usuario</label>
-                            <input type="text" class="form-control input-configuracion" id="nuevoNombre" placeholder="Escribe el nuevo nombre">
-                        </div>
-        
-                        <div class="settings-option">
-                            <label for="nuevaContrasena">Nueva Contraseña</label>
-                            <input type="password" class="form-control input-configuracion" id="nuevaContrasena" placeholder="Escribe la nueva contraseña">
-                            <label for="confirmarContrasena" class="mt-2">Confirmar Contraseña</label>
-                            <input type="password" class="form-control input-configuracion" id="confirmarContrasena" placeholder="Confirma la nueva contraseña">
-                        </div>
-        
-                        <div class="settings-option">
-                            <label for="temaColor">Tema de Color</label>
-                            <select id="temaColor" class="form-select input-configuracion">
-                                <option value="default">Claro</option>
-                                <option value="dark">Oscuro</option>
-                                <option value="blue">Azul</option>
-                                <option value="green">Verde</option>
-                            </select>
-                        </div>
-        
-                        <div class="settings-option">
-                            <label for="idioma">Idioma</label>
-                            <select id="idioma" class="form-select input-configuracion">
-                                <option value="es">Español</option>
-                                <option value="en">Inglés</option>
-                                <option value="fr">Francés</option>
-                            </select>
-                        </div>
-        
-                        <div class="settings-option">
-                            <label>Privacidad</label>
-                            <div>
-                                <input class="form-check-input" type="checkbox" id="historial">
-                                <label for="historial">Permitir Historial de Actividades</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="checkbox" id="ubicacion">
-                                <label for="ubicacion">Compartir Ubicación</label>
-                            </div>
-                        </div>
-        
-                        <div class="settings-option">
-                            <label for="notificaciones">Notificaciones</label>
-                            <input class="form-check-input" type="checkbox" id="notificaciones">
-                        </div>
-        
-                        <button class="btnGuardar">Guardar Cambios</button>
+                <div>
+                    <h2>Configuración de Cuenta</h2>
+                    <button class="btn btn-primary mt-3" id="changeEmailBtn" data-bs-toggle="modal"
+                        data-bs-target="#changeEmailModal">Cambiar Correo Electrónico</button>
+                    <button class="btn btn-secondary mt-3" id="changePasswordBtn" data-bs-toggle="modal"
+                        data-bs-target="#changePasswordModal">Cambiar Contraseña</button>
+                    <div id="changeEmailForm" class="d-none">
+                        <!-- Form content for changing email -->
                     </div>
-                </article>
+                    <div id="changePasswordForm" class="d-none">
+                        <!-- Form content for changing password -->
+                    </div>
+                </div>
             </section>
+
+            <!-- Modal for changing email -->
+            <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel"
+                aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changeEmailModalLabel">Cambiar Correo Electrónico</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="newEmail" class="form-label">Nuevo Correo Electrónico</label>
+                                <input type="email" class="form-control" id="newEmail"
+                                    placeholder="Ingresa tu nuevo correo electrónico">
+                                <div id="emailError" class="text-danger d-none"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-success" id="submitNewEmail">Actualizar Correo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for changing password -->
+            <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+                aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changePasswordModalLabel">Cambiar Contraseña</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="changePasswordModalBody">
+                            <div class="mb-3">
+                                <label for="currentPassword" class="form-label">Contraseña Actual</label>
+                                <input type="password" class="form-control" id="currentPassword"
+                                    placeholder="Ingresa tu contraseña actual">
+                                <div id="currentPasswordError" class="text-danger d-none">Contraseña actual incorrecta
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" id="changePasswordModalFooter">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="submitCurrentPassword">Continuar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- FOOTER: COPYRIGHT -->
             <footer class="footer">
@@ -170,144 +177,166 @@
         </main>
     </div>
 
-<!-- MODAL: SUPPORT -->
-<div class="modal fade" id="supportModal" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
+    <!-- MODAL: SUPPORT -->
+    <div class="modal fade" id="supportModal" data-bs-backdrop="static" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <!-- MODAL: HEADER -->
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Formulario de Soporte
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-        <!-- MODAL: HEADER -->
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Formulario de Soporte</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <!-- MODAL: BODY -->
-        <div class="modal-body">
-
-            <!-- SELECT TYPE SUPPORT -->
-            <div class="mb-3">
-                <label for="supportOption" class="form-label">Selecciona el tipo de soporte</label>
-                <select class="form-select" id="supportOption" onchange="toggleForm()">
-                    <option value="" disabled selected>Elige una opción</option>
-                    <option value="plan">Planes</option>
-                    <option value="asistencia">Asistencia Técnica</option>
-                </select>
-            </div>
-
-            <!-- FORM: PLANS -->
-            <div id="plansForm" class="d-none">
-                <h5>Información del Plan</h5>
-                <p>Por favor, ingresa tus datos para contratar o actualizar tu plan. Nos pondremos en contacto
-                    contigo por teléfono o correo para completar el proceso.</p>
-
-                <!-- OPTIONS -->
-                <button class="btn btn-primary w-100" onclick="choosePlan('contratar')">Contratar un Plan</button>
-                <button class="btn btn-secondary w-100 mt-2" onclick="choosePlan('actualizar')">Actualizar Plan</button>                        
-
-                <!-- OPTIONS -->
-                <div id="planOptions" class="d-none mt-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="plan" id="proPlan" value="pro">
-                        <label class="form-check-label" for="proPlan">
-                            Plan Basic - $29.00 USD/mes
-                        </label>
+                <!-- MODAL: BODY -->
+                <div class="modal-body">
+                    <!-- SELECT TYPE SUPPORT -->
+                    <div class="mb-3">
+                        <label for="supportOption" class="form-label">Selecciona el tipo de soporte</label>
+                        <select class="form-select" id="supportOption" onchange="toggleForm()">
+                            <option value="" disabled selected>Elige una opción</option>
+                            <option value="plan">Planes</option>
+                            <option value="asistencia">Asistencia Técnica</option>
+                        </select>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="plan" id="premiumPlan"
-                            value="premium">
-                        <label class="form-check-label" for="premiumPlan">
-                            Plan Pro - $49.00 USD/mes
-                        </label>
+
+                    <!-- FORM: PLANS -->
+                    <div id="plansForm" class="d-none">
+                        <h5>Información del Plan</h5>
+                        <p>
+                            Por favor, ingresa tus datos para contratar o actualizar tu
+                            plan. Nos pondremos en contacto contigo por teléfono o correo
+                            para completar el proceso.
+                        </p>
+
+                        <!-- OPTIONS -->
+                        <button class="btn btn-primary w-100" onclick="choosePlan('contratar')">
+                            Contratar un Plan
+                        </button>
+                        <button class="btn btn-secondary w-100 mt-2" onclick="choosePlan('actualizar')">
+                            Actualizar Plan
+                        </button>
+
+                        <!-- OPTIONS -->
+                        <div id="planOptions" class="d-none mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="plan" id="proPlan" value="pro" />
+                                <label class="form-check-label" for="proPlan">
+                                    Plan Basic - $29.00 USD/mes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="plan" id="premiumPlan"
+                                    value="premium" />
+                                <label class="form-check-label" for="premiumPlan">
+                                    Plan Pro - $49.00 USD/mes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="plan" id="diamondPlan"
+                                    value="diamond" />
+                                <label class="form-check-label" for="diamondPlan">
+                                    Plan Premium - $99.00 USD/mes
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="plan" id="diamondPlan"
-                            value="diamond">
-                        <label class="form-check-label" for="diamondPlan">
-                            Plan Premium - $99.00 USD/mes
-                        </label>
+
+                    <!-- TECHNICAL ASSISTANCE -->
+                    <div id="supportForm" class="d-none">
+                        <h5>Formulario de Asistencia Técnica</h5>
+                        <p>
+                            Por favor, ingresa tus datos para que podamos ayudarte. Nos
+                            pondremos en contacto contigo por teléfono o correo.
+                        </p>
+
+                        <!-- TYPE OF HELP -->
+                        <div class="mb-3">
+                            <label for="helpType" class="form-label">Tipo de ayuda que necesitas</label>
+                            <select class="form-select" id="helpType">
+                                <option value="" disabled selected>
+                                    Selecciona un tipo de ayuda
+                                </option>
+                                <option value="general">Consulta general</option>
+                                <option value="tecnico">Asistencia técnica</option>
+                                <option value="facturacion">Problemas de facturación</option>
+                                <option value="cuenta">Problemas con la cuenta</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <hr />
+
+                    <!-- INPUT FIELDS -->
+                    <div id="commonFields" class="d-none">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="userName" placeholder="Tu nombre completo"
+                                required />
+                            <div class="invalid-feedback" id="nameError">
+                                Por favor, ingresa tu nombre completo.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="userPhone" placeholder="Tu número de teléfono"
+                                required pattern="^[+]?[0-9]{10,15}$" />
+                            <div class="invalid-feedback" id="phoneError">
+                                Por favor, ingresa un número de teléfono válido (ejemplo:
+                                +1234567890).
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="userEmail" placeholder="Tu correo electrónico"
+                                required />
+                            <div class="invalid-feedback" id="emailError">
+                                Por favor, ingresa un correo electrónico válido.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userMessage" class="form-label">Descripción de la consulta</label>
+                            <textarea class="form-control" id="userMessage" rows="4"
+                                placeholder="Describe tu consulta o solicitud" required></textarea>
+                            <div class="invalid-feedback" id="messageError">
+                                Por favor, ingresa una descripción de tu consulta.
+                            </div>
+                        </div>
+
+                        <!-- SHOW SUPPORT SELECTED -->
+                        <div id="selectedOption" class="d-none mb-3">
+                            <label for="selectedOptionText" class="form-label">Opción seleccionada</label>
+                            <textarea class="form-control" id="selectedOptionText" rows="2" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODAL: FOOTER -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                    <button type="button" class="btn btn-success" id="submitBtn">
+                        Enviar
+                    </button>
                 </div>
             </div>
-
-            <!-- TECHNICAL ASSISTANCE -->
-            <div id="supportForm" class="d-none">
-                <h5>Formulario de Asistencia Técnica</h5>
-                <p>Por favor, ingresa tus datos para que podamos ayudarte. Nos pondremos en contacto contigo por
-                    teléfono o correo.</p>
-
-                <!-- TYPE OF HELP -->
-                <div class="mb-3">
-                    <label for="helpType" class="form-label">Tipo de ayuda que necesitas</label>
-                    <select class="form-select" id="helpType">
-                        <option value="" disabled selected>Selecciona un tipo de ayuda</option>
-                        <option value="general">Consulta general</option>
-                        <option value="tecnico">Asistencia técnica</option>
-                        <option value="facturacion">Problemas de facturación</option>
-                        <option value="cuenta">Problemas con la cuenta</option>
-                    </select>
-                </div>
-            </div>
-
-            <hr>
-            
-            <!-- INPUT FIELDS -->
-            <div id="commonFields" class="d-none">
-                <div class="mb-3">
-                    <label for="userName" class="form-label">Nombre Completo</label>
-                    <input type="text" class="form-control" id="userName" placeholder="Tu nombre completo"
-                        required>
-                    <div class="invalid-feedback" id="nameError">Por favor, ingresa tu nombre completo.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="userPhone" class="form-label">Teléfono</label>
-                    <input type="tel" class="form-control" id="userPhone" placeholder="Tu número de teléfono"
-                        required pattern="^[+]?[0-9]{10,15}$">
-                    <div class="invalid-feedback" id="phoneError">Por favor, ingresa un número de teléfono
-                        válido
-                        (ejemplo: +1234567890).</div>
-                </div>
-                <div class="mb-3">
-                    <label for="userEmail" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="userEmail" placeholder="Tu correo electrónico"
-                        required>
-                    <div class="invalid-feedback" id="emailError">Por favor, ingresa un correo electrónico
-                        válido.
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="userMessage" class="form-label">Descripción de la consulta</label>
-                    <textarea class="form-control" id="userMessage" rows="4"
-                        placeholder="Describe tu consulta o solicitud" required></textarea>
-                    <div class="invalid-feedback" id="messageError">Por favor, ingresa una descripción de tu
-                        consulta.</div>
-                </div>
-
-                <!-- SHOW SUPPORT SELECTED -->
-                <div id="selectedOption" class="d-none mb-3">
-                    <label for="selectedOptionText" class="form-label">Opción seleccionada</label>
-                    <textarea class="form-control" id="selectedOptionText" rows="2" disabled></textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL: FOOTER -->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-success" id="submitBtn">Enviar</button>
         </div>
     </div>
-</div>
-</div>
 
     <!-- SCRIPTS JAVASCRIPT -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/39d6703737.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
     <script src="../js/support.js"></script>
     <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/configuracion.js"></script>
     <script>
         // Obtén el correo del usuario desde localStorage
         const userEmail = localStorage.getItem('userEmail');
