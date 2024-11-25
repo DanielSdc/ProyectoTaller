@@ -56,6 +56,45 @@
     background-color: #c82333;
 }
 
+#inmueblesTable {
+    table-layout: fixed; 
+    width: 100%;
+}
+#inmueblesTable th,
+#inmueblesTable th:nth-child(1), 
+#inmueblesTable td:nth-child(1) {
+    width: 15%;
+}
+#inmueblesTable th:nth-child(2), 
+#inmueblesTable td:nth-child(2) {
+    width: 30%;
+}
+#inmueblesTable th:nth-child(3), 
+#inmueblesTable td:nth-child(3) {
+    width: 10%;
+}
+#inmueblesTable th:nth-child(4), 
+#inmueblesTable td:nth-child(4) {
+    width: 10%;
+}
+#inmueblesTable th:nth-child(5), 
+#inmueblesTable td:nth-child(5) {
+    width: 10%;
+}
+#inmueblesTable th:nth-child(6), 
+#inmueblesTable td:nth-child(6) {
+    width: 10%;
+}
+#inmueblesTable th:nth-child(7), 
+#inmueblesTable td:nth-child(7) {
+    text-align: center;
+    width: 5%;
+}
+#inmueblesTable th:nth-child(8), 
+#inmueblesTable td:nth-child(8) {
+    width: 10%;
+}
+
 /* MAP */
 .map-section {
     margin-top: 2rem;
