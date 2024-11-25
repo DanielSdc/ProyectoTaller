@@ -54,3 +54,12 @@
   .table .btn-danger:hover {
     background-color: #c82333;
   }
+
+  .btn-primary i, .btn-warning i, .btn-danger i {
+    font-size: 1.5rem; /* Ajusta el tamaño del ícono */
+  }
+  
+  .table td {
+    vertical-align: middle; /* Asegura que el contenido de las celdas esté centrado verticalmente */
+    text-align: center; /* Centra el contenido horizontalmente */
+  }

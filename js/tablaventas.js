@@ -1,4 +1,4 @@
-import { auth, db, collection, addDoc, query, where, getDocs, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc } from './firebaseconfig.js';
+import { auth, db, collection, addDoc, query, where, getDocs, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
 
 let table;
 let reportesTable;
@@ -6,14 +6,14 @@ let reportesTable;
 $(document).ready(function () {
   table = $("#inmueblesTable").DataTable({
     language: {
-        url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+      url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
     }
-});
+  });
   reportesTable = $("#reportesTable").DataTable({
     language: {
-        url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+      url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
     }
-});
+  });
 
   // Cargar inmuebles del usuario
   onAuthStateChanged(auth, async (user) => {
@@ -34,8 +34,11 @@ $(document).ready(function () {
           `$${data.pago}`,
           data.pagado, // Nuevo campo
           data.fincontrato,
-          `<button class="btn btn-sm btn-warning btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i> Editar</button>
-           <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
+          data.contratoPdf ? `<a href="${data.contratoPdf}" target="_blank" class="btn btn-sm btn-primary d-flex justify-content-center align-items-center"><i class="fas fa-file-invoice-dollar fa-2x" aria-hidden="true"></i></a>` : 'No disponible',
+          `<div class="d-flex justify-content-center align-items-center">
+             <button class="btn btn-sm btn-warning btn-edit me-2" data-id="${doc.id}"><i class="fas fa-edit fa-2x"></i></button>
+             <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash fa-2x"></i></button>
+           </div>`
         ]).draw(false);
       });
 
@@ -81,10 +84,18 @@ $(document).ready(function () {
     const pago = $("#pago").val();
     const pagado = $("#pagado").val(); // Nuevo campo
     const fincontrato = $("#fincontrato").val();
+    const contratoPdf = $("#contratoPdf")[0].files[0]; // Obtener el archivo PDF
 
     const user = auth.currentUser;
     if (user) {
       try {
+        let contratoPdfUrl = '';
+        if (contratoPdf) {
+          const pdfRef = ref(storage, `contratos/${user.uid}/${contratoPdf.name}`);
+          await uploadBytes(pdfRef, contratoPdf);
+          contratoPdfUrl = await getDownloadURL(pdfRef);
+        }
+
         const docRef = await addDoc(collection(db, "rentas"), {
           usuarioId: user.uid,
           inmueble,
@@ -94,6 +105,7 @@ $(document).ready(function () {
           pago,
           pagado, // Nuevo campo
           fincontrato,
+          contratoPdf: contratoPdfUrl, // Guardar la URL del PDF
           fechaCreacion: new Date()
         });
 
@@ -105,8 +117,11 @@ $(document).ready(function () {
           `$${pago}`,
           pagado, // Nuevo campo
           fincontrato,
-          `<button class="btn btn-sm btn-warning btn-edit" data-id="${docRef.id}"><i class="fas fa-edit"></i> Editar</button>
-           <button class="btn btn-sm btn-danger btn-delete" data-id="${docRef.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
+          contratoPdfUrl ? `<a href="${contratoPdfUrl}" target="_blank" class="btn btn-sm btn-primary d-flex justify-content-center align-items-center"><i class="fas fa-file-invoice-dollar fa-2x" aria-hidden="true"></i></a>` : 'No disponible',
+          `<div class="d-flex justify-content-center align-items-center">
+             <button class="btn btn-sm btn-warning btn-edit me-2" data-id="${docRef.id}"><i class="fas fa-edit fa-2x"></i></button>
+             <button class="btn btn-sm btn-danger btn-delete" data-id="${docRef.id}"><i class="fas fa-trash fa-2x"></i></button>
+           </div>`
         ]).draw(false);
 
         $("#inmuebleForm")[0].reset();
@@ -131,17 +146,31 @@ $(document).ready(function () {
     const pago = $("#editPago").val();
     const pagado = $("#editPagado").val(); // Nuevo campo
     const fincontrato = $("#editFincontrato").val();
+    const contratoPdf = $("#editContratoPdf")[0].files[0]; // Obtener el archivo PDF
 
     try {
-      const docRef = doc(db, "rentas", id);
-      await updateDoc(docRef, {
+      let contratoPdfUrl = '';
+      if (contratoPdf) {
+        const pdfRef = ref(storage, `contratos/${auth.currentUser.uid}/${contratoPdf.name}`);
+        await uploadBytes(pdfRef, contratoPdf);
+        contratoPdfUrl = await getDownloadURL(pdfRef);
+      } else {
+        const rentaDoc = await getDoc(doc(db, "rentas", id));
+        if (rentaDoc.exists()) {
+          const renta = rentaDoc.data();
+          contratoPdfUrl = renta.contratoPdf || '';
+        }
+      }
+
+      await updateDoc(doc(db, "rentas", id), {
         inmueble,
         arrendatario,
         contacto,
         fechacobro,
         pago,
         pagado, // Nuevo campo
-        fincontrato
+        fincontrato,
+        contratoPdf: contratoPdfUrl // Guardar la URL del PDF
       });
 
       // Actualizar la fila en la tabla
@@ -154,34 +183,12 @@ $(document).ready(function () {
         `$${pago}`,
         pagado, // Nuevo campo
         fincontrato,
-        `<button class="btn btn-sm btn-warning btn-edit" data-id="${id}"><i class="fas fa-edit"></i> Editar</button>
-         <button class="btn btn-sm btn-danger btn-delete" data-id="${id}"><i class="fas fa-trash"></i> Eliminar</button>`
+        contratoPdfUrl ? `<a href="${contratoPdfUrl}" target="_blank" class="btn btn-sm btn-primary d-flex justify-content-center align-items-center"><i class="fas fa-file-invoice-dollar fa-2x" aria-hidden="true"></i></a>` : 'No disponible',
+        `<div class="d-flex justify-content-center align-items-center">
+           <button class="btn btn-sm btn-warning btn-edit me-2" data-id="${id}"><i class="fas fa-edit fa-2x"></i></button>
+           <button class="btn btn-sm btn-danger btn-delete" data-id="${id}"><i class="fas fa-trash fa-2x"></i></button>
+         </div>`
       ]).draw(false);
-
-      // Si el campo "Pagado" es "SI", actualizar la fecha de cobro y agregar a reportes
-      if (pagado === "SI") {
-        const newFechaCobro = new Date(fechacobro);
-        newFechaCobro.setMonth(newFechaCobro.getMonth() + 1);
-        await updateDoc(docRef, {
-          fechacobro: newFechaCobro.toISOString().split('T')[0],
-          pagado: "NO"
-        });
-
-        await addDoc(collection(db, "reportes"), {
-          usuarioId: auth.currentUser.uid,
-          inmueble,
-          arrendatario,
-          pago,
-          fechapago: fechacobro
-        });
-
-        reportesTable.row.add([
-          inmueble,
-          arrendatario,
-          `$${pago}`,
-          fechacobro
-        ]).draw(false);
-      }
 
       $("#editInmuebleModal").modal("hide");
       location.reload(); // Recargar la página para reflejar los cambios
@@ -259,6 +266,7 @@ async function abrirModalEditar(renta) {
   $("#editPago").val(renta.pago);
   $("#editPagado").val(renta.pagado); // Nuevo campo
   $("#editFincontrato").val(renta.fincontrato);
+  $("#editContratoPdf").val(''); // Limpiar el campo de archivo PDF
 };
 
 document.addEventListener('DOMContentLoaded', async () => {

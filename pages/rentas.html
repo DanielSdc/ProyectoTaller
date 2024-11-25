@@ -130,6 +130,7 @@
                                 <th>Pago</th>
                                 <th>Pagado</th> <!-- Nueva columna -->
                                 <th>Fin Contrato</th>
+                                <th>Contrato PDF</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -212,6 +213,11 @@
                             <label for="fincontrato" class="form-label">Fin Contrato</label>
                             <input type="date" class="form-control" id="fincontrato" required />
                         </div>
+
+                        <div class="mb-3">
+                            <label for="contratoPdf" class="form-label">Contrato PDF</label>
+                            <input type="file" class="form-control" id="contratoPdf" accept="application/pdf" />
+                          </div>
 
                         <button type="submit" class="btn btn-primary">Agregar</button>
                     </form>
@@ -397,6 +403,11 @@
                             <label for="editFincontrato" class="form-label">Fin de Contrato</label>
                             <input type="date" class="form-control" id="editFincontrato" required>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="editContratoPdf" class="form-label">Contrato PDF</label>
+                            <input type="file" class="form-control" id="editContratoPdf" accept="application/pdf" />
+                          </div>
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </form>
                 </div>
