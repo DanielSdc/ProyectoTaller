@@ -52,8 +52,10 @@ $(document).ready(function () {
           data.banos || 0,
           `$${data.valor || 0}`,
           data.fotos ? data.fotos.map(url => `<img src="${url}" width="50" height="50">`).join(' ') : '',
-          `<button class="btn btn-sm btn-warning btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i> Editar</button>
-           <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
+          `<div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-sm btn-warning btn-edit me-2" data-id="${doc.id}"><i class="fas fa-edit fa-2x"></i></button>
+          <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash fa-2x"></i></button>
+        </div>`
         ]).draw(false);
 
         // Add marker to the map
