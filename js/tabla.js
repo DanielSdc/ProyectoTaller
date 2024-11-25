@@ -1,5 +1,5 @@
 // Importa la configuración de Firebase
-import { app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
+import {deleteObject, app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
 
 let table;
 let allFotos = []; // Define allFotos globally
@@ -289,11 +289,27 @@ $(document).ready(function () {
 
 async function eliminarInmueble(id) {
     try {
-        await deleteDoc(doc(db, "inmuebles", id));
+      const docRef = doc(db, "inmuebles", id);
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.fotos && data.fotos.length > 0) {
+          for (const fotoUrl of data.fotos) {
+            const fotoRef = ref(storage, fotoUrl);
+            await deleteObject(fotoRef); // Eliminar la imagen del almacenamiento
+          }
+        }
+      }
+  
+      await deleteDoc(docRef); // Eliminar el documento de Firestore
+      console.log(`Inmueble con ID ${id} eliminado.`);
+      alert("Inmueble y sus imágenes eliminados exitosamente.");
     } catch (error) {
-        console.error("Error deleting document: ", error);
+      console.error("Error al eliminar el inmueble:", error);
+      alert("Hubo un error al eliminar el inmueble.");
     }
-}
+  }
 
 async function obtenerInmueble(id) {
     try {
