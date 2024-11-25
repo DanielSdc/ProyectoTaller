@@ -50,7 +50,17 @@ async function guardarNota(titulo, contenido) {
             fechaCreacion: new Date(), // Timestamp
         });
         console.log("Nota guardada con ID:", docRef.id);
-        alert("Nota guardada exitosamente.");
+        Swal.fire({
+            icon: 'success',
+            title: 'Nota guardada',
+            text: 'Tu nota ha sido guardada exitosamente.',
+            customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-text',
+                confirmButton: 'swal-btn'
+            }
+        });
         cargarNotas(); // Actualiza la lista de notas
     } catch (error) {
         console.error("Error al guardar la nota:", error);
@@ -95,7 +105,17 @@ async function eliminarNota(notaId) {
     try {
         await deleteDoc(doc(db, "notas", notaId));
         console.log(`Nota con ID ${notaId} eliminada.`);
-        alert("Nota eliminada exitosamente.");
+        Swal.fire({
+            icon: 'success',
+            title: 'Nota eliminada',
+            text: 'Tu nota ha sido eliminada exitosamente.',
+            customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-text',
+                confirmButton: 'swal-btn'
+            }
+        });
         cargarNotas(); // Actualiza la lista de notas
     } catch (error) {
         console.error("Error al eliminar la nota:", error);
@@ -113,7 +133,17 @@ async function actualizarNota(notaId, titulo, contenido) {
             fechaActualizacion: new Date() // Timestamp
         });
         console.log(`Nota con ID ${notaId} actualizada.`);
-        alert("Nota actualizada exitosamente.");
+        Swal.fire({
+            icon: 'success',
+            title: 'Nota actualizada',
+            text: 'Tu nota ha sido actualizada exitosamente.',
+            customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-text',
+                confirmButton: 'swal-btn'
+            }
+        });
         cargarNotas(); // Actualiza la lista de notas
     } catch (error) {
         console.error("Error al actualizar la nota:", error);
@@ -152,7 +182,7 @@ async function cargarNotas() {
         notaElemento.innerHTML = `
       <h5>${nota.titulo}</h5>
       <p>${nota.contenido}</p>
-      <small class="text-muted">${new Date(nota.fechaCreacion.seconds * 1000).toLocaleString()}</small>
+      <small class="text-muted">Fecha creada: ${new Date(nota.fechaCreacion.seconds * 1000).toLocaleString()}</small>
       <button class="btn btn-sm btn-danger mt-2 eliminar-btn" data-id="${nota.id}">Eliminar</button>
       <button class="btn btn-sm btn-warning mt-2 editar-btn" data-id="${nota.id}" data-titulo="${nota.titulo}" data-contenido="${nota.contenido}">Editar</button>
     `;
@@ -164,10 +194,25 @@ async function cargarNotas() {
     document.querySelectorAll(".eliminar-btn").forEach((button) => {
         button.addEventListener("click", async (event) => {
             const notaId = event.target.getAttribute("data-id");
-            const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta nota?");
-            if (confirmacion) {
-                await eliminarNota(notaId);
-            }
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                customClass: {
+                    popup: 'swal-popup',
+                    title: 'swal-title',
+                    content: 'swal-text',
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await eliminarNota(notaId);
+                }
+            });
         });
     });
 
@@ -177,14 +222,7 @@ async function cargarNotas() {
             const notaId = event.target.getAttribute("data-id");
             const titulo = event.target.getAttribute("data-titulo");
             const contenido = event.target.getAttribute("data-contenido");
-
-            document.getElementById("noteTitle").value = titulo;
-            document.getElementById("noteContent").value = contenido;
-            document.getElementById("submitNota").style.display = "none";
-            document.getElementById("updateNota").style.display = "block";
-            document.getElementById("updateNota").setAttribute("data-id", notaId);
-
-            $('#addNoteModal').modal('show');
+            abrirModalEditarNota(notaId, titulo, contenido);
         });
     });
 
@@ -210,35 +248,52 @@ document.getElementById("nextPage").addEventListener("click", () => {
     }
 });
 
-// Función para habilitar o deshabilitar el botón de "Agregar Nota"
-document.getElementById("submitNota").setAttribute("disabled", "true");
-
-function verificarNota() {
-    const titulo = document.getElementById("noteTitle").value.trim();
-    const contenido = document.getElementById("noteContent").value.trim();
+// Función para verificar los campos del formulario
+function verificarCampos() {
+    const titulo = document.getElementById("noteTitle");
+    const contenido = document.getElementById("noteContent");
     const submitBtn = document.getElementById("submitNota");
+    const updateBtn = document.getElementById("updateNota");
 
-    if (titulo.length > 0 && titulo.length <= 20 && contenido.length > 0 && contenido.length <= 200) {
-        submitBtn.removeAttribute("disabled"); // Habilitar el botón
+    let isValid = true;
+
+    if (titulo.value.trim().length === 0 || titulo.value.trim().length > 20) {
+        titulo.classList.add("is-invalid");
+        document.getElementById("tituloError").textContent = "El título debe tener entre 1 y 20 caracteres.";
+        isValid = false;
     } else {
-        submitBtn.setAttribute("disabled", "true"); // Deshabilitar el botón
+        titulo.classList.remove("is-invalid");
+        document.getElementById("tituloError").textContent = "";
+    }
+
+    if (contenido.value.trim().length === 0 || contenido.value.trim().length > 200) {
+        contenido.classList.add("is-invalid");
+        document.getElementById("contenidoError").textContent = "El contenido debe tener entre 1 y 200 caracteres.";
+        isValid = false;
+    } else {
+        contenido.classList.remove("is-invalid");
+        document.getElementById("contenidoError").textContent = "";
+    }
+
+    if (isValid) {
+        submitBtn.removeAttribute("disabled");
+        updateBtn.removeAttribute("disabled");
+    } else {
+        submitBtn.setAttribute("disabled", "true");
+        updateBtn.setAttribute("disabled", "true");
     }
 }
 
-document.getElementById("noteTitle").addEventListener("input", verificarNota);
-document.getElementById("noteContent").addEventListener("input", verificarNota);
+document.getElementById("noteTitle").addEventListener("input", verificarCampos);
+document.getElementById("noteContent").addEventListener("input", verificarCampos);
 
 // Evento para agregar una nueva nota
 document.getElementById("submitNota").addEventListener("click", async () => {
-    const titulo = document.getElementById("noteTitle").value.trim(); // Get title
+    const titulo = document.getElementById("noteTitle").value.trim();
     const contenido = document.getElementById("noteContent").value.trim();
     if (titulo.length > 0 && titulo.length <= 20 && contenido.length > 0 && contenido.length <= 200) {
         await guardarNota(titulo, contenido);
-        document.getElementById("noteTitle").value = ""; // Clear title field
-        document.getElementById("noteContent").value = ""; // Clear content field
-        $('#addNoteModal').modal('hide'); // Cerrar el modal de agregar nota
-    } else {
-        alert("Por favor, asegúrate de que el título no tenga más de 20 caracteres y la nota no tenga más de 200 caracteres.");
+        $('#addNoteModal').modal('hide');
     }
 });
 
@@ -249,15 +304,41 @@ document.getElementById("updateNota").addEventListener("click", async () => {
     const contenido = document.getElementById("noteContent").value.trim();
     if (titulo.length > 0 && titulo.length <= 20 && contenido.length > 0 && contenido.length <= 200) {
         await actualizarNota(notaId, titulo, contenido);
-        document.getElementById("noteTitle").value = "";
-        document.getElementById("noteContent").value = "";
-        document.getElementById("submitNota").style.display = "block";
-        document.getElementById("updateNota").style.display = "none";
         $('#addNoteModal').modal('hide');
-    } else {
-        alert("Por favor, asegúrate de que el título no tenga más de 20 caracteres y la nota no tenga más de 200 caracteres.");
     }
 });
+
+// Función para abrir el modal de agregar nota
+function abrirModalAgregarNota() {
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteContent").value = "";
+    document.getElementById("submitNota").style.display = "block";
+    document.getElementById("updateNota").style.display = "none";
+    document.getElementById("submitNota").setAttribute("disabled", "true");
+    document.getElementById("noteTitle").classList.remove("is-invalid");
+    document.getElementById("noteContent").classList.remove("is-invalid");
+    document.getElementById("tituloError").textContent = "";
+    document.getElementById("contenidoError").textContent = "";
+    $('#addNoteModal').modal('show');
+}
+
+// Función para abrir el modal de editar nota
+function abrirModalEditarNota(notaId, titulo, contenido) {
+    document.getElementById("noteTitle").value = titulo;
+    document.getElementById("noteContent").value = contenido;
+    document.getElementById("submitNota").style.display = "none";
+    document.getElementById("updateNota").style.display = "block";
+    document.getElementById("updateNota").setAttribute("data-id", notaId);
+    document.getElementById("updateNota").setAttribute("disabled", "true");
+    document.getElementById("noteTitle").classList.remove("is-invalid");
+    document.getElementById("noteContent").classList.remove("is-invalid");
+    document.getElementById("tituloError").textContent = "";
+    document.getElementById("contenidoError").textContent = "";
+    $('#addNoteModal').modal('show');
+}
+
+// Asignar eventos a los botones de agregar y editar
+document.querySelector(".btn-primary[data-bs-target='#addNoteModal']").addEventListener("click", abrirModalAgregarNota);
 
 // Cargar notas al inicializar la página
 document.addEventListener("DOMContentLoaded", cargarNotas);

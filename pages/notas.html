@@ -152,19 +152,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control mb-3" id="noteTitle" placeholder="Título de la nota"
-                        maxlength="20" />
-                    <textarea class="form-control" rows="3" id="noteContent" placeholder="Escribe tu nota aquí..."
-                        maxlength="200"></textarea>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="noteTitle" placeholder="Título de la nota" maxlength="20" />
+                        <div class="invalid-feedback" id="tituloError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="3" id="noteContent" placeholder="Escribe tu nota aquí..." maxlength="200"></textarea>
+                        <div class="invalid-feedback" id="contenidoError"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                         Cerrar
                     </button>
                     <button type="button" class="btn btn-success" id="submitNota" disabled>
                         Guardar
                     </button>
-                    <button type="button" class="btn btn-primary" id="updateNota" style="display: none;">
+                    <button type="button" class="btn btn-success" id="updateNota" style="display: none;">
                         Actualizar
                     </button>
                 </div>
