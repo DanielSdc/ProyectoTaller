@@ -46,7 +46,7 @@ $(document).ready(function () {
         table.row.add([
           data.nombre || '',
           data.direccion || '',
-          data.coordenadas || '',
+         /*  data.coordenadas || '', */
           `${data.tamano || 0} m2`,
           data.cuartos || 0,
           data.banos || 0,
