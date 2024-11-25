@@ -119,7 +119,8 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Nombre</th>
-                                <th>Ubicación</th>
+                                <th>Dirección</th>
+                                <th>Coordenadas</th>
                                 <th>Tamaño</th>
                                 <th>Cuartos</th>
                                 <th>Baños</th>
@@ -194,12 +195,17 @@
                                     <input type="text" class="form-control" id="nombre" required />
                                 </div>
                                 <div class="mb-3">
-                                    <label for="ubicacion" class="form-label">Ubicación</label>
-                                    <input type="text" class="form-control" id="ubicacion" required />
-                                </div>
-                                <div class="mb-3">
                                     <label for="tamano" class="form-label">Tamaño</label>
                                     <input type="number" class="form-control" id="tamano" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="direccion" class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" id="direccion" required disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="coordenadas" class="form-label">Coordenadas</label>
+                                    <input type="text" class="form-control" id="coordenadas" required disabled />
+                                    <button type="button" class="btn btn-primary mt-2" id="selectLocationBtn">Seleccionar Ubicación</button>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -225,6 +231,25 @@
             </div>
         </div>
     </div>    
+
+    <!-- Modal para seleccionar ubicación -->
+    <div class="modal fade" id="locationModal" tabindex="-1" aria-labelledby="locationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="locationModalLabel">Seleccionar Ubicación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="selectMap" style="height: 400px;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="saveLocationBtn">Guardar Ubicación</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Imagenes -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -423,6 +448,49 @@
         if (window.innerWidth >= 992) {
             document.getElementById('sidebar').style.display = 'block';
         }
+
+        // ...existing code...
+        let selectedCoords = null;
+        const selectMap = L.map('selectMap').setView([24.805, -107.394], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(selectMap);
+
+        let marker = null;
+        selectMap.on('click', function(e) {
+            if (marker) {
+                selectMap.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(selectMap);
+            selectedCoords = e.latlng;
+
+            // Reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${selectedCoords.lat}&lon=${selectedCoords.lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('direccion').value = data.display_name;
+                })
+                .catch(error => console.error('Error in reverse geocoding:', error));
+        });
+
+        document.getElementById('selectLocationBtn').addEventListener('click', function() {
+            new bootstrap.Modal(document.getElementById('locationModal')).show();
+        });
+
+        document.getElementById('saveLocationBtn').addEventListener('click', function() {
+            if (selectedCoords) {
+                document.getElementById('coordenadas').value = `${selectedCoords.lat}, ${selectedCoords.lng}`;
+                bootstrap.Modal.getInstance(document.getElementById('locationModal')).hide();
+            }
+        });
+
+        // Redimensionar el mapa cuando el modal se muestre
+        $('#locationModal').on('shown.bs.modal', function () {
+            setTimeout(function() {
+                selectMap.invalidateSize();
+            }, 10);
+        });
+        // ...existing code...
     </script>
 </body>
 

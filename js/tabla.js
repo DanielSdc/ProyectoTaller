@@ -19,26 +19,12 @@ $(document).ready(function () {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  // Definir customIcon
+  // Definir customIcon con dimensiones mejoradas
   const customIcon = L.icon({
     iconUrl: '../img/house.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76]
-  });
-
-  // Localizaciones y galería de imágenes
-  const localizaciones = [
-    { nombre: "Casa Ejemplo 1", coords: [24.805, -107.394], descripcion: "Casa en renta" },
-    { nombre: "Casa Ejemplo 2", coords: [24.813, -107.395], descripcion: "Casa en renta" },
-    { nombre: "Casa Ejemplo 3", coords: [24.823, -107.405], descripcion: "Casa en renta" },
-    { nombre: "Casa Ejemplo 4", coords: [24.799, -107.387], descripcion: "Casa en renta" },
-  ];
-
-  localizaciones.forEach((ubicacion) => {
-    L.marker(ubicacion.coords, { icon: customIcon })
-      .bindPopup(`<b>${ubicacion.nombre}</b><br>${ubicacion.descripcion}`)
-      .addTo(map);
+    iconSize: [32, 32], // Ajustar el tamaño del icono
+    iconAnchor: [16, 32], // Ajustar el ancla del icono
+    popupAnchor: [0, -32] // Ajustar el ancla del popup
   });
 
   // Cargar inmuebles del usuario
@@ -58,16 +44,29 @@ $(document).ready(function () {
           allFotos.push(...data.fotos);
         }
         table.row.add([
-          data.nombre,
-          data.ubicacion,
-          `${data.tamano} m2`,
-          data.cuartos,
-          data.banos,
-          `$${data.valor}`,
-          data.fotos.map(url => `<img src="${url}" width="50" height="50">`).join(' '),
+          data.nombre || '',
+          data.direccion || '',
+          data.coordenadas || '',
+          `${data.tamano || 0} m2`,
+          data.cuartos || 0,
+          data.banos || 0,
+          `$${data.valor || 0}`,
+          data.fotos ? data.fotos.map(url => `<img src="${url}" width="50" height="50">`).join(' ') : '',
           `<button class="btn btn-sm btn-warning btn-edit" data-id="${doc.id}"><i class="fas fa-edit"></i> Editar</button>
            <button class="btn btn-sm btn-danger btn-delete" data-id="${doc.id}"><i class="fas fa-trash"></i> Eliminar</button>`,
         ]).draw(false);
+
+        // Add marker to the map
+        if (data.coordenadas) {
+          const [lat, lng] = data.coordenadas.split(',').map(Number);
+          if (!isNaN(lat) && !isNaN(lng)) {
+            L.marker([lat, lng], { icon: customIcon })
+              .bindPopup(`<b>${data.nombre}</b><br>${data.direccion}`)
+              .addTo(map);
+          } else {
+            console.error(`Invalid coordinates for property: ${data.nombre}`);
+          }
+        }
       });
 
       mostrarFotos(allFotos);
@@ -117,7 +116,8 @@ $(document).ready(function () {
 
     const id = $("#inmuebleId").val();
     const nombre = $("#nombre").val();
-    const ubicacion = $("#ubicacion").val();
+    const direccion = $("#direccion").val();
+    const coordenadas = $("#coordenadas").val();
     const tamano = $("#tamano").val();
     const cuartos = $("#cuartos").val();
     const banos = $("#banos").val();
@@ -146,7 +146,8 @@ $(document).ready(function () {
 
           await updateDoc(doc(db, "inmuebles", id), {
             nombre,
-            ubicacion,
+            direccion,
+            coordenadas,
             tamano,
             cuartos,
             banos,
@@ -159,7 +160,8 @@ $(document).ready(function () {
           await addDoc(collection(db, "inmuebles"), {
             usuarioId: user.uid,
             nombre,
-            ubicacion,
+            direccion,
+            coordenadas,
             tamano,
             cuartos,
             banos,
@@ -194,7 +196,8 @@ $(document).ready(function () {
 
     const id = $("#editInmuebleId").val();
     const nombre = $("#editNombre").val();
-    const ubicacion = $("#editUbicacion").val();
+    const direccion = $("#editDireccion").val();
+    const coordenadas = $("#editCoordenadas").val();
     const tamano = $("#editTamano").val();
     const cuartos = $("#editCuartos").val();
     const banos = $("#editBanos").val();
@@ -226,7 +229,8 @@ $(document).ready(function () {
 
         await updateDoc(doc(db, "inmuebles", id), {
           nombre,
-          ubicacion,
+          direccion,
+          coordenadas,
           tamano,
           cuartos,
           banos,
@@ -245,7 +249,8 @@ $(document).ready(function () {
   function abrirModalEditar(inmueble) {
     $("#inmuebleId").val(inmueble.id);
     $("#nombre").val(inmueble.nombre);
-    $("#ubicacion").val(inmueble.ubicacion);
+    $("#direccion").val(inmueble.direccion);
+    $("#coordenadas").val(inmueble.coordenadas);
     $("#tamano").val(inmueble.tamano);
     $("#cuartos").val(inmueble.cuartos);
     $("#banos").val(inmueble.banos);
