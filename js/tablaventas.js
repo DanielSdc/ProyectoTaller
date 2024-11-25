@@ -1,4 +1,4 @@
-import { auth, db, collection, addDoc, query, where, getDocs, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
+import {deleteObject, auth, db, collection, addDoc, query, where, getDocs, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
 
 let table;
 let reportesTable;
@@ -202,9 +202,20 @@ $(document).ready(function () {
 // Función para eliminar una renta
 async function eliminarRenta(id) {
   try {
-    await deleteDoc(doc(db, "rentas", id));
+    const docRef = doc(db, "rentas", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data.contratoPdf) {
+        const pdfRef = ref(storage, data.contratoPdf);
+        await deleteObject(pdfRef); // Eliminar el archivo del almacenamiento
+      }
+    }
+
+    await deleteDoc(docRef); // Eliminar el documento de Firestore
     console.log(`Renta con ID ${id} eliminada.`);
-    alert("Renta eliminada exitosamente.");
+    alert("Renta y archivo PDF eliminados exitosamente.");
   } catch (error) {
     console.error("Error al eliminar la renta:", error);
     alert("Hubo un error al eliminar la renta.");
