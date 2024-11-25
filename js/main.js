@@ -129,6 +129,33 @@ document.addEventListener('DOMContentLoaded', async () => {
           carouselImages.appendChild(div);
         }
 
+        // Mostrar alertas de fechas próximas
+        const fechasProximas = document.querySelector('.FechasProximas ul');
+        fechasProximas.innerHTML = ''; // Limpiar la lista antes de agregar nuevas fechas
+
+        rentasSnapshot.forEach((doc) => {
+          const data = doc.data();
+          const fechaCobro = new Date(data.fechacobro);
+          const finContrato = new Date(data.fincontrato);
+          const hoy = new Date();
+          const diasCobro = Math.ceil((fechaCobro - hoy) / (1000 * 60 * 60 * 24));
+          const diasContrato = Math.ceil((finContrato - hoy) / (1000 * 60 * 60 * 24));
+
+          if (diasCobro <= 7 && diasCobro >= 0) {
+            const li = document.createElement('li');
+            li.classList.add('py-2', 'px-3', 'mb-2', 'rounded', 'hover-animate');
+            li.textContent = `COBRO ${data.inmueble} EN ${diasCobro} DÍAS`;
+            fechasProximas.appendChild(li);
+          }
+
+          if (diasContrato <= 7 && diasContrato >= 0) {
+            const li = document.createElement('li');
+            li.classList.add('py-2', 'px-3', 'mb-2', 'rounded', 'hover-animate');
+            li.textContent = `PLAZO CONTRATO ${data.inmueble} EN ${diasContrato} DÍAS`;
+            fechasProximas.appendChild(li);
+          }
+        });
+
       } catch (error) {
         console.error("Error al cargar reportes:", error);
       }
