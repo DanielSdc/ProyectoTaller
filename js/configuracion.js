@@ -1,11 +1,19 @@
-import { auth, signInWithEmailAndPassword, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from './firebaseconfig.js';
+import { auth, signInWithEmailAndPassword, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, signOut } from './firebaseconfig.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('changeEmailBtn').addEventListener('click', () => {
-        const changeEmailForm = document.getElementById('changeEmailForm');
-        if (changeEmailForm) {
-            changeEmailForm.classList.toggle('d-none');
-        }
+        document.getElementById('changeEmailModalBody').innerHTML = `
+            <div class="mb-3">
+                <label for="currentPasswordForEmail" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="currentPasswordForEmail" placeholder="Ingresa tu contraseña">
+                <div id="currentPasswordForEmailError" class="text-danger d-none">Contraseña incorrecta</div>
+            </div>
+        `;
+        document.getElementById('changeEmailModalFooter').innerHTML = `
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" id="submitCurrentPasswordForEmail">Continuar</button>
+        `;
+        addCurrentPasswordForEmailListener();
     });
 
     document.getElementById('changePasswordBtn').addEventListener('click', () => {
@@ -23,19 +31,75 @@ document.addEventListener('DOMContentLoaded', () => {
         addCurrentPasswordListener();
     });
 
-    document.getElementById('submitNewEmail').addEventListener('click', async () => {
-        const newEmail = document.getElementById('newEmail').value;
-        try {
-            await updateEmail(auth.currentUser, newEmail);
-            alert('Correo electrónico actualizado correctamente');
-            document.getElementById('newEmail').value = '';
-            bootstrap.Modal.getInstance(document.getElementById('changeEmailModal')).hide();
-        } catch (error) {
-            console.error('Error al actualizar el correo electrónico:', error);
-            document.getElementById('emailError').textContent = 'Error al actualizar el correo electrónico';
-            document.getElementById('emailError').classList.remove('d-none');
-        }
-    });
+    function addCurrentPasswordForEmailListener() {
+        document.getElementById('submitCurrentPasswordForEmail').addEventListener('click', async () => {
+            const currentPassword = document.getElementById('currentPasswordForEmail').value;
+            try {
+                const user = auth.currentUser;
+                const credential = EmailAuthProvider.credential(user.email, currentPassword);
+                await reauthenticateWithCredential(user, credential);
+                document.getElementById('currentPasswordForEmailError').classList.add('d-none');
+                document.getElementById('changeEmailModalBody').innerHTML = `
+                    <div class="mb-3">
+                        <label for="newEmail" class="form-label">Nuevo Correo Electrónico</label>
+                        <input type="email" class="form-control" id="newEmail" placeholder="Ingresa tu nuevo correo electrónico">
+                        <div id="emailError" class="text-danger d-none"></div>
+                    </div>
+                `;
+                document.getElementById('changeEmailModalFooter').innerHTML = `
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-success" id="submitNewEmail">Cambiar correo</button>
+                `;
+                addNewEmailListener();
+            } catch (error) {
+                console.error('Error al validar la contraseña actual:', error);
+                document.getElementById('currentPasswordForEmailError').textContent = 'Contraseña incorrecta';
+                document.getElementById('currentPasswordForEmailError').classList.remove('d-none');
+            }
+        });
+    }
+
+    function addNewEmailListener() {
+        document.getElementById('submitNewEmail').addEventListener('click', async () => {
+            const newEmail = document.getElementById('newEmail').value;
+            const emailError = document.getElementById('emailError');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(newEmail)) {
+                emailError.textContent = 'Por favor, ingresa un correo electrónico válido.';
+                emailError.classList.remove('d-none');
+                return;
+            }
+
+            try {
+                await updateEmail(auth.currentUser, newEmail);
+                await sendEmailVerification(auth.currentUser);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Correo actualizado',
+                    text: 'Tu correo electrónico se ha actualizado correctamente. Por favor, inicia sesión de nuevo.',
+                    customClass: {
+                        popup: 'swal-popup',
+                        title: 'swal-title',
+                        content: 'swal-text',
+                        confirmButton: 'swal-btn'
+                    }
+                }).then(() => {
+                    signOut(auth).then(() => {
+                        localStorage.removeItem('userEmail');
+                        window.location.href = '../pages/login.html';
+                    }).catch((error) => {
+                        console.error('Error al cerrar sesión:', error);
+                    });
+                });
+                bootstrap.Modal.getInstance(document.getElementById('changeEmailModal')).hide();
+            } catch (error) {
+                console.error('Error al actualizar el correo electrónico:', error);
+                emailError.textContent = 'Error al actualizar el correo electrónico';
+                emailError.classList.remove('d-none');
+            }
+        });
+    }
 
     function addCurrentPasswordListener() {
         document.getElementById('submitCurrentPassword').addEventListener('click', async () => {

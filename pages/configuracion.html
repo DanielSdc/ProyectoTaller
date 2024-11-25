@@ -128,17 +128,16 @@
                             <h5 class="modal-title" id="changeEmailModalLabel">Cambiar Correo Electrónico</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" id="changeEmailModalBody">
                             <div class="mb-3">
-                                <label for="newEmail" class="form-label">Nuevo Correo Electrónico</label>
-                                <input type="email" class="form-control" id="newEmail"
-                                    placeholder="Ingresa tu nuevo correo electrónico">
-                                <div id="emailError" class="text-danger d-none"></div>
+                                <label for="currentPasswordForEmail" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="currentPasswordForEmail" placeholder="Ingresa tu contraseña">
+                                <div id="currentPasswordForEmailError" class="text-danger d-none">Contraseña incorrecta</div>
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="changeEmailModalFooter">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-success" id="submitNewEmail">Actualizar Correo</button>
+                            <button type="button" class="btn btn-primary" id="submitCurrentPasswordForEmail">Continuar</button>
                         </div>
                     </div>
                 </div>
