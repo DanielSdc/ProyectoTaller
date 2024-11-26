@@ -48,6 +48,7 @@ async function guardarNota(titulo, contenido) {
             contenido: contenido,
             usuarioId: usuario.uid, // ID del usuario autenticado
             fechaCreacion: new Date(), // Timestamp
+            fechaModificacion: new Date() // Add modification date
         });
         console.log("Nota guardada con ID:", docRef.id);
         Swal.fire({
@@ -130,7 +131,8 @@ async function actualizarNota(notaId, titulo, contenido) {
         await updateDoc(notaRef, {
             titulo: titulo,
             contenido: contenido,
-            fechaActualizacion: new Date() // Timestamp
+            fechaActualizacion: new Date(), // Timestamp
+            fechaModificacion: new Date() // Update modification date
         });
         console.log(`Nota con ID ${notaId} actualizada.`);
         Swal.fire({
@@ -183,8 +185,15 @@ async function cargarNotas() {
       <h5>${nota.titulo}</h5>
       <p>${nota.contenido}</p>
       <small class="text-muted">Fecha creada: ${new Date(nota.fechaCreacion.seconds * 1000).toLocaleString()}</small>
-      <button class="btn btn-sm btn-danger mt-2 eliminar-btn" data-id="${nota.id}">Eliminar</button>
-      <button class="btn btn-sm btn-warning mt-2 editar-btn" data-id="${nota.id}" data-titulo="${nota.titulo}" data-contenido="${nota.contenido}">Editar</button>
+      <small class="text-muted">Última modificación: ${nota.fechaModificacion ? new Date(nota.fechaModificacion.seconds * 1000).toLocaleString() : 'N/A'}</small>
+      <div class="d-flex justify-content-evenly mt-2">
+        <button class="btn btn btn-danger eliminar-btn" data-id="${nota.id}">
+          <i class="fas fa-trash"></i> Eliminar
+        </button>
+        <button class="btn btn btn-warning editar-btn" data-id="${nota.id}" data-titulo="${nota.titulo}" data-contenido="${nota.contenido}">
+          <i class="fas fa-edit"></i> Editar
+        </button>
+      </div>
     `;
 
         listaNotas.appendChild(notaElemento);
@@ -203,6 +212,7 @@ async function cargarNotas() {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, eliminar',
                 cancelButtonText: 'Cancelar',
+                reverseButtons: true,
                 customClass: {
                     popup: 'swal-popup',
                     title: 'swal-title',

@@ -12,7 +12,7 @@
     margin: 20px auto 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
-    height: 830px;
+    height: 800px;
 }
 
 .notas-container .alert {
@@ -22,25 +22,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0px;
 }
 
 /* Centrado vertical */
-.contenido {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 20px;
-    height: auto;
-    min-height: 80vh;
-}
-
-h2 {
-    font-size: 2em;
-    color: #333;
-    text-align: center;
-    margin: 0;
-    padding-bottom: 10px;
-}
 
 .botones {
     width: 900px; 
@@ -58,6 +43,7 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    border: 1px solid gray;
 }
 
 .nota textarea {
@@ -69,25 +55,7 @@ h2 {
     color: #333;
 }
 
-.nota-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
 
-.nota-buttons button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.nota-buttons .btnEditar {
-    background: #ffc107;
-    color: #fff;
-}
-
-.nota-buttons .btnEliminar {
-    background: #dc3545;
-    color: #fff;
+#updateNota {
+    display: none;
 }
