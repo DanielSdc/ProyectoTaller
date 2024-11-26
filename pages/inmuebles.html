@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="../css/inmuebles.css" />
-    <script type="module" src="../js/tabla.js"></script>
+    <script type="module" src="../js/inmuebles.js"></script>
     <script type="module" src="../js/auth.js"></script>
 </head>
 
@@ -27,6 +27,7 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-custom p-2">
         <div class="container-fluid">
+
             <!-- COLUMN 1: LOGO AND PLAN -->
             <div class="d-flex align-items-center">
                 <a href="../pages/main.html" class="navbar-brand">
@@ -437,7 +438,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
-    <script type="module" src="../js/tabla.js"></script>
+    <script type="module" src="../js/inmuebles.js"></script>
     <script src="../js/support.js"></script>
     <script>
         // Obtén el correo del usuario desde localStorage
@@ -491,62 +492,6 @@
         if (window.innerWidth >= 992) {
             document.getElementById("sidebar").style.display = "block";
         }
-
-        // ...existing code...
-        let selectedCoords = null;
-        const selectMap = L.map("selectMap").setView([24.805, -107.394], 13);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(selectMap);
-
-        let marker = null;
-        selectMap.on("click", function (e) {
-            if (marker) {
-                selectMap.removeLayer(marker);
-            }
-            marker = L.marker(e.latlng).addTo(selectMap);
-            selectedCoords = e.latlng;
-
-            // Reverse geocoding
-            fetch(
-                `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${selectedCoords.lat}&lon=${selectedCoords.lng}`
-            )
-                .then((response) => response.json())
-                .then((data) => {
-                    document.getElementById("direccion").value = data.display_name;
-                })
-                .catch((error) =>
-                    console.error("Error in reverse geocoding:", error)
-                );
-        });
-
-        document
-            .getElementById("selectLocationBtn")
-            .addEventListener("click", function () {
-                new bootstrap.Modal(document.getElementById("locationModal")).show();
-            });
-
-        document
-            .getElementById("saveLocationBtn")
-            .addEventListener("click", function () {
-                if (selectedCoords) {
-                    document.getElementById(
-                        "coordenadas"
-                    ).value = `${selectedCoords.lat}, ${selectedCoords.lng}`;
-                    bootstrap.Modal.getInstance(
-                        document.getElementById("locationModal")
-                    ).hide();
-                }
-            });
-
-        // Redimensionar el mapa cuando el modal se muestre
-        $("#locationModal").on("shown.bs.modal", function () {
-            setTimeout(function () {
-                selectMap.invalidateSize();
-            }, 10);
-        });
-        // ...existing code...
     </script>
 </body>
 

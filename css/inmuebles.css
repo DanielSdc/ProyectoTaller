@@ -181,3 +181,10 @@
     color: #333;
 }
 
+/* Custom Font Awesome Icon */
+.custom-div-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black; 
+}

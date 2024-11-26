@@ -1,5 +1,5 @@
 // Importa la configuración de Firebase
-import {deleteObject, app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
+import { deleteObject, app, auth, db, collection, addDoc, query, where, getDocs, orderBy, onAuthStateChanged, deleteDoc, doc, updateDoc, getDoc, storage, ref, uploadBytes, getDownloadURL } from './firebaseconfig.js';
 
 let table;
 let allFotos = []; // Define allFotos globally
@@ -19,12 +19,13 @@ $(document).ready(function () {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Definir customIcon con dimensiones mejoradas
-    const customIcon = L.icon({
-        iconUrl: '../img/house.png',
-        iconSize: [32, 32], // Ajustar el tamaño del icono
-        iconAnchor: [16, 32], // Ajustar el ancla del icono
-        popupAnchor: [0, -32] // Ajustar el ancla del popup
+    // Definir customIcon con Font Awesome
+    const customIcon = L.divIcon({
+        html: '<i class="fas fa-home fa-2x"></i>',
+        className: 'custom-div-icon',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
     });
 
     // Cargar inmuebles del usuario
@@ -62,8 +63,12 @@ $(document).ready(function () {
                 if (data.coordenadas) {
                     const [lat, lng] = data.coordenadas.split(',').map(Number);
                     if (!isNaN(lat) && !isNaN(lng)) {
+                        const popupContent = `
+                            <b>${data.nombre}</b><br>${data.direccion}<br>
+                            ${data.fotos && data.fotos.length > 0 ? `<img src="${data.fotos[0]}" width="100" height="100">` : ''}
+                        `;
                         L.marker([lat, lng], { icon: customIcon })
-                            .bindPopup(`<b>${data.nombre}</b><br>${data.direccion}`)
+                            .bindPopup(popupContent)
                             .addTo(map);
                     } else {
                         console.error(`Invalid coordinates for property: ${data.nombre}`);
@@ -289,27 +294,27 @@ $(document).ready(function () {
 
 async function eliminarInmueble(id) {
     try {
-      const docRef = doc(db, "inmuebles", id);
-      const docSnap = await getDoc(docRef);
-  
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.fotos && data.fotos.length > 0) {
-          for (const fotoUrl of data.fotos) {
-            const fotoRef = ref(storage, fotoUrl);
-            await deleteObject(fotoRef); // Eliminar la imagen del almacenamiento
-          }
+        const docRef = doc(db, "inmuebles", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.fotos && data.fotos.length > 0) {
+                for (const fotoUrl of data.fotos) {
+                    const fotoRef = ref(storage, fotoUrl);
+                    await deleteObject(fotoRef); // Eliminar la imagen del almacenamiento
+                }
+            }
         }
-      }
-  
-      await deleteDoc(docRef); // Eliminar el documento de Firestore
-      console.log(`Inmueble con ID ${id} eliminado.`);
-      alert("Inmueble y sus imágenes eliminados exitosamente.");
+
+        await deleteDoc(docRef); // Eliminar el documento de Firestore
+        console.log(`Inmueble con ID ${id} eliminado.`);
+        alert("Inmueble y sus imágenes eliminados exitosamente.");
     } catch (error) {
-      console.error("Error al eliminar el inmueble:", error);
-      alert("Hubo un error al eliminar el inmueble.");
+        console.error("Error al eliminar el inmueble:", error);
+        alert("Hubo un error al eliminar el inmueble.");
     }
-  }
+}
 
 async function obtenerInmueble(id) {
     try {
@@ -377,4 +382,66 @@ document.getElementById("nextImagePage").addEventListener("click", () => {
         currentImagePage++;
         mostrarFotos(allFotos);
     }
+});
+
+let selectedCoords = null;
+let selectedAddress = null;
+const selectMap = L.map("selectMap").setView([24.805, -107.394], 13);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(selectMap);
+
+let marker = null;
+selectMap.on("click", function (e) {
+    if (marker) {
+        selectMap.removeLayer(marker);
+    }
+    marker = L.marker(e.latlng).addTo(selectMap);
+    selectedCoords = e.latlng;
+
+    // Reverse geocoding
+    fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${selectedCoords.lat}&lon=${selectedCoords.lng}`
+    )
+        .then((response) => response.json())
+        .then((data) => {
+            selectedAddress = data.display_name;
+        })
+        .catch((error) =>
+            console.error("Error in reverse geocoding:", error)
+        );
+});
+
+document
+    .getElementById("selectLocationBtn")
+    .addEventListener("click", function () {
+        new bootstrap.Modal(document.getElementById("locationModal")).show();
+    });
+
+document
+    .getElementById("saveLocationBtn")
+    .addEventListener("click", function () {
+        if (selectedCoords && selectedAddress) {
+            document.getElementById("coordenadas").value = `${selectedCoords.lat}, ${selectedCoords.lng}`;
+            document.getElementById("direccion").value = selectedAddress;
+            bootstrap.Modal.getInstance(document.getElementById("locationModal")).hide();
+        }
+    });
+
+// Clear selectedCoords, selectedAddress, and remove marker when the modal is closed without saving
+$("#locationModal").on("hidden.bs.modal", function () {
+    selectedCoords = null;
+    selectedAddress = null;
+    if (marker) {
+        selectMap.removeLayer(marker);
+        marker = null;
+    }
+});
+
+// Redimensionar el mapa cuando el modal se muestre
+$("#locationModal").on("shown.bs.modal", function () {
+    setTimeout(function () {
+        selectMap.invalidateSize();
+    }, 10);
 });
