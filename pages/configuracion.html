@@ -104,17 +104,17 @@
 
             <!-- CONTENT: PAGE -->
             <section id="mainContent">
-                <div>
+                <div class="text-center">
                     <h2>Configuración de Cuenta</h2>
-                    <button class="btn btn-primary mt-3" id="changeEmailBtn" data-bs-toggle="modal"
-                        data-bs-target="#changeEmailModal">Cambiar Correo Electrónico</button>
-                    <button class="btn btn-secondary mt-3" id="changePasswordBtn" data-bs-toggle="modal"
-                        data-bs-target="#changePasswordModal">Cambiar Contraseña</button>
-                    <div id="changeEmailForm" class="d-none">
-                        <!-- Form content for changing email -->
-                    </div>
-                    <div id="changePasswordForm" class="d-none">
-                        <!-- Form content for changing password -->
+                    <div class="config-content">
+                        <div class="settings-option">
+                            <button class="btn btn-primary mt-3" id="changeEmailBtn" data-bs-toggle="modal"
+                                data-bs-target="#changeEmailModal">Cambiar Correo Electrónico</button>
+                        </div>
+                        <div class="settings-option">
+                            <button class="btn btn-secondary mt-3" id="changePasswordBtn" data-bs-toggle="modal"
+                                data-bs-target="#changePasswordModal">Cambiar Contraseña</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -131,13 +131,16 @@
                         <div class="modal-body" id="changeEmailModalBody">
                             <div class="mb-3">
                                 <label for="currentPasswordForEmail" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="currentPasswordForEmail" placeholder="Ingresa tu contraseña">
-                                <div id="currentPasswordForEmailError" class="text-danger d-none">Contraseña incorrecta</div>
+                                <input type="password" class="form-control" id="currentPasswordForEmail"
+                                    placeholder="Ingresa tu contraseña">
+                                <div id="currentPasswordForEmailError" class="text-danger d-none">Contraseña incorrecta
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer" id="changeEmailModalFooter">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="submitCurrentPasswordForEmail">Continuar</button>
+                            <button type="button" class="btn btn-primary"
+                                id="submitCurrentPasswordForEmail">Continuar</button>
                         </div>
                     </div>
                 </div>
