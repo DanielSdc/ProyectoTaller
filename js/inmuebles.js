@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 
     // Inicializar el mapa de Leaflet
-    const map = L.map('map').setView([24.805, -107.394], 13);
+    const map = L.map('map').setView([24.805, -107.394], 12.3);
 
     // Añadir capa de mapa base
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -83,23 +83,37 @@ $(document).ready(function () {
                 const id = $(this).data("id");
                 const result = await Swal.fire({
                     title: '¿Estás seguro?',
-                    text: "No podrás revertir esto!",
+                    text: "¡No podrás revertir esto!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, eliminarlo!',
-                    cancelButtonText: 'Cancelar'
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-popup',
+                        title: 'swal-title',
+                        content: 'swal-text',
+                    }
                 });
 
                 if (result.isConfirmed) {
                     await eliminarInmueble(id);
                     table.row($(this).parents('tr')).remove().draw();
-                    Swal.fire(
-                        'Eliminado!',
-                        'El inmueble ha sido eliminado.',
-                        'success'
-                    );
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inmueble eliminado',
+                        text: 'Tu inmueble ha sido eliminado exitosamente.',
+                        customClass: {
+                            popup: 'swal-popup',
+                            title: 'swal-title',
+                            content: 'swal-text',
+                            confirmButton: 'swal-btn'
+                        }
+                    }).then(() => {
+                        location.reload();
+                    });
                 }
             });
 
@@ -117,9 +131,75 @@ $(document).ready(function () {
         }
     });
 
+    // Disable the save button initially
+    $("#inmuebleForm button[type='submit']").prop('disabled', true);
+
+    // Real-time validation
+    $("#inmuebleForm input[required]").on("input", function () {
+        validateForm();
+    });
+
+    function validateForm() {
+        let isValid = true;
+        $("#inmuebleForm input[required]").each(function () {
+            if ($(this).val() === "" || $(this).is(':disabled')) {
+                $(this).addClass("is-invalid");
+                $(this).next(".invalid-feedback").show();
+                isValid = false;
+            } else {
+                $(this).removeClass("is-invalid");
+                $(this).next(".invalid-feedback").hide();
+            }
+        });
+
+        // Additional check for address and coordinates
+        if ($("#direccion").val() === "") {
+            $("#direccion").addClass("is-invalid");
+            $("#direccion").next(".invalid-feedback").show();
+            isValid = false;
+        } else {
+            $("#direccion").removeClass("is-invalid");
+            $("#direccion").next(".invalid-feedback").hide();
+        }
+        if ($("#coordenadas").val() === "") {
+            $("#coordenadas").addClass("is-invalid");
+            $("#coordenadas").next(".invalid-feedback").show();
+            isValid = false;
+        } else {
+            $("#coordenadas").removeClass("is-invalid");
+            $("#coordenadas").next(".invalid-feedback").hide();
+        }
+
+        // Check for tamano and valor
+        if ($("#tamano").val() === "") {
+            $("#tamano").addClass("is-invalid");
+            $("#tamano").closest('.input-group').find('.invalid-feedback').show();
+            isValid = false;
+        } else {
+            $("#tamano").removeClass("is-invalid");
+            $("#tamano").closest('.input-group').find('.invalid-feedback').hide();
+        }
+        if ($("#valor").val() === "") {
+            $("#valor").addClass("is-invalid");
+            $("#valor").closest('.input-group').find('.invalid-feedback').show();
+            isValid = false;
+        } else {
+            $("#valor").removeClass("is-invalid");
+            $("#valor").closest('.input-group').find('.invalid-feedback').hide();
+        }
+
+        $("#inmuebleForm button[type='submit']").prop('disabled', !isValid);
+    }
+
     // Manejar el formulario de agregar/editar inmueble
     $("#inmuebleForm").on("submit", async function (event) {
         event.preventDefault();
+
+        // Validate inputs
+        validateForm();
+        if ($("#inmuebleForm .is-invalid").length > 0) {
+            return;
+        }
 
         const id = $("#inmuebleId").val();
         const nombre = $("#nombre").val();
@@ -162,6 +242,20 @@ $(document).ready(function () {
                         fotos: fotoURLs,
                         fechaActualizacion: new Date()
                     });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inmueble actualizado',
+                        text: 'El inmueble se ha actualizado correctamente.',
+                        customClass: {
+                            popup: 'swal-popup',
+                            title: 'swal-title',
+                            content: 'swal-text',
+                            confirmButton: 'swal-btn'
+                        }
+                    }).then(() => {
+                        location.reload();
+                    });
                 } else {
                     // Agregar inmueble
                     await addDoc(collection(db, "inmuebles"), {
@@ -176,11 +270,34 @@ $(document).ready(function () {
                         fotos: fotoURLs,
                         fechaCreacion: new Date()
                     });
-                }
 
-                location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inmueble agregado',
+                        text: 'El inmueble se ha agregado correctamente.',
+                        customClass: {
+                            popup: 'swal-popup',
+                            title: 'swal-title',
+                            content: 'swal-text',
+                            confirmButton: 'swal-btn'
+                        }
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
             } catch (error) {
                 console.error("Error saving document: ", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al guardar el inmueble.',
+                    customClass: {
+                        popup: 'swal-popup',
+                        title: 'swal-title',
+                        content: 'swal-text',
+                        confirmButton: 'swal-btn'
+                    }
+                });
             }
         }
     });
@@ -195,6 +312,33 @@ $(document).ready(function () {
             };
             reader.readAsDataURL(file);
         }
+    });
+
+    // Clear error messages when the modal is closed
+    $('#inmuebleModal').on('hidden.bs.modal', function () {
+        const modal = $(this);
+        modal.find('#inmuebleForm')[0].reset();
+        modal.find('#currentFoto').attr('src', '').hide();
+        modal.find('#inmuebleId').val('');
+        modal.find('.is-invalid').removeClass('is-invalid');
+        modal.find('.invalid-feedback').hide();
+        validateForm(); // Ensure form validation is reset
+    });
+
+    // Clear error messages when the location is saved
+    $('#saveLocationBtn').on('click', function () {
+        $('#direccion').removeClass('is-invalid');
+        $('#direccion').next('.invalid-feedback').hide();
+        $('#coordenadas').removeClass('is-invalid');
+        $('#coordenadas').next('.invalid-feedback').hide();
+        validateForm();
+    });
+
+    // Clear error messages when the location is saved
+    $('#saveLocationBtn').on('click', function () {
+        $('#direccion').removeClass('is-invalid');
+        $('#direccion').next('.invalid-feedback').hide();
+        validateForm();
     });
 
     // Manejar el formulario de editar inmueble
@@ -269,6 +413,12 @@ $(document).ready(function () {
         }
         $("#inmuebleModalLabel").text("Editar Inmueble");
         $("#inmuebleModal").modal("show");
+
+        // Clear error messages
+        const modal = $("#inmuebleModal");
+        modal.find('.is-invalid').removeClass('is-invalid');
+        modal.find('.invalid-feedback').hide();
+        validateForm();
     }
 
     // Inicializar el modal al abrir
@@ -280,6 +430,8 @@ $(document).ready(function () {
             modal.find('#inmuebleForm')[0].reset();
             modal.find('#currentFoto').attr('src', '').hide();
             modal.find('#inmuebleId').val('');
+            modal.find('.is-invalid').removeClass('is-invalid');
+            modal.find('.invalid-feedback').hide();
         }
     });
 
@@ -289,6 +441,42 @@ $(document).ready(function () {
         modal.find('#inmuebleForm')[0].reset();
         modal.find('#currentFoto').attr('src', '').hide();
         modal.find('#inmuebleId').val('');
+    });
+
+    document
+        .getElementById("saveLocationBtn")
+        .addEventListener("click", function () {
+            if (selectedCoords && selectedAddress) {
+                const coordenadasInput = document.getElementById("coordenadas");
+                const direccionInput = document.getElementById("direccion");
+                coordenadasInput.value = `${selectedCoords.lat}, ${selectedCoords.lng}`;
+                direccionInput.value = selectedAddress;
+                coordenadasInput.disabled = false;
+                direccionInput.disabled = false;
+                coordenadasInput.dispatchEvent(new Event('input'));
+                direccionInput.dispatchEvent(new Event('input'));
+                coordenadasInput.disabled = true;
+                direccionInput.disabled = true;
+                bootstrap.Modal.getInstance(document.getElementById("locationModal")).hide();
+                validateForm();
+            }
+        });
+
+    // Trigger validation when the coordinates and address are programmatically filled
+    $("#coordenadas, #direccion").on("input", function () {
+        validateForm();
+    });
+
+    // Manually trigger input event after setting values
+    document.getElementById("saveLocationBtn").addEventListener("click", function () {
+        if (selectedCoords && selectedAddress) {
+            const coordenadasInput = document.getElementById("coordenadas");
+            const direccionInput = document.getElementById("direccion");
+            coordenadasInput.value = `${selectedCoords.lat}, ${selectedCoords.lng}`;
+            direccionInput.value = selectedAddress;
+            coordenadasInput.dispatchEvent(new Event('input'));
+            direccionInput.dispatchEvent(new Event('input'));
+        }
     });
 });
 
@@ -309,10 +497,30 @@ async function eliminarInmueble(id) {
 
         await deleteDoc(docRef); // Eliminar el documento de Firestore
         console.log(`Inmueble con ID ${id} eliminado.`);
-        alert("Inmueble y sus imágenes eliminados exitosamente.");
+        Swal.fire({
+            icon: 'success',
+            title: 'Inmueble eliminado',
+            text: 'El inmueble y sus imágenes han sido eliminados exitosamente.',
+            customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-text',
+                confirmButton: 'swal-btn'
+            }
+        });
     } catch (error) {
         console.error("Error al eliminar el inmueble:", error);
-        alert("Hubo un error al eliminar el inmueble.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un error al eliminar el inmueble.',
+            customClass: {
+                popup: 'swal-popup',
+                title: 'swal-title',
+                content: 'swal-text',
+                confirmButton: 'swal-btn'
+            }
+        });
     }
 }
 
@@ -425,7 +633,12 @@ document
         if (selectedCoords && selectedAddress) {
             document.getElementById("coordenadas").value = `${selectedCoords.lat}, ${selectedCoords.lng}`;
             document.getElementById("direccion").value = selectedAddress;
+            $('#direccion').removeClass('is-invalid');
+            $('#direccion').next('.invalid-feedback').hide();
+            $('#coordenadas').removeClass('is-invalid');
+            $('#coordenadas').next('.invalid-feedback').hide();
             bootstrap.Modal.getInstance(document.getElementById("locationModal")).hide();
+            validateForm();
         }
     });
 

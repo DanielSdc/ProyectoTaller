@@ -1,66 +1,20 @@
 /* TABLE */
 .table-responsive {
-    background-color: #ffffff;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.table thead {
-    background-color: #343a40;
-    color: #ffffff;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
-
-.table tbody tr:hover {
-    background-color: #e9ecef;
-}
-
-.table td,
-.table th {
-    vertical-align: middle;
-}
-
-.table .btn {
-    margin-right: 0.3125rem;
-}
-
-.table .btn-info {
-    background-color: #17a2b8;
-    border: none;
-}
-
-.table .btn-warning {
-    background-color: #ffc107;
-    border: none;
-    color: #343a40;
-}
-
-.table .btn-danger {
-    background-color: #dc3545;
-    border: none;
-}
-
-.table .btn-info:hover {
-    background-color: #138496;
-}
-
-.table .btn-warning:hover {
-    background-color: #e0a800;
-}
-
-.table .btn-danger:hover {
-    background-color: #c82333;
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 #inmueblesTable {
-    table-layout: fixed; 
     width: 100%;
 }
+
 #inmueblesTable th,
+#inmueblesTable td {
+    width: 12.5%;
+}
+
 #inmueblesTable th:nth-child(1), 
 #inmueblesTable td:nth-child(1) {
     width: 15%;
@@ -92,29 +46,37 @@
 }
 #inmueblesTable th:nth-child(8), 
 #inmueblesTable td:nth-child(8) {
+    text-align: center;
     width: 10%;
 }
 
 /* MAP */
-.map-section {
-    margin-top: 2rem;
-    background-color: #ffffff;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.info-section {
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 1400px;
+    margin: 0 auto;
 }
 
-.map-title {
-    font-size: 1.5em;
-    color: #343a40;
+.info-section .content-box {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid gray;
+}
+
+.info-title {
     margin-bottom: 1rem;
-    padding-left: 0.5rem;
+    text-align: center;
 }
 
 #map {
-    height: 25rem;
+    height: 525px;
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: 10px;
 }
 
 /* GALLERY */
@@ -140,9 +102,13 @@
     width: 100%;
     height: 200px;
     object-fit: cover;
-    transition: transform 0.3s ease;
     cursor: pointer;
     display: block;
+    border-radius: 5px;
+}
+
+.gallery-image:hover {
+    opacity: 0.8;
 }
 
 .modal-img {
