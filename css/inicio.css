@@ -1,34 +1,56 @@
+.elemento-inicio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 1300px;
+    height: 400px;
+}
+
 .carousel-inner {
     border-radius: 10px;
     overflow: hidden;
+    width: 1250px; 
 }
 
 .carousel-item img {
     object-fit: cover;
     height: 300px;
+    width: auto;
+    transition: transform 0.3s ease;
 }
 
-.grafica {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
+.carousel-item img:hover {
+    transform: scale(1.05);
 }
 
-.graficaImg {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+.fixed-size {
+    width: 400px;
+    height: 300px;
 }
 
-.fechaProx {
-    color: #333;
-    font-weight: bold;
+.contenido {
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-.FechasProximas {
-    background-color: #f8f9fa;
-    padding: 20px;
+.contenido-info {
+    background: #ffffff;
+    padding: 15px;
     border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid gray;
+    height: 100%;
+}
+
+.info-title {
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .hover-animate:hover {
@@ -58,4 +80,34 @@
 .card-custom .card-text {
     font-size: 1.25rem;
     font-weight: 500;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.FechasProximas ul li {
+    background-color: #f0f8ff;
+    border: 1px solid #d1e7dd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.FechasProximas ul li:hover {
+    background-color: #e2f0f9;
+}
+
+.elemento-inicio .alert {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
 }

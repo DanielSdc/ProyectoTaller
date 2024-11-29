@@ -111,44 +111,51 @@
 
             <!-- CONTENT: PAGE -->
             <section id="mainContent">
-                <section id="Intro" class="text-center box" style="overflow: hidden;">
-                    <div class="container p-0 mb-3">
-                        <div id="carouselEx" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner rounded-4" id="carouselImages">
-                                <!-- Images will be dynamically loaded here -->
+                <div class="d-flex justify-content-center">
+                    <div class="elemento-inicio">
+                        <h4><i class="fas fa-images me-2"></i>Fotografías de los inmuebles</h4>
+                        <section id="Intro" style="overflow: hidden;">
+                            <div class="container p-0 mb-3">
+                                <div id="carouselEx" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner rounded-4" id="carouselImages">
+                                        <!-- Images will be dynamically loaded here -->
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselEx"
+                                        data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselEx"
+                                        data-bs-slide="next">
+                                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselEx"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselEx"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                        </section>
+                    </div>
+                </div>
+                <div class="contenido mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="contenido-info">
+                                <h4 class="info-title"><i class="fas fa-chart-column me-2"></i>Gráfica de ingresos</h4>
+                                <canvas id="ingresosChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="contenido-info FechasProximas">
+                                <h4 class="info-title"><i class="fas fa-calendar-days me-2"></i>Próximas Fechas</h4>
+                                <ul class="list-unstyled">
+                                    <!-- Dates will be dynamically loaded here -->
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </section>
-
-                <section class="container p-0 mb-2">
-                    <article class="row">
-                        <article class="col-12 col-md-6 grafica m-3">
-                            <section id="graficaIngresos" class="mt-5">
-                                <h2>Grafica de Ingresos</h2>
-                                <canvas id="ingresosChart"></canvas>
-                            </section>
-                        </article>
-                        <article class="col-12 col-md-5 FechasProximas m-3 p-3 rounded shadow">
-                            <span class="fechaProx h4 d-block mb-3 text-center">FECHAS PRÓXIMAS</span>
-                            <ul class="list-unstyled">
-                            </ul>
-                        </article>
-                    </article>
-                </section>
+                </div>
                 <section class="row my-4">
                     <div class="col-md-4">
-                        <div class="card text-center shadow-sm bg-primary text-white card-custom">
+                        <div class="card text-center shadow-sm bg-success text-white card-custom">
                             <div class="card-body">
                                 <i class="fas fa-dollar-sign fa-2x mb-2"></i>
                                 <h5 class="card-title">Ingreso Total del Año</h5>
@@ -157,7 +164,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card text-center shadow-sm bg-success text-white card-custom">
+                        <div class="card text-center shadow-sm bg-primary text-white card-custom">
                             <div class="card-body">
                                 <i class="fas fa-file-invoice-dollar fa-2x mb-2"></i>
                                 <h5 class="card-title">Total de Rentas</h5>
