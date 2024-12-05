@@ -88,17 +88,17 @@ function toggleForm() {
     planOptions.classList.add('d-none');
 
     // Limpiar el tipo de ayuda (vacío por defecto)
-    helpType.selectedIndex = 0;  // Asegurarse de que el "select" de tipo de ayuda esté vacío
+    helpType.selectedIndex = 0;
 
     // Limpiar los radios de los planes
     const planRadios = document.querySelectorAll('input[name="plan"]');
     planRadios.forEach((radio) => {
-        radio.checked = false;  // Desmarcar todos los radios de planes
+        radio.checked = false;
     });
 
     // Limpiar el campo de texto que muestra el plan elegido
     selectedOptionText.value = '';
-    selectedOption.classList.add('d-none');  // Ocultar campo de selección del plan
+    selectedOption.classList.add('d-none');
 
     // Mostrar el formulario correspondiente según la opción seleccionada
     if (supportOption === 'plan') {
@@ -117,19 +117,19 @@ function choosePlan(action) {
 
     // Mostrar las opciones de planes
     planOptions.classList.remove('d-none');
-    selectedOption.classList.add('d-none');  // Ocultar campo de selección
+    selectedOption.classList.add('d-none');
 
     // Cambiar el texto según la acción (contratar o actualizar)
     const actionText = action === 'contratar' ? 'Contratar Plan:' : 'Actualizar Plan:';
     selectedOptionText.value = `${actionText} Elige un plan`;
 
     // Mostrar el formulario común solo después de que el plan haya sido elegido
-    commonFields.classList.add('d-none');  // Asegurarnos que el formulario común no esté visible antes de elegir un plan
+    commonFields.classList.add('d-none');
 
     // Limpiar cualquier selección previa de radio buttons de planes
     const planRadios = document.querySelectorAll('input[name="plan"]');
     planRadios.forEach((radio) => {
-        radio.checked = false;  // Desmarcar todos los radios de planes
+        radio.checked = false;
     });
 
     // Cambiar el estilo de los botones de "Contratar" y "Actualizar"
@@ -152,8 +152,8 @@ function choosePlan(action) {
         radio.addEventListener('change', function () {
             if (this.checked) {
                 selectedOptionText.value = `${actionText} ${this.labels[0].textContent}`;
-                selectedOption.classList.remove('d-none');  // Mostrar el campo con la opción elegida
-                commonFields.classList.remove('d-none');  // Mostrar el formulario de datos del usuario
+                selectedOption.classList.remove('d-none');
+                commonFields.classList.remove('d-none');
             }
         });
     });
