@@ -149,6 +149,7 @@ $(document).ready(function () {
     const contratoPdf = $("#editContratoPdf")[0].files[0]; // Obtener el archivo PDF
 
     try {
+      const docRef = doc(db, "rentas", id);
       let contratoPdfUrl = '';
       if (contratoPdf) {
         const pdfRef = ref(storage, `contratos/${auth.currentUser.uid}/${contratoPdf.name}`);
@@ -189,6 +190,28 @@ $(document).ready(function () {
            <button class="btn btn-sm btn-danger btn-delete" data-id="${id}"><i class="fas fa-trash fa-2x"></i></button>
          </div>`
       ]).draw(false);
+
+      if (pagado === "SI") {
+        const newFechaCobro = new Date(fechacobro);
+        newFechaCobro.setMonth(newFechaCobro.getMonth() + 1);
+        await updateDoc(docRef, {
+          fechacobro: newFechaCobro.toISOString().split('T')[0],
+          pagado: "NO"
+        });
+        await addDoc(collection(db, "reportes"), {
+          usuarioId: auth.currentUser.uid,
+          inmueble,
+          arrendatario,
+          pago,
+          fechapago: fechacobro
+        });
+        reportesTable.row.add([
+          inmueble,
+          arrendatario,
+          `$${pago}`,
+          fechacobro
+        ]).draw(false);
+      }
 
       $("#editInmuebleModal").modal("hide");
       location.reload(); // Recargar la página para reflejar los cambios
