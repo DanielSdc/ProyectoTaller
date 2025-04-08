@@ -19,57 +19,75 @@
 </head>
 
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-custom p-2">
+     <!-- NAVBAR -->
+     <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
         <div class="container-fluid">
-
             <!-- COLUMN 1: LOGO AND PLAN -->
             <div class="d-flex align-items-center">
                 <a href="../pages/main.html" class="navbar-brand">
-                    <img src="../img/logo_2.png" alt="Logo">
+                    <img src="../img/logo_2.png" alt="Logo Rental & Control">
                 </a>
-                <span class="navbar-text plan align-self-end">Premium</span>
+                <span class="navbar-text plan badge bg-gold text-dark ms-2">Premium</span>
             </div>
+
+            <button id="toggle-sidebar" class="btn sidebar-toggle ms-auto d-lg-none">
+                <i class="fas fa-bars"></i>
+            </button>
 
             <!-- COLUMN 2: USER -->
             <div class="user-section">
-                <span id="user-email" class="navbar-text">Usuario</span>
+                <span id="user-email" class="navbar-text d-none d-md-inline">Usuario</span>
                 <div class="dropdown">
-                    <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user nab"></i>
+                    <a class="btn user-menu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end bg-dark">
-                        <li><a class="dropdown-item text-light" href="configuracion.html">Configuración</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-user-info">
+                            <div class="d-flex align-items-center p-3">
+                                <div class="user-avatar-sm me-3">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0" id="user-name">Usuario</h6>
+                                    <small id="user-email-dropdown" class="text-muted">usuario@correo.com</small>
+                                </div>
+                            </div>
                         </li>
-                        <li><a class="dropdown-item text-light" href="#" id="logout">Cerrar sesión</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="configuracion.html"><i class="fas fa-cog me-2"></i>Configuración</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#supportModal"><i class="fas fa-headset me-2"></i>Soporte</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logout"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN -->
-    <div class="container-fluid h-100">
-
+    <div class="wrapper">
         <!-- SIDEBAR -->
         <aside id="sidebar">
-            <div class="d-flex flex-column align-items-start p-3">
-
+            <div class="sidebar-header d-flex d-lg-none align-items-center justify-content-between mb-4">
+                <h5 class="mb-0">Menú</h5>
+                <button class="btn-close sidebar-close text-white"></button>
+            </div>
+            
+            <div class="d-flex flex-column align-items-start p-lg-3">
                 <!-- SECTION: NAV -->
                 <section class="sidebar-section">
                     <h5 class="sidebar-section-title">NAVEGACIÓN</h5>
-                    <a href="main.html" class="my-2 d-flex align-items-center">
-                        <span class="icon"><i class="fas fa-pencil me-2"></i></span>
-                        <span class="text">Inicio</span>
+                    <a href="main.html" class="sidebar-link">
+                        <span class="icon"><i class="fas fa-home"></i></span>
+                        <span class="text">Dashboard</span>
                     </a>
-                    <a href="inmuebles.html" class="my-2 d-flex align-items-center">
-                        <span class="icon"><i class="fas fa-home me-2"></i></span>
+                    <a href="inmuebles.html" class="sidebar-link ">
+                        <span class="icon"><i class="fas fa-building"></i></span>
                         <span class="text">Inmuebles</span>
                     </a>
-                    <a href="rentas.html" class="my-2 d-flex align-items-center">
-                        <span class="icon"><i class="fas fa-file-invoice-dollar me-2"></i></span>
+                    <a href="rentas.html" class="sidebar-link ">
+                        <span class="icon"><i class="fas fa-file-invoice-dollar"></i></span>
                         <span class="text">Rentas</span>
                     </a>
                 </section>
@@ -77,28 +95,26 @@
                 <!-- SECTION: EXTRA -->
                 <section class="sidebar-section">
                     <h5 class="sidebar-section-title">EXTRA</h5>
-                    <a href="notas.html" class="my-2 d-flex align-items-center">
-                        <span class="icon"><i class="fas fa-sticky-note me-2"></i></span>
+                    <a href="notas.html" class="sidebar-link active">
+                        <span class="icon"><i class="fas fa-sticky-note"></i></span>
                         <span class="text">Notas</span>
                     </a>
+
                 </section>
 
                 <!-- SECTION: SUPPORT -->
                 <section class="sidebar-section">
-                    <h5 class="sidebar-section-title">CONTACTO</h5>
-                    <div class="card bg-dark text-white">
-                        <div class="card-body">
-                            <h6 class="card-title">Ponte en contacto con nosotros</h6>
-                            <p class="card-text">Si tienes alguna duda o necesitas más información, no dudes en
-                                escribirnos o llamarnos.</p>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#supportModal"
-                                class="btn btn-outline-light btn-sm">Soporte</a>
-                        </div>
+                    <h5 class="sidebar-section-title">AYUDA</h5>
+                    <div class="support-card">
+                        <h6>Soporte Técnico</h6>
+                        <p>¿Necesitas ayuda con la plataforma?</p>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#supportModal" class="btn-support">
+                            <i class="fas fa-headset me-2"></i>Contactar soporte
+                        </a>
                     </div>
                 </section>
             </div>
         </aside>
-
         <!-- MAIN CONTENT -->
         <main class="main-content p-3">
 

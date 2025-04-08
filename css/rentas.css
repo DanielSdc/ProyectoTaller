@@ -1,11 +1,367 @@
-/* TABLE */
-.table-responsive {
-    background: #f9f9f9;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+/* GENERALES */
+:root {
+    --primary-color: #2c5cc5;
+    --secondary-color: #f9f9f9;
+    --danger-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --border-radius: 12px;
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --box-shadow-strong: 0 8px 15px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s ease;
 }
 
-#inmueblesTable {
+/* ESTILOS DE CARD */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: var(--box-shadow-strong);
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.5rem;
+}
+
+.section-title {
+    color: #344767;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    color: var(--primary-color);
+    margin-right: 0.75rem;
+}
+
+/* TABLE */
+.table-responsive {
+    background: #ffffff;
+    padding: 0;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+#inmueblesTable, #reportesTable {
     width: 100%;
+    margin-bottom: 0;
+}
+
+#inmueblesTable th,
+#inmueblesTable td,
+#reportesTable th,
+#reportesTable td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table-header-section {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table-header-section h4 {
+    margin-bottom: 0;
+    color: #344767;
+    font-weight: 600;
+}
+
+.table-header-section i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+/* MÉTRICAS */
+.metric-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-radius: 12px;
+}
+
+.metric-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #344767;
+    margin-bottom: 0.75rem;
+}
+
+.metric-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2c5cc5;
+}
+
+/* ESTADOS DE PAGO */
+.badge-pagado {
+    background-color: var(--success-color);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 6px;
+}
+
+.badge-pendiente {
+    background-color: var(--warning-color);
+    color: #212529;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 6px;
+}
+
+.badge-atrasado {
+    background-color: var(--danger-color);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 6px;
+}
+
+/* CONTRATOS */
+.contrato-card {
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--warning-color);
+    transition: var(--transition);
+}
+
+.contrato-card:hover {
+    background-color: #f0f0f0;
+    transform: translateX(5px);
+}
+
+.contrato-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.contrato-info .info-section {
+    flex: 1;
+}
+
+.contrato-info .dias-restantes {
+    font-weight: 700;
+    color: var(--warning-color);
+    min-width: 110px;
+    text-align: center;
+}
+
+.contrato-inmueble {
+    font-weight: 600;
+    color: #344767;
+    margin-bottom: 0.25rem;
+}
+
+.contrato-arrendatario {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.contrato-fecha {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* BOTONES Y ACCIONES */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 3px 5px rgba(44, 92, 197, 0.3);
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background-color: #214a9e;
+    border-color: #214a9e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(44, 92, 197, 0.4);
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+    transition: var(--transition);
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.actions-column {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.btn-view {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-view:hover {
+    background-color: #138496;
+    transform: translateY(-2px);
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* FILTROS */
+.filtros-section {
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.filtros-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #344767;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.filtros-title i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.filtros-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* FOOTER */
+.footer {
+    color: #6c757d;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .table-responsive {
+        padding: 15px;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+    
+    .contrato-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .contrato-info .dias-restantes {
+        margin-top: 0.75rem;
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .filtros-body {
+        flex-direction: column;
+    }
+    
+    .table-responsive {
+        padding: 10px;
+    }
+    
+    .table-header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .table-header-section h4 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.25rem;
+    }
+    
+    .metric-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+    
+    .metric-value {
+        font-size: 1.25rem;
+    }
+    
+    .actions-column {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .btn-action {
+        width: 32px;
+        height: 32px;
+    }
 }
