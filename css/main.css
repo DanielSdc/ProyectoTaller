@@ -562,41 +562,164 @@ a:hover {
 }
 
 /* CAROUSEL */
-.carousel-item img {
-    height: 400px;
-    object-fit: cover;
-    border-radius: 0;
-}
 
-.carousel-caption {
-    background-color: rgba(0, 0, 0, 0.6);
+/* CAROUSEL MEJORADO */
+.carousel {
     border-radius: var(--radius-sm);
-    padding: 1rem;
-    bottom: 2rem;
-    backdrop-filter: blur(5px);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1rem;
 }
 
-.carousel-indicators {
-    bottom: 10px;
-}
-
-.carousel-indicators button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin: 0 5px;
-    background-color: rgba(255, 255, 255, 0.4);
-}
-
-.carousel-indicators button.active {
+/* Contenedor principal del contenido del carrusel */
+.carousel-content {
+    display: flex;
+    flex-direction: row;
+    height: 300px;
     background-color: var(--color-white);
 }
 
-.carousel-control-prev, .carousel-control-next {
-    width: auto;
-    padding: 0 1rem;
+/* Contenedor de la imagen */
+.carousel-image-container {
+    flex: 0 0 40%;
+    height: 100%;
+    background-color: var(--color-light-gray);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Imagen dentro del carrusel */
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción sin estirar */
+}
+
+/* Descripción del inmueble */
+.carousel-description {
+    flex: 0 0 40%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--color-white);
+}
+
+.carousel-description h4 {
+    color: var(--color-dark-grey);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Características del inmueble */
+.property-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.property-features span {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--color-gray);
+}
+
+.property-features span i {
+    color: var(--color-gold);
+    margin-right: 0.5rem;
+}
+
+/* Descripción del inmueble */
+.property-description {
+    color: var(--color-gray);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Controles del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+    opacity: 0.7;
+    background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+}
+
+.carousel-control-next {
+    background: linear-gradient(270deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+/* Indicadores del carrusel */
+.carousel-indicators {
+    margin-bottom: 0.5rem;
+}
+
+.carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: 0 5px;
+    opacity: 0.6;
+}
+
+.carousel-indicators button.active {
+    background-color: var(--color-gold);
+    opacity: 1;
+}
+
+/* Responsive para pantallas medianas */
+@media (max-width: 992px) {
+    .carousel-content {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .carousel-image-container {
+        flex: 0 0 300px;
+        width: 100%;
+    }
+    
+    .carousel-description {
+        flex: 1;
+        padding: 1.5rem;
+    }
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 576px) {
+    .carousel-image-container {
+        flex: 0 0 220px;
+    }
+    
+    .carousel-description {
+        padding: 1rem;
+    }
+    
+    .property-features {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .carousel-description h4 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .property-description {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+}
 /* UPCOMING EVENTS */
 .upcoming-events {
     margin: 0;
